@@ -64,9 +64,8 @@ spec:
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}
         - name: books
-          hostPath:
-            path: {{ .Values.hostPath | quote }}
-            type: Directory
+          persistentVolumeClaim:
+            claimName: {{ .Values.datasetsClaim }}
 ---
 apiVersion: v1
 kind: Service

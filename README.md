@@ -81,12 +81,7 @@ schema:
       type: integer
       title: PGID
       default: 1000
-    hostPath:
-      type: string
-      title: Media host path
-      description: Host directory (a Naslos dataset) mounted into the app.
-      default: /var/mnt
-  required: [timezone, puid, pgid, hostPath]
+  required: [timezone, puid, pgid]
 
 # Merged under the user's form values at install (catalog defaults first, form
 # values win). Keys here should match your chart's values.yaml.
@@ -94,7 +89,6 @@ defaultValues:
   timezone: Etc/UTC
   puid: 1000
   pgid: 1000
-  hostPath: /var/mnt
 
 # Route targets. The first entry is used by default; the UI can pick another
 # (or discover the release's Services if this list is empty — see below).
@@ -160,12 +154,28 @@ The shared `security-headers` middleware intentionally omits
 
 ## Storage
 
-- **Config/state:** a PVC (default `local-path`). Name it `{{ .Release.Name }}`.
-- **Media/backups:** mount a host directory with `hostPath`. On Naslos the ZFS
-  datasets are exposed at `/var/mnt/<dataset>`; the chart value / schema field
-  `hostPath` defaults to `/var/mnt` and is mounted at `/data` (read-write).
-- Apps in `naslos-apps` may reach each other (e.g. Radarr → qBittorrent in
-  `naslos-apps-priv`); the platform supplies the network policy.
+- **Config/state:** a PVC (default `local-path`). Name it
+  `{{ .Release.Name }}-<part>`.
+- **Datasets (media/books/etc.):** PSA `baseline` (the managed apps namespace)
+  forbids `hostPath`, and Naslos datasets are host directories. The platform
+  therefore publishes them as a static RWX `naslos-datasets` PVC (backed by the
+  `apps.datasets.hostPath` root, default `/var/mnt`). A managed app mounts it via
+  `datasetsClaim` (default `naslos-datasets`):
+
+  ```yaml
+  volumes:
+    - name: data
+      persistentVolumeClaim:
+        claimName: {{ .Values.datasetsClaim }}
+  ```
+
+- **Privileged apps** (`privileged: true`, e.g. gluetun VPN sidecars) run in
+  `naslos-apps-priv`, where PSA allows `hostPath`; they may mount the dataset
+  root directly (same host path, so the data is shared with managed apps).
+- Apps in `naslos-apps` can reach each other and `naslos-apps-priv`; the
+  platform supplies the network policy.
+- Do not declare a `hostPath` volume in a managed app chart — the pod is
+  rejected with "violates PodSecurity baseline: hostPath volumes".
 
 ## Privileged apps (VPN sidecars)
 

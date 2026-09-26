@@ -70,9 +70,8 @@ spec:
         - name: transcode
           emptyDir: {}
         - name: data
-          hostPath:
-            path: {{ .Values.hostPath | quote }}
-            type: Directory
+          persistentVolumeClaim:
+            claimName: {{ .Values.datasetsClaim }}
 ---
 apiVersion: v1
 kind: Service

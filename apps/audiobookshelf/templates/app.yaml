@@ -84,9 +84,8 @@ spec:
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-metadata
         - name: library
-          hostPath:
-            path: {{ .Values.hostPath | quote }}
-            type: Directory
+          persistentVolumeClaim:
+            claimName: {{ .Values.datasetsClaim }}
 ---
 apiVersion: v1
 kind: Service

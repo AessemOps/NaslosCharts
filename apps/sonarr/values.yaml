@@ -7,8 +7,8 @@ timezone: Etc/UTC
 puid: 1000
 pgid: 1000
 
-# Host directory (a Naslos dataset) mounted read-write at /data.
-hostPath: /var/mnt
+# PVC providing the Naslos datasets root (the platform's `naslos-datasets`).
+datasetsClaim: naslos-datasets
 
 persistence:
   config:

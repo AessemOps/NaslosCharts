@@ -7,8 +7,9 @@ timezone: Etc/UTC
 puid: 1000
 pgid: 1000
 
-# Host directory (a Naslos dataset) holding your audiobooks, mounted at /audiobooks.
-hostPath: /var/mnt
+# PVC providing the Naslos datasets root (the platform's `naslos-datasets`),
+# mounted at /audiobooks.
+datasetsClaim: naslos-datasets
 
 persistence:
   config:
