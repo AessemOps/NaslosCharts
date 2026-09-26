@@ -21,17 +21,11 @@ schema:
       type: integer
       title: PGID
       default: 1000
-    hostPath:
-      type: string
-      title: Data host path
-      description: Host directory (a Naslos dataset) mounted at /data.
-      default: /var/mnt
-  required: [timezone, puid, pgid, hostPath]
+  required: [timezone, puid, pgid]
 defaultValues:
   timezone: Etc/UTC
   puid: 1000
   pgid: 1000
-  hostPath: /var/mnt
 services:
   - name: "{{ .Release.Name }}"
     port: 8989
