@@ -1,0 +1,27 @@
+name: seerr
+displayName: Seerr
+description: Request portal for Jellyfin — users request movies and shows.
+category: media
+icon: "S"
+website: https://github.com/seerr-team/seerr
+version: 0.1.0
+tags: [media, requests]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+  required: [timezone]
+defaultValues:
+  timezone: Etc/UTC
+services:
+  - name: "{{ .Release.Name }}"
+    port: 5055
+    scheme: http
+exposure:
+  subdomain: seerr
+  tls: false
+  auth: true
+  localOnly: false

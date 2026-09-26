@@ -1,0 +1,43 @@
+name: sonarr
+displayName: Sonarr
+description: TV series collection manager for Usenet and BitTorrent.
+category: media
+icon: "So"
+website: https://sonarr.tv
+version: 0.1.0
+tags: [media, tv, automation]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    puid:
+      type: integer
+      title: PUID
+      default: 1000
+    pgid:
+      type: integer
+      title: PGID
+      default: 1000
+    hostPath:
+      type: string
+      title: Data host path
+      description: Host directory (a Naslos dataset) mounted at /data.
+      default: /var/mnt
+  required: [timezone, puid, pgid, hostPath]
+defaultValues:
+  timezone: Etc/UTC
+  puid: 1000
+  pgid: 1000
+  hostPath: /var/mnt
+services:
+  - name: "{{ .Release.Name }}"
+    port: 8989
+    scheme: http
+exposure:
+  subdomain: sonarr
+  tls: false
+  auth: false
+  localOnly: false

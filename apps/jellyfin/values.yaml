@@ -1,0 +1,27 @@
+image:
+  repository: lscr.io/linuxserver/jellyfin
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+puid: 1000
+pgid: 1000
+
+# Host directory (a Naslos dataset) mounted read-write at /data.
+hostPath: /var/mnt
+
+persistence:
+  config:
+    size: 8Gi
+    storageClass: ""
+
+service:
+  port: 8096
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: "2"
+    memory: 2Gi

@@ -1,0 +1,43 @@
+name: audiobookshelf
+displayName: Audiobookshelf
+description: Self-hosted audiobook and podcast server with apps for every platform.
+category: media
+icon: "A"
+website: https://www.audiobookshelf.org
+version: 0.1.0
+tags: [media, audiobooks, podcasts]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    puid:
+      type: integer
+      title: PUID
+      default: 1000
+    pgid:
+      type: integer
+      title: PGID
+      default: 1000
+    hostPath:
+      type: string
+      title: Library host path
+      description: Host directory (a Naslos dataset) mounted at /audiobooks.
+      default: /var/mnt
+  required: [timezone, puid, pgid, hostPath]
+defaultValues:
+  timezone: Etc/UTC
+  puid: 1000
+  pgid: 1000
+  hostPath: /var/mnt
+services:
+  - name: "{{ .Release.Name }}"
+    port: 80
+    scheme: http
+exposure:
+  subdomain: audiobookshelf
+  tls: false
+  auth: true
+  localOnly: false

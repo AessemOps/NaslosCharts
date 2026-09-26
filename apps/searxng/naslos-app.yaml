@@ -1,0 +1,29 @@
+name: searxng
+displayName: SearXNG
+description: Privacy-respecting metasearch engine that aggregates many sources.
+category: networking
+icon: "Sr"
+website: https://docs.searxng.org
+version: 0.1.0
+tags: [search, privacy]
+schema:
+  type: object
+  properties:
+    secretKey:
+      type: string
+      title: Secret key
+      format: password
+      description: Signs the session cookie. Change this before exposing SearXNG.
+      default: change-me-naslos-searxng
+  required: [secretKey]
+defaultValues:
+  secretKey: change-me-naslos-searxng
+services:
+  - name: "{{ .Release.Name }}"
+    port: 8080
+    scheme: http
+exposure:
+  subdomain: search
+  tls: false
+  auth: true
+  localOnly: false

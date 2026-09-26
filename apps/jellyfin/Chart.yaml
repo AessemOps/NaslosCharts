@@ -1,0 +1,9 @@
+apiVersion: v2
+name: jellyfin
+description: Jellyfin media server
+type: application
+version: 0.1.0
+appVersion: "10.10"
+home: https://jellyfin.org
+sources:
+  - https://github.com/jellyfin/jellyfin

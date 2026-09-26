@@ -1,0 +1,27 @@
+image:
+  repository: lscr.io/linuxserver/calibre-web
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+puid: 1000
+pgid: 1000
+
+# Host directory (a Naslos dataset) holding your Calibre library, mounted at /books.
+hostPath: /var/mnt
+
+persistence:
+  config:
+    size: 2Gi
+    storageClass: ""
+
+service:
+  port: 8083
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi
