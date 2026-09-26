@@ -1,0 +1,80 @@
+name: prowlarr
+displayName: Prowlarr (VPN)
+description: Indexer manager for the *arr apps, with all traffic routed through gluetun.
+category: media
+icon: "P"
+website: https://prowlarr.com
+version: 0.1.0
+tags: [indexers, vpn]
+# gluetun needs NET_ADMIN, which PSA baseline forbids; install into naslos-apps-priv.
+privileged: true
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    puid:
+      type: integer
+      title: PUID
+      default: 1000
+    pgid:
+      type: integer
+      title: PGID
+      default: 1000
+    vpn_provider:
+      type: string
+      title: VPN provider
+      description: gluetun provider id (e.g. protonvpn, mullvad, nordvpn).
+      default: ""
+    vpn_type:
+      type: string
+      title: VPN protocol
+      enum: [wireguard, openvpn]
+      default: wireguard
+    vpn_wireguardPrivateKey:
+      type: string
+      title: WireGuard private key
+      format: password
+      default: ""
+    vpn_serverCountries:
+      type: string
+      title: Server countries
+      description: Comma-separated country names, e.g. "Switzerland".
+      default: ""
+    vpn_openvpnUser:
+      type: string
+      title: OpenVPN username
+      default: ""
+    vpn_openvpnPassword:
+      type: string
+      title: OpenVPN password
+      format: password
+      default: ""
+    hostPath:
+      type: string
+      title: Data host path
+      description: Host directory (a Naslos dataset) mounted at /data.
+      default: /var/mnt
+  required: [timezone, puid, pgid, vpn_provider, vpn_type, hostPath]
+defaultValues:
+  timezone: Etc/UTC
+  puid: 1000
+  pgid: 1000
+  vpn_provider: ""
+  vpn_type: wireguard
+  vpn_wireguardPrivateKey: ""
+  vpn_serverCountries: ""
+  vpn_openvpnUser: ""
+  vpn_openvpnPassword: ""
+  hostPath: /var/mnt
+services:
+  - name: "{{ .Release.Name }}"
+    port: 9696
+    scheme: http
+exposure:
+  subdomain: prowlarr
+  tls: false
+  auth: false
+  localOnly: false

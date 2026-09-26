@@ -1,0 +1,9 @@
+apiVersion: v2
+name: sonarr
+description: Sonarr TV collection manager
+type: application
+version: 0.1.0
+appVersion: "4"
+home: https://sonarr.tv
+sources:
+  - https://github.com/Sonarr/Sonarr

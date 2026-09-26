@@ -1,0 +1,9 @@
+apiVersion: v2
+name: radarr
+description: Radarr movie collection manager
+type: application
+version: 0.1.0
+appVersion: "5"
+home: https://radarr.video
+sources:
+  - https://github.com/Radarr/Radarr

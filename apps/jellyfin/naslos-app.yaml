@@ -1,0 +1,43 @@
+name: jellyfin
+displayName: Jellyfin
+description: Free software media server for movies, shows, music and live TV.
+category: media
+icon: "J"
+website: https://jellyfin.org
+version: 0.1.0
+tags: [media, streaming]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    puid:
+      type: integer
+      title: PUID
+      default: 1000
+    pgid:
+      type: integer
+      title: PGID
+      default: 1000
+    hostPath:
+      type: string
+      title: Media host path
+      description: Host directory (a Naslos dataset) mounted at /data.
+      default: /var/mnt
+  required: [timezone, puid, pgid, hostPath]
+defaultValues:
+  timezone: Etc/UTC
+  puid: 1000
+  pgid: 1000
+  hostPath: /var/mnt
+services:
+  - name: "{{ .Release.Name }}"
+    port: 8096
+    scheme: http
+exposure:
+  subdomain: jellyfin
+  tls: false
+  auth: true
+  localOnly: false

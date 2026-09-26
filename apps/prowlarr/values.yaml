@@ -1,0 +1,40 @@
+image:
+  repository: lscr.io/linuxserver/prowlarr
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# gluetun is the VPN sidecar; the app shares its network namespace.
+vpn:
+  image: qmcgaw/gluetun:latest
+  provider: ""            # e.g. protonvpn, mullvad, nordvpn, custom
+  type: wireguard         # wireguard | openvpn
+  serverCountries: ""
+  wireguardPrivateKey: ""
+  wireguardAddresses: ""
+  openvpnUser: ""
+  openvpnPassword: ""
+  # Subnets the app is allowed to reach outside the tunnel (cluster + LAN), so
+  # Radarr/Seerr and Traefik can still reach it.
+  firewallOutboundSubnets: "10.244.0.0/16,10.96.0.0/12,192.168.1.0/24"
+
+timezone: Etc/UTC
+puid: 1000
+pgid: 1000
+
+hostPath: /var/mnt
+
+persistence:
+  config:
+    size: 2Gi
+    storageClass: ""
+
+service:
+  port: 9696
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi

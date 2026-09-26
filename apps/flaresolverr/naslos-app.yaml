@@ -1,0 +1,33 @@
+name: flaresolverr
+displayName: FlareSolverr
+description: Proxy server that bypasses Cloudflare and DDoS-Guard challenges for indexers.
+category: networking
+icon: "F"
+website: https://github.com/FlareSolverr/FlareSolverr
+version: 0.1.0
+tags: [indexers, proxy]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    logLevel:
+      type: string
+      title: Log level
+      enum: [debug, info, warning, error]
+      default: info
+  required: [timezone, logLevel]
+defaultValues:
+  timezone: Etc/UTC
+  logLevel: info
+services:
+  - name: "{{ .Release.Name }}"
+    port: 8191
+    scheme: http
+exposure:
+  subdomain: ""
+  tls: false
+  auth: false
+  localOnly: true

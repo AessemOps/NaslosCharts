@@ -1,0 +1,41 @@
+image:
+  repository: lscr.io/linuxserver/qbittorrent
+  tag: latest
+  pullPolicy: IfNotPresent
+
+vpn:
+  image: qmcgaw/gluetun:latest
+  provider: ""            # e.g. protonvpn, mullvad, nordvpn, custom
+  type: wireguard         # wireguard | openvpn
+  serverCountries: ""
+  wireguardPrivateKey: ""
+  wireguardAddresses: ""
+  openvpnUser: ""
+  openvpnPassword: ""
+  # Subnets reachable outside the tunnel (cluster + LAN) so Radarr/Sonarr and
+  # Traefik can still talk to the WebUI.
+  firewallOutboundSubnets: "10.244.0.0/16,10.96.0.0/12,192.168.1.0/24"
+
+timezone: Etc/UTC
+puid: 1000
+pgid: 1000
+webuiPort: 8080
+
+hostPath: /var/mnt
+
+persistence:
+  config:
+    size: 4Gi
+    storageClass: ""
+
+# The Service and container port both follow webuiPort.
+service:
+  port: 8080
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: "2"
+    memory: 2Gi
