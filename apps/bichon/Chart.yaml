@@ -4,6 +4,7 @@ description: Self-hosted email archiving server with full-text search
 type: application
 version: 0.1.0
 appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/bichon.png
 home: https://github.com/rustmailer/bichon
 sources:
   - https://github.com/rustmailer/bichon

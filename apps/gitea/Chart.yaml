@@ -4,6 +4,7 @@ description: Gitea self-hosted Git service
 type: application
 version: 0.1.0
 appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/gitea.png
 home: https://about.gitea.com
 sources:
   - https://github.com/go-gitea/gitea
