@@ -1,0 +1,64 @@
+name: blinko
+displayName: Blinko
+description: AI-powered card notes with local data ownership.
+category: productivity
+icon: "BL"
+website: https://blinko.space
+version: 0.1.0
+tags: [notes, ai, productivity]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    externalUrl:
+      type: string
+      title: Public URL
+      description: The final URL users open, e.g. https://blinko.example.com.
+      default: http://localhost:1111
+    nextAuthSecret:
+      type: string
+      title: NextAuth secret
+      format: password
+      description: Random secret used to sign sessions.
+      default: change-me-blinko-nextauth-secret
+    postgresPassword:
+      type: string
+      title: Database password
+      format: password
+      description: Password for the bundled PostgreSQL database.
+      default: blinko-change-me
+    gpuEnabled:
+      type: boolean
+      title: Enable GPU
+      description: Request an NVIDIA GPU for the pod (requires the device plugin).
+      default: false
+    gpuCount:
+      type: integer
+      title: GPU count
+      default: 1
+    gpuRuntimeClass:
+      type: string
+      title: GPU runtime class
+      description: Optional runtimeClassName, e.g. nvidia.
+      default: ""
+  required: [timezone, externalUrl, nextAuthSecret, postgresPassword]
+defaultValues:
+  timezone: Etc/UTC
+  externalUrl: http://localhost:1111
+  nextAuthSecret: change-me-blinko-nextauth-secret
+  postgresPassword: blinko-change-me
+  gpuEnabled: false
+  gpuCount: 1
+  gpuRuntimeClass: ""
+services:
+  - name: "{{ .Release.Name }}"
+    port: 1111
+    scheme: http
+exposure:
+  subdomain: blinko
+  tls: true
+  auth: false
+  localOnly: false

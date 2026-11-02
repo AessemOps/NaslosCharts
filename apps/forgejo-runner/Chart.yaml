@@ -1,0 +1,9 @@
+apiVersion: v2
+name: forgejo-runner
+description: Forgejo Actions runner with a Docker-in-Docker sidecar
+type: application
+version: 0.1.0
+appVersion: "13"
+home: https://forgejo.org/docs/latest/admin/actions/
+sources:
+  - https://codeberg.org/forgejo/runner

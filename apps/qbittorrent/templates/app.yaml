@@ -38,20 +38,20 @@ spec:
         fsGroup: {{ .Values.pgid }}
       containers:
         - name: gluetun
-          image: "{{ .Values.vpn.image }}"
+          image: "{{ .Values.vpnImage }}"
           imagePullPolicy: IfNotPresent
           securityContext:
             capabilities:
               add: ["NET_ADMIN"]
           env:
-            - { name: VPN_SERVICE_PROVIDER, value: "{{ .Values.vpn.provider }}" }
-            - { name: VPN_TYPE, value: "{{ .Values.vpn.type }}" }
-            - { name: SERVER_COUNTRIES, value: "{{ .Values.vpn.serverCountries }}" }
-            - { name: WIREGUARD_PRIVATE_KEY, value: "{{ .Values.vpn.wireguardPrivateKey }}" }
-            - { name: WIREGUARD_ADDRESSES, value: "{{ .Values.vpn.wireguardAddresses }}" }
-            - { name: OPENVPN_USER, value: "{{ .Values.vpn.openvpnUser }}" }
-            - { name: OPENVPN_PASSWORD, value: "{{ .Values.vpn.openvpnPassword }}" }
-            - { name: FIREWALL_OUTBOUND_SUBNETS, value: "{{ .Values.vpn.firewallOutboundSubnets }}" }
+            - { name: VPN_SERVICE_PROVIDER, value: "{{ .Values.vpn_provider }}" }
+            - { name: VPN_TYPE, value: "{{ .Values.vpn_type }}" }
+            - { name: SERVER_COUNTRIES, value: "{{ .Values.vpn_serverCountries }}" }
+            - { name: WIREGUARD_PRIVATE_KEY, value: "{{ .Values.vpn_wireguardPrivateKey }}" }
+            - { name: WIREGUARD_ADDRESSES, value: "{{ .Values.vpn_wireguardAddresses }}" }
+            - { name: OPENVPN_USER, value: "{{ .Values.vpn_openvpnUser }}" }
+            - { name: OPENVPN_PASSWORD, value: "{{ .Values.vpn_openvpnPassword }}" }
+            - { name: FIREWALL_OUTBOUND_SUBNETS, value: "{{ .Values.vpn_firewallOutboundSubnets }}" }
             - { name: TZ, value: "{{ .Values.timezone }}" }
           volumeMounts:
             - { name: tun, mountPath: /dev/net/tun }

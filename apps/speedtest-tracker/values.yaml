@@ -1,0 +1,32 @@
+image:
+  repository: lscr.io/linuxserver/speedtest-tracker
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+puid: 1000
+pgid: 1000
+
+# Required by the app. Replace with `echo "base64:$(openssl rand -base64 32)"`.
+appKey: "base64:MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY="
+# Public URL used for links in notifications, e.g. https://speedtest.example.com.
+appUrl: "http://localhost:8080"
+displayTimezone: Etc/UTC
+# Cron expression; empty disables scheduled tests.
+speedtestSchedule: "0 */6 * * *"
+
+persistence:
+  config:
+    size: 2Gi
+    storageClass: ""
+
+service:
+  port: 80
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi

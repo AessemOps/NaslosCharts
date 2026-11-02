@@ -1,0 +1,9 @@
+apiVersion: v2
+name: speedtest-tracker
+description: Self-hosted internet performance tracker
+type: application
+version: 0.1.0
+appVersion: "1"
+home: https://speedtest-tracker.dev
+sources:
+  - https://github.com/alexjustesen/speedtest-tracker

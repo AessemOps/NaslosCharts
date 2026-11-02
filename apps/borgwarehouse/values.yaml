@@ -1,0 +1,42 @@
+image:
+  repository: borgwarehouse/borgwarehouse
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+puid: 1000
+pgid: 1000
+
+fqdn: borgwarehouse.example.com
+authUrl: https://borgwarehouse.example.com
+authSecret: change-me-borgwarehouse
+
+# Port the app's SSH server listens on. Use 2222 to avoid a privileged port.
+sshPort: 2222
+setupSecret: ""
+
+persistence:
+  config:
+    size: 2Gi
+    storageClass: ""
+  ssh:
+    size: 1Gi
+    storageClass: ""
+  sshHost:
+    size: 1Gi
+    storageClass: ""
+  repos:
+    size: 20Gi
+    storageClass: ""
+
+service:
+  port: 3000
+  sshPort: 2222
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi

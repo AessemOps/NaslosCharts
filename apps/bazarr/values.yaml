@@ -1,0 +1,27 @@
+image:
+  repository: lscr.io/linuxserver/bazarr
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+puid: 1000
+pgid: 1000
+
+# PVC providing the Naslos datasets root (the platform's `naslos-datasets`).
+datasetsClaim: naslos-datasets
+
+persistence:
+  config:
+    size: 2Gi
+    storageClass: ""
+
+service:
+  port: 6767
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi

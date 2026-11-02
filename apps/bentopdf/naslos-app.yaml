@@ -1,0 +1,21 @@
+name: bentopdf
+displayName: BentoPDF
+description: Self-hosted PDF toolkit that runs entirely in the browser.
+category: productivity
+icon: "BP"
+website: https://www.bentopdf.com
+version: 0.1.0
+tags: [pdf, documents, privacy]
+schema:
+  type: object
+  properties: {}
+defaultValues: {}
+services:
+  - name: "{{ .Release.Name }}"
+    port: 8080
+    scheme: http
+exposure:
+  subdomain: bentopdf
+  tls: true
+  auth: true
+  localOnly: false

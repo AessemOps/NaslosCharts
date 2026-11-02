@@ -1,0 +1,9 @@
+apiVersion: v2
+name: esphome
+description: ESPHome Device Builder for flashing and managing ESP32/ESP8266 devices
+type: application
+version: 0.1.0
+appVersion: "stable"
+home: https://esphome.io
+sources:
+  - https://github.com/esphome/esphome

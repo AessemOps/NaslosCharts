@@ -1,0 +1,46 @@
+name: bichon
+displayName: Bichon
+description: Self-hosted email archiver with IMAP sync and full-text search.
+category: productivity
+icon: "Bi"
+website: https://github.com/rustmailer/bichon
+version: 0.1.0
+tags: [email, archive, search]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    encryptPassword:
+      type: string
+      title: Encryption password
+      format: password
+      description: Encrypts stored IMAP passwords and OAuth tokens.
+      default: change-me-bichon
+    publicUrl:
+      type: string
+      title: Public URL
+      description: Public URL used in OAuth redirects, e.g. https://bichon.example.com.
+      default: http://localhost:15630
+    logLevel:
+      type: string
+      title: Log level
+      enum: [trace, debug, info, warn, error]
+      default: info
+  required: [timezone, encryptPassword, publicUrl, logLevel]
+defaultValues:
+  timezone: Etc/UTC
+  encryptPassword: change-me-bichon
+  publicUrl: http://localhost:15630
+  logLevel: info
+services:
+  - name: "{{ .Release.Name }}"
+    port: 15630
+    scheme: http
+exposure:
+  subdomain: bichon
+  tls: true
+  auth: false
+  localOnly: false

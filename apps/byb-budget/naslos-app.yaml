@@ -1,0 +1,40 @@
+name: byb-budget
+displayName: BYB! Budget
+description: Private household envelope budgeting with integer-cent accounting.
+category: productivity
+icon: "BY"
+website: https://github.com/johnrbrady/byb-budget
+version: 0.1.0
+tags: [finance, budget, household]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    apiKey:
+      type: string
+      title: Integration API key
+      format: password
+      description: Optional key for the n8n integration API.
+      default: ""
+    webhookUrl:
+      type: string
+      title: Reconcile webhook URL
+      description: Optional URL that receives a POST when someone reconciles.
+      default: ""
+  required: [timezone]
+defaultValues:
+  timezone: Etc/UTC
+  apiKey: ""
+  webhookUrl: ""
+services:
+  - name: "{{ .Release.Name }}"
+    port: 3001
+    scheme: http
+exposure:
+  subdomain: byb
+  tls: true
+  auth: false
+  localOnly: false

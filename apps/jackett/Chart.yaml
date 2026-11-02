@@ -1,0 +1,9 @@
+apiVersion: v2
+name: jackett
+description: Jackett indexer proxy, routed through a gluetun VPN tunnel
+type: application
+version: 0.1.0
+appVersion: "0.24"
+home: https://github.com/Jackett/Jackett
+sources:
+  - https://github.com/Jackett/Jackett

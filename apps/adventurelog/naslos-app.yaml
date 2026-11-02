@@ -1,0 +1,40 @@
+name: adventurelog
+displayName: AdventureLog
+description: Track trips, places and travel memories in a private journal.
+category: productivity
+icon: "AL"
+website: https://adventurelog.app
+version: 0.1.0
+tags: [travel, journal, maps]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    siteUrl:
+      type: string
+      title: Public URL
+      description: Public URL of the app, e.g. https://adventurelog.example.com.
+      default: http://localhost:8015
+    postgresPassword:
+      type: string
+      title: Database password
+      format: password
+      description: Password for the bundled PostgreSQL database.
+      default: adventure-change-me
+  required: [timezone, siteUrl, postgresPassword]
+defaultValues:
+  timezone: Etc/UTC
+  siteUrl: http://localhost:8015
+  postgresPassword: adventure-change-me
+services:
+  - name: "{{ .Release.Name }}"
+    port: 80
+    scheme: http
+exposure:
+  subdomain: adventurelog
+  tls: true
+  auth: false
+  localOnly: false

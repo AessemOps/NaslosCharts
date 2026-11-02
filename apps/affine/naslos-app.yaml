@@ -1,0 +1,40 @@
+name: affine
+displayName: AFFiNE
+description: All-in-one knowledge base, document and whiteboard workspace.
+category: productivity
+icon: "AF"
+website: https://affine.pro
+version: 0.1.0
+tags: [notes, knowledge-base, collaboration]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    externalUrl:
+      type: string
+      title: Public URL
+      description: The final URL users open, e.g. https://affine.example.com.
+      default: "http://localhost:3010"
+    postgresPassword:
+      type: string
+      title: Database password
+      format: password
+      description: Password for the bundled PostgreSQL database.
+      default: affine-change-me
+  required: [timezone, externalUrl, postgresPassword]
+defaultValues:
+  timezone: Etc/UTC
+  externalUrl: "http://localhost:3010"
+  postgresPassword: affine-change-me
+services:
+  - name: "{{ .Release.Name }}"
+    port: 3010
+    scheme: http
+exposure:
+  subdomain: affine
+  tls: false
+  auth: false
+  localOnly: false

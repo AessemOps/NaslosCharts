@@ -1,0 +1,41 @@
+name: calagopus
+displayName: Calagopus
+description: Game server control panel with PostgreSQL and Valkey.
+category: media
+icon: "CG"
+website: https://calagopus.com
+version: 0.1.0
+tags: [games, panel, servers]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    appEncryptionKey:
+      type: string
+      title: App encryption key
+      format: password
+      description: Random key used to encrypt stored secrets. Back it up.
+      default: change-me-calagopus-encryption-key
+    postgresPassword:
+      type: string
+      title: Database password
+      format: password
+      description: Password for the bundled PostgreSQL database.
+      default: calagopus-change-me
+  required: [timezone, appEncryptionKey, postgresPassword]
+defaultValues:
+  timezone: Etc/UTC
+  appEncryptionKey: change-me-calagopus-encryption-key
+  postgresPassword: calagopus-change-me
+services:
+  - name: "{{ .Release.Name }}"
+    port: 8000
+    scheme: http
+exposure:
+  subdomain: calagopus
+  tls: true
+  auth: false
+  localOnly: false

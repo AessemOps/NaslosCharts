@@ -1,0 +1,27 @@
+name: actual-budget
+displayName: Actual Budget
+description: Fast, privacy-focused budget app with local-first sync.
+category: productivity
+icon: "AC"
+website: https://actualbudget.org
+version: 0.1.0
+tags: [finance, budget]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+  required: [timezone]
+defaultValues:
+  timezone: Etc/UTC
+services:
+  - name: "{{ .Release.Name }}"
+    port: 5006
+    scheme: http
+exposure:
+  subdomain: actual
+  tls: true
+  auth: false
+  localOnly: false

@@ -1,0 +1,56 @@
+name: gitea-runner
+displayName: Gitea Act Runner
+description: Gitea Actions runner that executes jobs in its own Docker daemon.
+category: development
+icon: "GR"
+website: https://docs.gitea.com/runner/
+version: 0.1.0
+tags: [ci, runner, development]
+# Docker-in-Docker needs privileged mode; install into naslos-apps-priv.
+privileged: true
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    instanceUrl:
+      type: string
+      title: Gitea instance URL
+      description: The instance URL the runner registers with, e.g. https://gitea.example.com.
+      default: ""
+    registrationToken:
+      type: string
+      title: Registration token
+      format: password
+      description: From Settings -> Actions -> Runners -> Create new runner.
+      default: ""
+    runnerName:
+      type: string
+      title: Runner name
+      default: naslos-runner
+    runnerLabels:
+      type: string
+      title: Runner labels
+      description: Comma-separated labels, e.g. ubuntu-latest:docker://node:20-bookworm.
+      default: "ubuntu-latest:docker://node:20-bookworm"
+    ephemeral:
+      type: boolean
+      title: Ephemeral runner
+      description: Register a single-use runner.
+      default: false
+  required: [timezone, instanceUrl, registrationToken, runnerName, runnerLabels]
+defaultValues:
+  timezone: Etc/UTC
+  instanceUrl: ""
+  registrationToken: ""
+  runnerName: naslos-runner
+  runnerLabels: "ubuntu-latest:docker://node:20-bookworm"
+  ephemeral: false
+services: []
+exposure:
+  subdomain: ""
+  tls: false
+  auth: false
+  localOnly: false

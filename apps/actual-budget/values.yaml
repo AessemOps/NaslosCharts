@@ -1,0 +1,22 @@
+image:
+  repository: actualbudget/actual-server
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+
+persistence:
+  data:
+    size: 2Gi
+    storageClass: ""
+
+service:
+  port: 5006
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi

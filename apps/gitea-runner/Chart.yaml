@@ -1,0 +1,9 @@
+apiVersion: v2
+name: gitea-runner
+description: Gitea Actions runner with bundled Docker-in-Docker
+type: application
+version: 0.1.0
+appVersion: "latest"
+home: https://docs.gitea.com/runner/
+sources:
+  - https://gitea.com/gitea/act_runner

@@ -1,0 +1,44 @@
+image:
+  repository: ghcr.io/gameyfin/gameyfin
+  tag: "2"
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+puid: 1000
+pgid: 1000
+
+# Required by the app. Replace with `openssl rand -base64 32`.
+appKey: "MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY="
+appUrl: "http://localhost:8080"
+
+# PVC providing the Naslos datasets root (the platform's `naslos-datasets`),
+# mounted at /games.
+datasetsClaim: naslos-datasets
+
+persistence:
+  db:
+    size: 2Gi
+    storageClass: ""
+  data:
+    size: 5Gi
+    storageClass: ""
+  backups:
+    size: 2Gi
+    storageClass: ""
+  plugindata:
+    size: 1Gi
+    storageClass: ""
+  plugins:
+    size: 1Gi
+    storageClass: ""
+
+service:
+  port: 8080
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: "2"
+    memory: 2Gi
