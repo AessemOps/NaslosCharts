@@ -1,0 +1,41 @@
+name: bitmagnet
+displayName: Bitmagnet
+description: Self-hosted BitTorrent indexer with a DHT crawler and web UI.
+category: networking
+icon: "BM"
+website: https://bitmagnet.io
+version: 0.1.0
+tags: [torrents, indexer, dht]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    postgresPassword:
+      type: string
+      title: Database password
+      format: password
+      description: Password for the bundled PostgreSQL database.
+      default: bitmagnet-change-me
+    tmdbApiKey:
+      type: string
+      title: TMDB API key
+      format: password
+      description: Optional TMDB key used to enrich movie and TV metadata.
+      default: ""
+  required: [timezone, postgresPassword]
+defaultValues:
+  timezone: Etc/UTC
+  postgresPassword: bitmagnet-change-me
+  tmdbApiKey: ""
+services:
+  - name: "{{ .Release.Name }}"
+    port: 3333
+    scheme: http
+exposure:
+  subdomain: bitmagnet
+  tls: true
+  auth: true
+  localOnly: false

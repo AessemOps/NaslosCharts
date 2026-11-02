@@ -1,0 +1,56 @@
+name: forgejo-runner
+displayName: Forgejo Runner
+description: Forgejo Actions runner that executes jobs in a Docker-in-Docker sidecar.
+category: development
+icon: "FR"
+website: https://forgejo.org/docs/latest/admin/actions/
+version: 0.1.0
+tags: [ci, runner, development]
+# Docker-in-Docker needs privileged mode; install into naslos-apps-priv.
+privileged: true
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    instanceUrl:
+      type: string
+      title: Forgejo instance URL
+      description: The instance URL the runner connects to, e.g. https://forgejo.example.com/.
+      default: ""
+    runnerUuid:
+      type: string
+      title: Runner UUID
+      description: UUID shown when creating the runner in Forgejo.
+      default: ""
+    runnerToken:
+      type: string
+      title: Runner token
+      format: password
+      description: Token shown when creating the runner in Forgejo.
+      default: ""
+    runnerLabels:
+      type: string
+      title: Runner labels
+      description: Comma-separated labels, e.g. docker:docker://node:20-bookworm.
+      default: "docker:docker://node:20-bookworm"
+    runnerCapacity:
+      type: integer
+      title: Runner capacity
+      default: 1
+  required: [timezone, instanceUrl, runnerUuid, runnerToken, runnerLabels, runnerCapacity]
+defaultValues:
+  timezone: Etc/UTC
+  instanceUrl: ""
+  runnerUuid: ""
+  runnerToken: ""
+  runnerLabels: "docker:docker://node:20-bookworm"
+  runnerCapacity: 1
+services: []
+exposure:
+  subdomain: ""
+  tls: false
+  auth: false
+  localOnly: false

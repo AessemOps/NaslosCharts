@@ -1,0 +1,9 @@
+apiVersion: v2
+name: bichon
+description: Self-hosted email archiving server with full-text search
+type: application
+version: 0.1.0
+appVersion: "latest"
+home: https://github.com/rustmailer/bichon
+sources:
+  - https://github.com/rustmailer/bichon

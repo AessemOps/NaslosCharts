@@ -1,0 +1,50 @@
+name: speedtest-tracker
+displayName: Speedtest Tracker
+description: Track internet speed tests over time with charts and notifications.
+category: networking
+icon: "ST"
+website: https://speedtest-tracker.dev
+version: 0.1.0
+tags: [network, speedtest, monitoring]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    puid:
+      type: integer
+      title: PUID
+      default: 1000
+    pgid:
+      type: integer
+      title: PGID
+      default: 1000
+    appKey:
+      type: string
+      title: Application key
+      format: password
+      description: base64-encoded 32-byte key; generate with `openssl rand -base64 32`.
+      default: "base64:MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY="
+    appUrl:
+      type: string
+      title: Public URL
+      description: The URL used for links in notifications, e.g. https://speedtest.example.com.
+      default: "http://localhost:8080"
+  required: [timezone, puid, pgid, appKey, appUrl]
+defaultValues:
+  timezone: Etc/UTC
+  puid: 1000
+  pgid: 1000
+  appKey: "base64:MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY="
+  appUrl: "http://localhost:8080"
+services:
+  - name: "{{ .Release.Name }}"
+    port: 80
+    scheme: http
+exposure:
+  subdomain: speedtest
+  tls: false
+  auth: true
+  localOnly: false

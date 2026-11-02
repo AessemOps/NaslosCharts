@@ -1,0 +1,9 @@
+apiVersion: v2
+name: bentopdf
+description: Privacy-first client-side PDF toolkit
+type: application
+version: 0.1.0
+appVersion: "latest"
+home: https://www.bentopdf.com
+sources:
+  - https://github.com/alam00000/bentopdf

@@ -1,0 +1,31 @@
+image:
+  repository: vaultwarden/server
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+
+# Public URL of the vault (used for WebAuthn, invites and notification links).
+domain: ""
+# Allow new account sign-ups. Enabled for first-run setup; disable it after
+# creating your accounts.
+signupsAllowed: true
+# Token for the /admin panel; empty disables it.
+adminToken: ""
+webVaultEnabled: true
+
+persistence:
+  data:
+    size: 2Gi
+    storageClass: ""
+
+service:
+  port: 80
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi

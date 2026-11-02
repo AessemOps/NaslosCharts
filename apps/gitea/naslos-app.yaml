@@ -1,0 +1,45 @@
+name: gitea
+displayName: Gitea
+description: Painless self-hosted Git service with web UI, issues and Actions.
+category: development
+icon: "GT"
+website: https://about.gitea.com
+version: 0.1.0
+tags: [git, development, ci]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    rootUrl:
+      type: string
+      title: Public URL
+      description: Public Gitea URL, e.g. https://gitea.example.com/. Leave empty to auto-detect.
+      default: ""
+    sshDomain:
+      type: string
+      title: SSH clone domain
+      description: Domain shown in SSH clone URLs, e.g. gitea.example.com.
+      default: ""
+    sshPort:
+      type: integer
+      title: SSH port
+      description: Port Gitea's built-in SSH server listens on.
+      default: 22
+  required: [timezone]
+defaultValues:
+  timezone: Etc/UTC
+  rootUrl: ""
+  sshDomain: ""
+  sshPort: 22
+services:
+  - name: "{{ .Release.Name }}"
+    port: 3000
+    scheme: http
+exposure:
+  subdomain: gitea
+  tls: true
+  auth: false
+  localOnly: false

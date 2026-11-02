@@ -1,0 +1,56 @@
+image:
+  repository: ghcr.io/calagopus/panel
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+appEncryptionKey: change-me-calagopus-encryption-key
+postgresPassword: calagopus-change-me
+
+postgres:
+  image: ghcr.io/calagopus/pgautoupgrade:18-alpine
+  user: panel
+  database: panel
+  persistence:
+    size: 8Gi
+    storageClass: ""
+
+cache:
+  image: ghcr.io/calagopus/valkey:latest
+  persistence:
+    size: 1Gi
+    storageClass: ""
+
+persistence:
+  data:
+    size: 5Gi
+    storageClass: ""
+  logs:
+    size: 1Gi
+    storageClass: ""
+
+service:
+  port: 8000
+
+resources:
+  panel:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+  postgres:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+  cache:
+    requests:
+      cpu: 25m
+      memory: 64Mi
+    limits:
+      cpu: "500m"
+      memory: 256Mi

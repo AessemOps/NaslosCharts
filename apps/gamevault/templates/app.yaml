@@ -1,0 +1,178 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-config
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  accessModes: [ReadWriteOnce]
+  {{- with .Values.persistence.config.storageClass }}
+  storageClassName: {{ . | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.config.size }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-media
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  accessModes: [ReadWriteOnce]
+  {{- with .Values.persistence.media.storageClass }}
+  storageClassName: {{ . | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.media.size }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-db
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  accessModes: [ReadWriteOnce]
+  {{- with .Values.persistence.db.storageClass }}
+  storageClassName: {{ . | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.db.size }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-plugins
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  accessModes: [ReadWriteOnce]
+  {{- with .Values.persistence.plugins.storageClass }}
+  storageClassName: {{ . | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.plugins.size }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-savefiles
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  accessModes: [ReadWriteOnce]
+  {{- with .Values.persistence.savefiles.storageClass }}
+  storageClassName: {{ . | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.savefiles.size }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ .Chart.Name }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      securityContext:
+        fsGroup: {{ .Values.pgid }}
+      containers:
+        - name: gamevault
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - { name: PUID, value: "{{ .Values.puid }}" }
+            - { name: PGID, value: "{{ .Values.pgid }}" }
+            - { name: TZ, value: "{{ .Values.timezone }}" }
+            - { name: DB_SYSTEM, value: "SQLITE" }
+            - { name: SERVER_ADMIN_USERNAME, value: "{{ .Values.adminUsername }}" }
+            - { name: SERVER_ADMIN_PASSWORD, value: "{{ .Values.adminPassword }}" }
+            - { name: SERVER_REGISTRATION_DISABLED, value: "{{ .Values.registrationDisabled }}" }
+            - { name: VOLUMES_CONFIG, value: "/config" }
+            - { name: VOLUMES_FILES, value: "/files" }
+            - { name: VOLUMES_IMAGES, value: "/media" }
+            - { name: VOLUMES_LOG, value: "/logs" }
+            - { name: VOLUMES_DB, value: "/db" }
+            - { name: VOLUMES_PLUGINS, value: "/plugins" }
+            - { name: VOLUMES_SAVEFILES, value: "/savefiles" }
+          ports:
+            - { name: http, containerPort: 8080 }
+          volumeMounts:
+            - { name: config, mountPath: /config }
+            - { name: files, mountPath: /files }
+            - { name: media, mountPath: /media }
+            - { name: logs, mountPath: /logs }
+            - { name: db, mountPath: /db }
+            - { name: plugins, mountPath: /plugins }
+            - { name: savefiles, mountPath: /savefiles }
+          readinessProbe:
+            tcpSocket: { port: 8080 }
+            initialDelaySeconds: 60
+            periodSeconds: 20
+          livenessProbe:
+            tcpSocket: { port: 8080 }
+            initialDelaySeconds: 300
+            periodSeconds: 30
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-config
+        - name: files
+          persistentVolumeClaim:
+            claimName: {{ .Values.datasetsClaim }}
+        - name: media
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-media
+        - name: logs
+          emptyDir: {}
+        - name: db
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-db
+        - name: plugins
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-plugins
+        - name: savefiles
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-savefiles
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080

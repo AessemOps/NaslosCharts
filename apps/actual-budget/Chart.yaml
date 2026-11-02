@@ -1,0 +1,9 @@
+apiVersion: v2
+name: actual-budget
+description: Actual Budget personal finance server
+type: application
+version: 0.1.0
+appVersion: "latest"
+home: https://actualbudget.org
+sources:
+  - https://github.com/actualbudget/actual

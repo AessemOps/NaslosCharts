@@ -1,0 +1,59 @@
+name: borgwarehouse
+displayName: BorgWarehouse
+description: Web UI and central repository server for BorgBackup clients.
+category: productivity
+icon: "BW"
+website: https://borgwarehouse.com
+version: 0.1.0
+tags: [backup, borg, storage]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    fqdn:
+      type: string
+      title: FQDN
+      description: Hostname clients use for SSH backups, e.g. borgwarehouse.example.com.
+      default: borgwarehouse.example.com
+    authUrl:
+      type: string
+      title: Public URL
+      description: Public URL of the web UI, e.g. https://borgwarehouse.example.com.
+      default: https://borgwarehouse.example.com
+    authSecret:
+      type: string
+      title: Auth secret
+      format: password
+      description: Random secret used by the auth layer.
+      default: change-me-borgwarehouse
+    sshPort:
+      type: integer
+      title: SSH port
+      description: Port the repository SSH server listens on.
+      default: 2222
+    setupSecret:
+      type: string
+      title: Setup secret
+      format: password
+      description: Optional passphrase required to complete the first-run wizard.
+      default: ""
+  required: [timezone, fqdn, authUrl, authSecret, sshPort]
+defaultValues:
+  timezone: Etc/UTC
+  fqdn: borgwarehouse.example.com
+  authUrl: https://borgwarehouse.example.com
+  authSecret: change-me-borgwarehouse
+  sshPort: 2222
+  setupSecret: ""
+services:
+  - name: "{{ .Release.Name }}"
+    port: 3000
+    scheme: http
+exposure:
+  subdomain: borgwarehouse
+  tls: true
+  auth: false
+  localOnly: false

@@ -1,0 +1,37 @@
+name: bazarr
+displayName: Bazarr
+description: Subtitle manager that keeps Sonarr and Radarr libraries in sync.
+category: media
+icon: "Bz"
+website: https://www.bazarr.media
+version: 0.1.0
+tags: [media, subtitles, automation]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    puid:
+      type: integer
+      title: PUID
+      default: 1000
+    pgid:
+      type: integer
+      title: PGID
+      default: 1000
+  required: [timezone, puid, pgid]
+defaultValues:
+  timezone: Etc/UTC
+  puid: 1000
+  pgid: 1000
+services:
+  - name: "{{ .Release.Name }}"
+    port: 6767
+    scheme: http
+exposure:
+  subdomain: bazarr
+  tls: false
+  auth: false
+  localOnly: false

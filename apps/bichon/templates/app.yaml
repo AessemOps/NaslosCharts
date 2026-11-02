@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  accessModes: [ReadWriteOnce]
+  {{- with .Values.persistence.data.storageClass }}
+  storageClassName: {{ . | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.data.size }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ .Chart.Name }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: bichon
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - { name: TZ, value: "{{ .Values.timezone }}" }
+            - { name: BICHON_ROOT_DIR, value: "/data" }
+            - { name: BICHON_ENCRYPT_PASSWORD, value: "{{ .Values.encryptPassword }}" }
+            - { name: BICHON_PUBLIC_URL, value: "{{ .Values.publicUrl }}" }
+            - { name: BICHON_LOG_LEVEL, value: "{{ .Values.logLevel }}" }
+          ports:
+            - { name: http, containerPort: 15630 }
+          volumeMounts:
+            - { name: data, mountPath: /data }
+          readinessProbe:
+            tcpSocket: { port: 15630 }
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          livenessProbe:
+            tcpSocket: { port: 15630 }
+            initialDelaySeconds: 45
+            periodSeconds: 30
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  ports:
+    - name: http
+      port: 15630
+      targetPort: 15630

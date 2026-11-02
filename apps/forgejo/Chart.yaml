@@ -1,0 +1,9 @@
+apiVersion: v2
+name: forgejo
+description: Forgejo self-hosted software forge
+type: application
+version: 0.1.0
+appVersion: "17"
+home: https://forgejo.org
+sources:
+  - https://codeberg.org/forgejo/forgejo

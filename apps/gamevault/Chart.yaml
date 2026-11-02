@@ -1,0 +1,9 @@
+apiVersion: v2
+name: gamevault
+description: Self-hosted game library server
+type: application
+version: 0.1.0
+appVersion: "latest"
+home: https://gamevau.lt
+sources:
+  - https://github.com/Phalcode/gamevault-backend
