@@ -1,0 +1,40 @@
+image:
+  repository: ghcr.io/seanmorley15/adventurelog
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+siteUrl: http://localhost:8015
+postgresPassword: adventure-change-me
+
+postgres:
+  image: postgis/postgis:16-3.5
+  user: adventure
+  database: database
+  persistence:
+    size: 8Gi
+    storageClass: ""
+
+persistence:
+  media:
+    size: 10Gi
+    storageClass: ""
+
+service:
+  port: 80
+
+resources:
+  app:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: "2"
+      memory: 3Gi
+  postgres:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi

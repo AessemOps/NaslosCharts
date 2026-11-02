@@ -1,0 +1,26 @@
+image:
+  repository: rustmailer/bichon
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+# Encrypts stored IMAP passwords and OAuth tokens. Change before first start.
+encryptPassword: change-me-bichon
+publicUrl: http://localhost:15630
+logLevel: info
+
+persistence:
+  data:
+    size: 10Gi
+    storageClass: ""
+
+service:
+  port: 15630
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: "2"
+    memory: 2Gi

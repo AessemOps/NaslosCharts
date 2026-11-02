@@ -1,0 +1,9 @@
+apiVersion: v2
+name: gitea
+description: Gitea self-hosted Git service
+type: application
+version: 0.1.0
+appVersion: "latest"
+home: https://about.gitea.com
+sources:
+  - https://github.com/go-gitea/gitea

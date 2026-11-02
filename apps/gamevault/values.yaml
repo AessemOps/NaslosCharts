@@ -1,0 +1,43 @@
+image:
+  repository: phalcode/gamevault-backend
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+puid: 1000
+pgid: 1000
+adminUsername: admin
+adminPassword: admin-change-me
+registrationDisabled: false
+
+# PVC providing the Naslos datasets root (the platform's `naslos-datasets`),
+# mounted at /files.
+datasetsClaim: naslos-datasets
+
+persistence:
+  config:
+    size: 2Gi
+    storageClass: ""
+  media:
+    size: 10Gi
+    storageClass: ""
+  db:
+    size: 2Gi
+    storageClass: ""
+  plugins:
+    size: 1Gi
+    storageClass: ""
+  savefiles:
+    size: 1Gi
+    storageClass: ""
+
+service:
+  port: 8080
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: "2"
+    memory: 2Gi

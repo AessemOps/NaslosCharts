@@ -1,0 +1,38 @@
+name: esphome
+displayName: ESPHome
+description: Build, flash and manage ESP32/ESP8266 firmware from a web dashboard.
+category: smart-home
+icon: "E"
+website: https://esphome.io
+version: 0.1.0
+tags: [smart-home, esp32, firmware]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    dashboardUsername:
+      type: string
+      title: Dashboard username
+      default: admin
+    dashboardPassword:
+      type: string
+      title: Dashboard password
+      format: password
+      default: change-me
+  required: [timezone, dashboardUsername, dashboardPassword]
+defaultValues:
+  timezone: Etc/UTC
+  dashboardUsername: admin
+  dashboardPassword: change-me
+services:
+  - name: "{{ .Release.Name }}"
+    port: 6052
+    scheme: http
+exposure:
+  subdomain: esphome
+  tls: false
+  auth: true
+  localOnly: false

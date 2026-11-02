@@ -1,0 +1,38 @@
+image:
+  repository: blinkospace/blinko
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+externalUrl: http://localhost:1111
+nextAuthSecret: change-me-blinko-nextauth-secret
+postgresPassword: blinko-change-me
+
+# Optional GPU passthrough. Requires the NVIDIA device plugin on the node.
+gpuEnabled: false
+gpuCount: 1
+gpuRuntimeClass: ""
+
+postgres:
+  image: postgres:16-alpine
+  user: postgres
+  database: postgres
+  persistence:
+    size: 8Gi
+    storageClass: ""
+
+persistence:
+  data:
+    size: 5Gi
+    storageClass: ""
+
+service:
+  port: 1111
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: "2"
+    memory: 2Gi

@@ -1,0 +1,45 @@
+name: forgejo
+displayName: Forgejo
+description: Lightweight self-hosted software forge with Git, issues and Actions.
+category: development
+icon: "FJ"
+website: https://forgejo.org
+version: 0.1.0
+tags: [git, development, ci]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    rootUrl:
+      type: string
+      title: Public URL
+      description: Public Forgejo URL, e.g. https://forgejo.example.com/. Leave empty to auto-detect.
+      default: ""
+    sshDomain:
+      type: string
+      title: SSH clone domain
+      description: Domain shown in SSH clone URLs, e.g. forgejo.example.com.
+      default: ""
+    sshPort:
+      type: integer
+      title: SSH port
+      description: Port Forgejo's built-in SSH server listens on.
+      default: 22
+  required: [timezone]
+defaultValues:
+  timezone: Etc/UTC
+  rootUrl: ""
+  sshDomain: ""
+  sshPort: 22
+services:
+  - name: "{{ .Release.Name }}"
+    port: 3000
+    scheme: http
+exposure:
+  subdomain: forgejo
+  tls: true
+  auth: false
+  localOnly: false

@@ -3,18 +3,17 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
-vpn:
-  image: qmcgaw/gluetun:latest
-  provider: ""            # e.g. protonvpn, mullvad, nordvpn, custom
-  type: wireguard         # wireguard | openvpn
-  serverCountries: ""
-  wireguardPrivateKey: ""
-  wireguardAddresses: ""
-  openvpnUser: ""
-  openvpnPassword: ""
-  # Subnets reachable outside the tunnel (cluster + LAN) so Radarr/Sonarr and
-  # Traefik can still talk to the WebUI.
-  firewallOutboundSubnets: "10.244.0.0/16,10.96.0.0/12,192.168.1.0/24"
+vpnImage: qmcgaw/gluetun:latest
+vpn_provider: ""            # e.g. protonvpn, mullvad, nordvpn, custom
+vpn_type: wireguard         # wireguard | openvpn
+vpn_serverCountries: ""
+vpn_wireguardPrivateKey: ""
+vpn_wireguardAddresses: ""
+vpn_openvpnUser: ""
+vpn_openvpnPassword: ""
+# Subnets reachable outside the tunnel (cluster + LAN) so Radarr/Sonarr and
+# Traefik can still talk to the WebUI.
+vpn_firewallOutboundSubnets: "10.244.0.0/16,10.96.0.0/12,192.168.1.0/24"
 
 timezone: Etc/UTC
 puid: 1000

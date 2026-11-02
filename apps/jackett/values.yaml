@@ -1,0 +1,39 @@
+image:
+  repository: lscr.io/linuxserver/jackett
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# gluetun is the VPN sidecar; the app shares its network namespace.
+vpnImage: qmcgaw/gluetun:latest
+vpn_provider: ""            # e.g. protonvpn, mullvad, nordvpn, custom
+vpn_type: wireguard         # wireguard | openvpn
+vpn_serverCountries: ""
+vpn_wireguardPrivateKey: ""
+vpn_wireguardAddresses: ""
+vpn_openvpnUser: ""
+vpn_openvpnPassword: ""
+# Subnets the app is allowed to reach outside the tunnel (cluster + LAN), so
+# Radarr/Sonarr and Traefik can still reach it.
+vpn_firewallOutboundSubnets: "10.244.0.0/16,10.96.0.0/12,192.168.1.0/24"
+
+timezone: Etc/UTC
+puid: 1000
+pgid: 1000
+
+hostPath: /var/mnt
+
+persistence:
+  config:
+    size: 2Gi
+    storageClass: ""
+
+service:
+  port: 9117
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi

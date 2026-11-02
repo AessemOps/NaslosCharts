@@ -1,0 +1,9 @@
+apiVersion: v2
+name: adventurelog
+description: Self-hosted travel tracker and adventure log
+type: application
+version: 0.1.0
+appVersion: "latest"
+home: https://adventurelog.app
+sources:
+  - https://github.com/seanmorley15/AdventureLog

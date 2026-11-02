@@ -1,0 +1,27 @@
+name: home-assistant
+displayName: Home Assistant
+description: Open-source home automation platform with local control and privacy.
+category: smart-home
+icon: "HA"
+website: https://www.home-assistant.io
+version: 0.1.0
+tags: [smart-home, automation, iot]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+  required: [timezone]
+defaultValues:
+  timezone: Etc/UTC
+services:
+  - name: "{{ .Release.Name }}"
+    port: 8123
+    scheme: http
+exposure:
+  subdomain: home-assistant
+  tls: false
+  auth: false
+  localOnly: false

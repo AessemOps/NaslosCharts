@@ -1,0 +1,39 @@
+image:
+  repository: data.forgejo.org/forgejo/runner
+  tag: "13"
+  pullPolicy: IfNotPresent
+
+dindImage: docker:dind
+
+timezone: Etc/UTC
+
+# Values from Forgejo: Site Administration -> Actions -> Runners.
+instanceUrl: ""
+runnerUuid: ""
+runnerToken: ""
+runnerLabels: "docker:docker://node:20-bookworm"
+runnerCapacity: 1
+
+persistence:
+  data:
+    size: 2Gi
+    storageClass: ""
+  docker:
+    size: 10Gi
+    storageClass: ""
+
+resources:
+  runner:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+  dind:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: "2"
+      memory: 4Gi

@@ -1,0 +1,9 @@
+apiVersion: v2
+name: borgwarehouse
+description: Web UI and repository server for BorgBackup
+type: application
+version: 0.1.0
+appVersion: "3"
+home: https://borgwarehouse.com
+sources:
+  - https://github.com/Ravinou/borgwarehouse

@@ -1,0 +1,9 @@
+apiVersion: v2
+name: blinko
+description: AI-powered self-hosted note tool
+type: application
+version: 0.1.0
+appVersion: "latest"
+home: https://blinko.space
+sources:
+  - https://github.com/blinkospace/blinko

@@ -1,0 +1,9 @@
+apiVersion: v2
+name: calagopus
+description: Calagopus game server control panel
+type: application
+version: 0.1.0
+appVersion: "latest"
+home: https://calagopus.com
+sources:
+  - https://github.com/calagopus/panel
