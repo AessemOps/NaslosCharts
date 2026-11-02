@@ -4,6 +4,7 @@ description: Self-hosted audiobook and podcast server
 type: application
 version: 0.1.0
 appVersion: "2"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/audiobookshelf.png
 home: https://www.audiobookshelf.org
 sources:
   - https://github.com/advplyr/audiobookshelf

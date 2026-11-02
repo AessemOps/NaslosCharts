@@ -4,6 +4,7 @@ description: Privacy-first client-side PDF toolkit
 type: application
 version: 0.1.0
 appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/bentopdf.png
 home: https://www.bentopdf.com
 sources:
   - https://github.com/alam00000/bentopdf
