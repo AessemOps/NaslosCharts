@@ -4,6 +4,7 @@ description: Privacy-respecting metasearch engine
 type: application
 version: 0.1.0
 appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/searxng.png
 home: https://docs.searxng.org
 sources:
   - https://github.com/searxng/searxng

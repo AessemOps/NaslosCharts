@@ -4,6 +4,7 @@ description: Automated cleanup for Arr applications and download clients
 type: application
 version: 0.1.0
 appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/cleanuparr.png
 home: https://cleanuparr.github.io/Cleanuparr/
 sources:
   - https://github.com/Cleanuparr/Cleanuparr
