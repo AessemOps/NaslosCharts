@@ -1,0 +1,26 @@
+image:
+  repository: ghcr.io/esphome/esphome
+  tag: stable
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+
+# Dashboard credentials. Change the password before exposing the app.
+dashboardUsername: admin
+dashboardPassword: change-me
+
+persistence:
+  config:
+    size: 2Gi
+    storageClass: ""
+
+service:
+  port: 6052
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: "2"
+    memory: 2Gi

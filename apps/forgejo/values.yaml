@@ -1,0 +1,30 @@
+image:
+  repository: codeberg.org/forgejo/forgejo
+  tag: "17"
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+userUid: 1000
+userGid: 1000
+
+# Optional public URL settings; leave empty to let Forgejo detect them.
+rootUrl: ""
+sshDomain: ""
+sshPort: 22
+
+persistence:
+  data:
+    size: 10Gi
+    storageClass: ""
+
+service:
+  port: 3000
+  sshPort: 22
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: "2"
+    memory: 2Gi

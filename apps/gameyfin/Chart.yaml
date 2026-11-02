@@ -1,0 +1,9 @@
+apiVersion: v2
+name: gameyfin
+description: Self-hosted game library manager
+type: application
+version: 0.1.0
+appVersion: "2"
+home: https://gameyfin.org
+sources:
+  - https://github.com/gameyfin/gameyfin

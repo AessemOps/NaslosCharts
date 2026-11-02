@@ -1,0 +1,9 @@
+apiVersion: v2
+name: bitmagnet
+description: Self-hosted BitTorrent indexer and DHT crawler
+type: application
+version: 0.1.0
+appVersion: "latest"
+home: https://bitmagnet.io
+sources:
+  - https://github.com/bitmagnet-io/bitmagnet

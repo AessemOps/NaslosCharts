@@ -1,0 +1,46 @@
+name: vaultwarden
+displayName: Vaultwarden
+description: Lightweight, self-hosted Bitwarden-compatible password manager.
+category: productivity
+icon: "VW"
+website: https://github.com/dani-garcia/vaultwarden
+version: 0.1.0
+tags: [passwords, security, productivity]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    domain:
+      type: string
+      title: Public URL
+      description: The final URL users open, e.g. https://vault.example.com.
+      default: ""
+    signupsAllowed:
+      type: boolean
+      title: Allow sign-ups
+      description: Enabled for first-run setup; disable this after creating your accounts.
+      default: true
+    adminToken:
+      type: string
+      title: Admin token
+      format: password
+      description: Token for the /admin panel; empty disables it.
+      default: ""
+  required: [timezone]
+defaultValues:
+  timezone: Etc/UTC
+  domain: ""
+  signupsAllowed: true
+  adminToken: ""
+services:
+  - name: "{{ .Release.Name }}"
+    port: 80
+    scheme: http
+exposure:
+  subdomain: vaultwarden
+  tls: true
+  auth: false
+  localOnly: false

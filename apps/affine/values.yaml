@@ -1,0 +1,59 @@
+image:
+  repository: ghcr.io/toeverything/affine
+  tag: stable
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+
+# Final URL users open. Set this when the app is exposed behind Traefik.
+externalUrl: "http://localhost:3010"
+serverHost: ""
+serverHttps: false
+indexerEnabled: false
+# Password for the bundled PostgreSQL database.
+postgresPassword: affine-change-me
+
+postgres:
+  image: pgvector/pgvector:pg16
+  user: affine
+  database: affine
+  persistence:
+    size: 8Gi
+    storageClass: ""
+
+redis:
+  image: redis:7-alpine
+
+persistence:
+  storage:
+    size: 10Gi
+    storageClass: ""
+  config:
+    size: 1Gi
+    storageClass: ""
+
+service:
+  port: 3010
+
+resources:
+  affine:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: "2"
+      memory: 4Gi
+  postgres:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+  redis:
+    requests:
+      cpu: 25m
+      memory: 64Mi
+    limits:
+      cpu: "500m"
+      memory: 256Mi

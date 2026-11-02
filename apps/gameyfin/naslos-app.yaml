@@ -1,0 +1,50 @@
+name: gameyfin
+displayName: Gameyfin
+description: Game library manager with metadata, downloads and plugins.
+category: media
+icon: "GF"
+website: https://gameyfin.org
+version: 0.1.0
+tags: [games, library, media]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    puid:
+      type: integer
+      title: PUID
+      default: 1000
+    pgid:
+      type: integer
+      title: PGID
+      default: 1000
+    appKey:
+      type: string
+      title: Application key
+      format: password
+      description: Base64-encoded 32-byte key; generate with `openssl rand -base64 32`.
+      default: "MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY="
+    appUrl:
+      type: string
+      title: Public URL
+      description: Public URL used in notification links, e.g. https://gameyfin.example.com.
+      default: "http://localhost:8080"
+  required: [timezone, puid, pgid, appKey, appUrl]
+defaultValues:
+  timezone: Etc/UTC
+  puid: 1000
+  pgid: 1000
+  appKey: "MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY="
+  appUrl: "http://localhost:8080"
+services:
+  - name: "{{ .Release.Name }}"
+    port: 8080
+    scheme: http
+exposure:
+  subdomain: gameyfin
+  tls: true
+  auth: false
+  localOnly: false

@@ -1,0 +1,29 @@
+image:
+  repository: gitea/runner
+  tag: latest-dind
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+
+# Registration values from Gitea: Settings -> Actions -> Runners.
+instanceUrl: ""
+registrationToken: ""
+runnerName: "naslos-runner"
+runnerLabels: "ubuntu-latest:docker://node:20-bookworm"
+ephemeral: false
+
+persistence:
+  data:
+    size: 2Gi
+    storageClass: ""
+  docker:
+    size: 10Gi
+    storageClass: ""
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: "2"
+    memory: 4Gi

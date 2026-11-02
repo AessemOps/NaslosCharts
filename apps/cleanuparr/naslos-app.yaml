@@ -1,0 +1,37 @@
+name: cleanuparr
+displayName: Cleanuparr
+description: Automated queue and download cleanup for the *arr stack.
+category: media
+icon: "CL"
+website: https://cleanuparr.github.io/Cleanuparr/
+version: 0.1.0
+tags: [media, automation, downloads]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    puid:
+      type: integer
+      title: PUID
+      default: 1000
+    pgid:
+      type: integer
+      title: PGID
+      default: 1000
+  required: [timezone, puid, pgid]
+defaultValues:
+  timezone: Etc/UTC
+  puid: 1000
+  pgid: 1000
+services:
+  - name: "{{ .Release.Name }}"
+    port: 11011
+    scheme: http
+exposure:
+  subdomain: cleanuparr
+  tls: true
+  auth: true
+  localOnly: false
