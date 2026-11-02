@@ -4,6 +4,7 @@ description: Self-hosted travel tracker and adventure log
 type: application
 version: 0.1.0
 appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/adventurelog.png
 home: https://adventurelog.app
 sources:
   - https://github.com/seanmorley15/AdventureLog

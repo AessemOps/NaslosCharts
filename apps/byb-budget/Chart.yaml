@@ -4,6 +4,7 @@ description: BYB! household envelope budgeting server
 type: application
 version: 0.1.0
 appVersion: "1"
+icon: https://raw.githubusercontent.com/johnrbrady/byb-budget/main/public/logo.svg
 home: https://github.com/johnrbrady/byb-budget
 sources:
   - https://github.com/johnrbrady/byb-budget

@@ -4,6 +4,7 @@ description: Jackett indexer proxy, routed through a gluetun VPN tunnel
 type: application
 version: 0.1.0
 appVersion: "0.24"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/jackett.png
 home: https://github.com/Jackett/Jackett
 sources:
   - https://github.com/Jackett/Jackett

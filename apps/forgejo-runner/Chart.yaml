@@ -4,6 +4,7 @@ description: Forgejo Actions runner with a Docker-in-Docker sidecar
 type: application
 version: 0.1.0
 appVersion: "13"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/forgejo.png
 home: https://forgejo.org/docs/latest/admin/actions/
 sources:
   - https://codeberg.org/forgejo/runner

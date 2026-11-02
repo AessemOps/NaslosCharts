@@ -4,6 +4,7 @@ description: AFFiNE knowledge base, whiteboard and collaboration workspace
 type: application
 version: 0.1.0
 appVersion: "stable"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/affine.png
 home: https://affine.pro
 sources:
   - https://github.com/toeverything/AFFiNE

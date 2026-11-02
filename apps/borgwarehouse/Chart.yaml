@@ -4,6 +4,7 @@ description: Web UI and repository server for BorgBackup
 type: application
 version: 0.1.0
 appVersion: "3"
+icon: https://raw.githubusercontent.com/Ravinou/borgwarehouse/main/public/borgwarehouse-logo-blue.svg
 home: https://borgwarehouse.com
 sources:
   - https://github.com/Ravinou/borgwarehouse
