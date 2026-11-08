@@ -4,7 +4,7 @@ description: Game server control panel with PostgreSQL and Valkey.
 category: media
 icon: "CG"
 website: https://calagopus.com
-version: 0.1.0
+version: 0.1.1
 tags: [games, panel, servers]
 schema:
   type: object

@@ -4,7 +4,7 @@ description: AI-powered card notes with local data ownership.
 category: productivity
 icon: "BL"
 website: https://blinko.space
-version: 0.1.0
+version: 0.1.1
 tags: [notes, ai, productivity]
 schema:
   type: object

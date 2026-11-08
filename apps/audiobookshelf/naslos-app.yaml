@@ -4,7 +4,7 @@ description: Self-hosted audiobook and podcast server with apps for every platfo
 category: media
 icon: "A"
 website: https://www.audiobookshelf.org
-version: 0.1.0
+version: 0.1.1
 tags: [media, audiobooks, podcasts]
 schema:
   type: object

@@ -2,7 +2,7 @@ apiVersion: v2
 name: actual-budget
 description: Actual Budget personal finance server
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "latest"
 icon: https://raw.githubusercontent.com/selfhst/icons/main/png/actual-budget.png
 home: https://actualbudget.org

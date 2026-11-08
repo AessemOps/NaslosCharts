@@ -4,7 +4,7 @@ description: Self-hosted BitTorrent indexer with a DHT crawler and web UI.
 category: networking
 icon: "BM"
 website: https://bitmagnet.io
-version: 0.1.0
+version: 0.1.1
 tags: [torrents, indexer, dht]
 schema:
   type: object
