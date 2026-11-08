@@ -4,7 +4,7 @@ description: Browse, read and manage your Calibre e-book library from a browser.
 category: media
 icon: "C"
 website: https://github.com/janeczku/calibre-web
-version: 0.1.1
+version: 0.1.2
 tags: [books, library]
 schema:
   type: object
