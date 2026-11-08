@@ -4,7 +4,7 @@ description: Privacy-respecting metasearch engine that aggregates many sources.
 category: networking
 icon: "Sr"
 website: https://docs.searxng.org
-version: 0.1.0
+version: 0.1.1
 tags: [search, privacy]
 schema:
   type: object

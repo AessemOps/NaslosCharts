@@ -2,7 +2,7 @@ apiVersion: v2
 name: borgwarehouse
 description: Web UI and repository server for BorgBackup
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "3"
 icon: https://raw.githubusercontent.com/Ravinou/borgwarehouse/main/public/borgwarehouse-logo-blue.svg
 home: https://borgwarehouse.com

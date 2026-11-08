@@ -4,7 +4,7 @@ description: Lightweight self-hosted software forge with Git, issues and Actions
 category: development
 icon: "FJ"
 website: https://forgejo.org
-version: 0.1.0
+version: 0.1.1
 tags: [git, development, ci]
 schema:
   type: object

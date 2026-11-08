@@ -2,7 +2,7 @@ apiVersion: v2
 name: affine
 description: AFFiNE knowledge base, whiteboard and collaboration workspace
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "stable"
 icon: https://raw.githubusercontent.com/selfhst/icons/main/png/affine.png
 home: https://affine.pro
