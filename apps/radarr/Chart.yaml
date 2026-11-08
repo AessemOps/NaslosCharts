@@ -2,7 +2,7 @@ apiVersion: v2
 name: radarr
 description: Radarr movie collection manager
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "5"
 icon: https://raw.githubusercontent.com/selfhst/icons/main/png/radarr.png
 home: https://radarr.video

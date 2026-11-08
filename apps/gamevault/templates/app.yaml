@@ -123,7 +123,13 @@ spec:
             - { name: http, containerPort: 8080 }
           volumeMounts:
             - { name: config, mountPath: /config }
+            {{- if .Values.datasets }}
+            {{- range .Values.datasets }}
+            - { name: ds-{{ .name }}, mountPath: {{ .mountPath }} }
+            {{- end }}
+            {{- else }}
             - { name: files, mountPath: /files }
+            {{- end }}
             - { name: media, mountPath: /media }
             - { name: logs, mountPath: /logs }
             - { name: db, mountPath: /db }
@@ -143,9 +149,23 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-config
+        {{- if .Values.datasets }}
+        {{- range .Values.datasets }}
+        - name: ds-{{ .name }}
+          {{- if .claim }}
+          persistentVolumeClaim:
+            claimName: {{ .claim }}
+          {{- else }}
+          hostPath:
+            path: {{ .hostPath | quote }}
+            type: Directory
+          {{- end }}
+        {{- end }}
+        {{- else }}
         - name: files
           persistentVolumeClaim:
             claimName: {{ .Values.datasetsClaim }}
+        {{- end }}
         - name: media
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-media

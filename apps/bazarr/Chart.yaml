@@ -2,7 +2,7 @@ apiVersion: v2
 name: bazarr
 description: Bazarr subtitle manager for Sonarr and Radarr
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "1"
 icon: https://raw.githubusercontent.com/selfhst/icons/main/png/bazarr.png
 home: https://www.bazarr.media

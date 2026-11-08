@@ -4,7 +4,7 @@ description: Free software media server for movies, shows, music and live TV.
 category: media
 icon: "J"
 website: https://jellyfin.org
-version: 0.1.1
+version: 0.1.2
 tags: [media, streaming]
 schema:
   type: object

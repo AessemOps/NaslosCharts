@@ -50,7 +50,13 @@ spec:
             - { name: config, mountPath: /config }
             - { name: cache, mountPath: /cache }
             - { name: transcode, mountPath: /transcode }
+            {{- if .Values.datasets }}
+            {{- range .Values.datasets }}
+            - { name: ds-{{ .name }}, mountPath: {{ .mountPath }} }
+            {{- end }}
+            {{- else }}
             - { name: data, mountPath: /data }
+            {{- end }}
           readinessProbe:
             tcpSocket: { port: 8096 }
             initialDelaySeconds: 20
@@ -69,9 +75,23 @@ spec:
           emptyDir: {}
         - name: transcode
           emptyDir: {}
+        {{- if .Values.datasets }}
+        {{- range .Values.datasets }}
+        - name: ds-{{ .name }}
+          {{- if .claim }}
+          persistentVolumeClaim:
+            claimName: {{ .claim }}
+          {{- else }}
+          hostPath:
+            path: {{ .hostPath | quote }}
+            type: Directory
+          {{- end }}
+        {{- end }}
+        {{- else }}
         - name: data
           persistentVolumeClaim:
             claimName: {{ .Values.datasetsClaim }}
+        {{- end }}
 ---
 apiVersion: v1
 kind: Service
