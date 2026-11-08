@@ -11,6 +11,11 @@ pgid: 1000
 # mounted at /books.
 datasetsClaim: naslos-datasets
 
+# Datasets attached by the platform: one entry per selected managed dataset,
+# each mounted at /datasets/<name>. When empty, the chart keeps the shared
+# datasetsClaim fallback above.
+datasets: []
+
 persistence:
   config:
     size: 2Gi

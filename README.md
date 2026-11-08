@@ -167,22 +167,58 @@ The shared `security-headers` middleware intentionally omits
 
 - **Config/state:** a PVC (default `local-path`). Name it
   `{{ .Release.Name }}-<part>`.
-- **Datasets (media/books/etc.):** PSA `baseline` (the managed apps namespace)
-  forbids `hostPath`, and Naslos datasets are host directories. The platform
-  therefore publishes them as a static RWX `naslos-datasets` PVC (backed by the
-  `apps.datasets.hostPath` root, default `/var/mnt`). A managed app mounts it via
-  `datasetsClaim` (default `naslos-datasets`):
+- **Datasets (media/books/etc.):** the operator registers datasets in Naslos
+  and selects any number of them for an app. The platform injects a `datasets`
+  value; a chart mounts every entry at `/datasets/<name>`:
 
   ```yaml
+  # values.yaml
+  datasets: []
+  ```
+  ```yaml
+  # templates/app.yaml
+  volumeMounts:
+    {{- if .Values.datasets }}
+    {{- range .Values.datasets }}
+    - { name: ds-{{ .name }}, mountPath: {{ .mountPath }} }
+    {{- end }}
+    {{- else }}
+    - { name: data, mountPath: /data }   # legacy fallback
+    {{- end }}
   volumes:
+    {{- if .Values.datasets }}
+    {{- range .Values.datasets }}
+    - name: ds-{{ .name }}
+      {{- if .claim }}
+      persistentVolumeClaim:
+        claimName: {{ .claim }}
+      {{- else }}
+      hostPath:
+        path: {{ .hostPath | quote }}
+        type: Directory
+      {{- end }}
+    {{- end }}
+    {{- else }}
     - name: data
       persistentVolumeClaim:
         claimName: {{ .Values.datasetsClaim }}
+    {{- end }}
   ```
 
+  Baseline entries carry a `claim` (the API creates a PV/PVC per dataset);
+  privileged entries carry a `hostPath`. The `ds-` prefix keeps the volume name
+  clear of the chart's own volumes. **Never trust client input for
+  `datasets`** — the API strips and re-injects it.
+
+- **Legacy single-dataset fallback:** when no dataset is attached the chart must
+  keep working with its current volume. Baseline charts fall back to
+  `datasetsClaim` (default `naslos-datasets`, the static RWX PVC backed by
+  `apps.datasets.hostPath`); privileged charts fall back to `hostPath` (default
+  `/var/mnt`). Keep each chart's existing mount path (`/data`, `/books`,
+  `/audiobooks`, `/files`, `/games`, `/downloads`, …) in the `else` branch.
 - **Privileged apps** (`privileged: true`, e.g. gluetun VPN sidecars) run in
   `naslos-apps-priv`, where PSA allows `hostPath`; they may mount the dataset
-  root directly (same host path, so the data is shared with managed apps).
+  host path directly.
 - Apps in `naslos-apps` can reach each other and `naslos-apps-priv`; the
   platform supplies the network policy.
 - Do not declare a `hostPath` volume in a managed app chart — the pod is

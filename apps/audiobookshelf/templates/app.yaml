@@ -65,7 +65,13 @@ spec:
           volumeMounts:
             - { name: config, mountPath: /config }
             - { name: metadata, mountPath: /metadata }
+            {{- if .Values.datasets }}
+            {{- range .Values.datasets }}
+            - { name: ds-{{ .name }}, mountPath: {{ .mountPath }} }
+            {{- end }}
+            {{- else }}
             - { name: library, mountPath: /audiobooks }
+            {{- end }}
           readinessProbe:
             tcpSocket: { port: 80 }
             initialDelaySeconds: 15
@@ -83,9 +89,23 @@ spec:
         - name: metadata
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-metadata
+        {{- if .Values.datasets }}
+        {{- range .Values.datasets }}
+        - name: ds-{{ .name }}
+          {{- if .claim }}
+          persistentVolumeClaim:
+            claimName: {{ .claim }}
+          {{- else }}
+          hostPath:
+            path: {{ .hostPath | quote }}
+            type: Directory
+          {{- end }}
+        {{- end }}
+        {{- else }}
         - name: library
           persistentVolumeClaim:
             claimName: {{ .Values.datasetsClaim }}
+        {{- end }}
 ---
 apiVersion: v1
 kind: Service

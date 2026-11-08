@@ -48,7 +48,13 @@ spec:
             - { name: http, containerPort: 6767 }
           volumeMounts:
             - { name: config, mountPath: /config }
+            {{- if .Values.datasets }}
+            {{- range .Values.datasets }}
+            - { name: ds-{{ .name }}, mountPath: {{ .mountPath }} }
+            {{- end }}
+            {{- else }}
             - { name: data, mountPath: /data }
+            {{- end }}
           readinessProbe:
             tcpSocket: { port: 6767 }
             initialDelaySeconds: 15
@@ -63,9 +69,23 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}
+        {{- if .Values.datasets }}
+        {{- range .Values.datasets }}
+        - name: ds-{{ .name }}
+          {{- if .claim }}
+          persistentVolumeClaim:
+            claimName: {{ .claim }}
+          {{- else }}
+          hostPath:
+            path: {{ .hostPath | quote }}
+            type: Directory
+          {{- end }}
+        {{- end }}
+        {{- else }}
         - name: data
           persistentVolumeClaim:
             claimName: {{ .Values.datasetsClaim }}
+        {{- end }}
 ---
 apiVersion: v1
 kind: Service
