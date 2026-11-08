@@ -15,6 +15,11 @@ appUrl: "http://localhost:8080"
 # mounted at /games.
 datasetsClaim: naslos-datasets
 
+# Datasets attached by the platform: one entry per selected managed dataset,
+# each mounted at /datasets/<name>. When empty, the chart keeps the shared
+# datasetsClaim fallback above.
+datasets: []
+
 persistence:
   db:
     size: 2Gi

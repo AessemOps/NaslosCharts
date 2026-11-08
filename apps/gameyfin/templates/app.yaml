@@ -119,7 +119,13 @@ spec:
             - { name: plugindata, mountPath: /opt/gameyfin/plugindata }
             - { name: plugins, mountPath: /opt/gameyfin/plugins-installed }
             - { name: logs, mountPath: /opt/gameyfin/logs }
+            {{- if .Values.datasets }}
+            {{- range .Values.datasets }}
+            - { name: ds-{{ .name }}, mountPath: {{ .mountPath }} }
+            {{- end }}
+            {{- else }}
             - { name: games, mountPath: /games }
+            {{- end }}
           readinessProbe:
             tcpSocket: { port: 8080 }
             initialDelaySeconds: 60
@@ -148,9 +154,23 @@ spec:
             claimName: {{ .Release.Name }}-plugins
         - name: logs
           emptyDir: {}
+        {{- if .Values.datasets }}
+        {{- range .Values.datasets }}
+        - name: ds-{{ .name }}
+          {{- if .claim }}
+          persistentVolumeClaim:
+            claimName: {{ .claim }}
+          {{- else }}
+          hostPath:
+            path: {{ .hostPath | quote }}
+            type: Directory
+          {{- end }}
+        {{- end }}
+        {{- else }}
         - name: games
           persistentVolumeClaim:
             claimName: {{ .Values.datasetsClaim }}
+        {{- end }}
 ---
 apiVersion: v1
 kind: Service

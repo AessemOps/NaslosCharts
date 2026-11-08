@@ -71,7 +71,13 @@ spec:
             - { name: http, containerPort: {{ .Values.webuiPort }} }
           volumeMounts:
             - { name: config, mountPath: /config }
+            {{- if .Values.datasets }}
+            {{- range .Values.datasets }}
+            - { name: ds-{{ .name }}, mountPath: {{ .mountPath }} }
+            {{- end }}
+            {{- else }}
             - { name: data, mountPath: /data }
+            {{- end }}
           readinessProbe:
             tcpSocket: { port: {{ .Values.webuiPort }} }
             initialDelaySeconds: 20
@@ -86,10 +92,24 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}
+        {{- if .Values.datasets }}
+        {{- range .Values.datasets }}
+        - name: ds-{{ .name }}
+          {{- if .claim }}
+          persistentVolumeClaim:
+            claimName: {{ .claim }}
+          {{- else }}
+          hostPath:
+            path: {{ .hostPath | quote }}
+            type: Directory
+          {{- end }}
+        {{- end }}
+        {{- else }}
         - name: data
           hostPath:
             path: {{ .Values.hostPath | quote }}
             type: Directory
+        {{- end }}
         - name: tun
           hostPath:
             path: /dev/net/tun
