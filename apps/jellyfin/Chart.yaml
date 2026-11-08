@@ -2,7 +2,7 @@ apiVersion: v2
 name: jellyfin
 description: Jellyfin media server
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "10.10"
 icon: https://raw.githubusercontent.com/selfhst/icons/main/png/jellyfin.png
 home: https://jellyfin.org
