@@ -2,7 +2,7 @@ apiVersion: v2
 name: calagopus
 description: Calagopus game server control panel
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "latest"
 icon: https://raw.githubusercontent.com/selfhst/icons/main/png/calagopus.png
 home: https://calagopus.com

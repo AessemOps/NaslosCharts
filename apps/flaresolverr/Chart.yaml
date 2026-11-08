@@ -2,7 +2,7 @@ apiVersion: v2
 name: flaresolverr
 description: Proxy server to bypass Cloudflare protection
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "3"
 icon: https://raw.githubusercontent.com/selfhst/icons/main/png/flaresolverr.png
 home: https://github.com/FlareSolverr/FlareSolverr

@@ -4,7 +4,7 @@ description: Self-hosted game library and download server for DRM-free games.
 category: media
 icon: "GV"
 website: https://gamevau.lt
-version: 0.1.0
+version: 0.1.1
 tags: [games, library, media]
 schema:
   type: object

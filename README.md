@@ -60,7 +60,7 @@ description: Movie collection manager
 category: media                  # media | productivity | smart-home | networking | development
 icon: "R"                        # short emoji/letter shown on the card
 website: https://radarr.video
-version: 0.1.0                   # informational; Chart.yaml's version wins if both exist
+version: 0.1.1                   # informational; Chart.yaml's version wins if both exist
 tags: [media, movies]
 
 # JSON Schema (draft-07 subset) that generates the install form in the UI.

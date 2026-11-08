@@ -2,7 +2,7 @@ apiVersion: v2
 name: calibre-web
 description: Web interface for your Calibre e-book library
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "0.6"
 icon: https://raw.githubusercontent.com/selfhst/icons/main/png/calibre-web.png
 home: https://github.com/janeczku/calibre-web

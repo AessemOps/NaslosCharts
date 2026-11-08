@@ -4,7 +4,7 @@ description: All-in-one knowledge base, document and whiteboard workspace.
 category: productivity
 icon: "AF"
 website: https://affine.pro
-version: 0.1.0
+version: 0.1.1
 tags: [notes, knowledge-base, collaboration]
 schema:
   type: object

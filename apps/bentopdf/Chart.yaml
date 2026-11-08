@@ -2,7 +2,7 @@ apiVersion: v2
 name: bentopdf
 description: Privacy-first client-side PDF toolkit
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "latest"
 icon: https://raw.githubusercontent.com/selfhst/icons/main/png/bentopdf.png
 home: https://www.bentopdf.com

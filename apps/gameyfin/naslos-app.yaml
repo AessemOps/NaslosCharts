@@ -4,7 +4,7 @@ description: Game library manager with metadata, downloads and plugins.
 category: media
 icon: "GF"
 website: https://gameyfin.org
-version: 0.1.0
+version: 0.1.1
 tags: [games, library, media]
 schema:
   type: object

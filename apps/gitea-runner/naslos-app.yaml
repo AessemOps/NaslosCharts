@@ -4,7 +4,7 @@ description: Gitea Actions runner that executes jobs in its own Docker daemon.
 category: development
 icon: "GR"
 website: https://docs.gitea.com/runner/
-version: 0.1.0
+version: 0.1.1
 tags: [ci, runner, development]
 # Docker-in-Docker needs privileged mode; install into naslos-apps-priv.
 privileged: true

@@ -2,7 +2,7 @@ apiVersion: v2
 name: home-assistant
 description: Home Assistant home automation platform
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "stable"
 icon: https://raw.githubusercontent.com/selfhst/icons/main/png/home-assistant.png
 home: https://www.home-assistant.io

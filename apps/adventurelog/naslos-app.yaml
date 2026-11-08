@@ -4,7 +4,7 @@ description: Track trips, places and travel memories in a private journal.
 category: productivity
 icon: "AL"
 website: https://adventurelog.app
-version: 0.1.0
+version: 0.1.1
 tags: [travel, journal, maps]
 schema:
   type: object
