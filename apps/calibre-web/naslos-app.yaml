@@ -35,3 +35,4 @@ exposure:
   tls: false
   auth: true
   localOnly: false
+  internet: true

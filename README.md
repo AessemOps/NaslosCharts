@@ -103,6 +103,7 @@ exposure:
   tls: false                    # true = HTTPS route on Traefik websecure
   auth: false                   # true = Authelia login; only allowed on an SSO domain
   localOnly: false              # true = restrict to the configured LAN CIDR
+  internet: true                # on by default; false = DNS + app-to-app only
 
 # Optional. Install into the privileged apps namespace (PSA privileged) instead
 # of naslos-apps (PSA baseline). Required when the pod needs NET_ADMIN or other
@@ -140,7 +141,8 @@ points at a missing branch reports an error for that source.
 ## Exposure & routing
 
 For each app the API owns one Traefik `IngressRoute` plus the middlewares it
-references, in the app's namespace:
+references, and one Internet-egress `NetworkPolicy`, all in the app's
+namespace:
 
 | Setting | Effect |
 | --- | --- |
@@ -148,6 +150,15 @@ references, in the app's namespace:
 | `tls` | on ⇒ `websecure` + the base domain's cert Secret; off ⇒ plain `web` HTTP |
 | `auth` | on ⇒ Authelia forwardAuth middleware (only on an SSO domain) |
 | `localOnly` | on ⇒ `IPAllowList` limited to the configured LAN CIDR |
+| `internet` | on (default) ⇒ additive `<app>-internet` `NetworkPolicy` allowing public egress (never the cluster, LAN or metadata ranges); off ⇒ only the base DNS + app-to-app policy |
+
+Every catalog entry declares `internet: true` so apps reach search engines,
+indexers, APIs and updates out of the box; the install and exposure dialogs
+expose the switch so an operator can turn it off. The opt-out is enforced only
+for a baseline app with a dedicated namespace (`apps.isolation.enabled`, the
+install default). Privileged namespaces (their base policy always allows
+Internet) and the legacy shared `naslos-apps` namespace reject
+`internet: false` with a 400 instead of silently leaving egress open.
 
 The shared `security-headers` middleware intentionally omits
 `stsIncludeSubdomains`, so a TLS-off subdomain stays reachable.
