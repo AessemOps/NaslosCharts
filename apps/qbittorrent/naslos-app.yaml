@@ -4,7 +4,7 @@ description: qBittorrent download client with all traffic inside a gluetun VPN t
 category: media
 icon: "Q"
 website: https://www.qbittorrent.org
-version: 0.1.0
+version: 0.1.1
 tags: [downloads, vpn]
 # gluetun needs NET_ADMIN, which PSA baseline forbids; install into naslos-apps-priv.
 privileged: true

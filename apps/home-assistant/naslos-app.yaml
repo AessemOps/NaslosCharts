@@ -4,7 +4,7 @@ description: Open-source home automation platform with local control and privacy
 category: smart-home
 icon: "HA"
 website: https://www.home-assistant.io
-version: 0.1.0
+version: 0.1.1
 tags: [smart-home, automation, iot]
 schema:
   type: object

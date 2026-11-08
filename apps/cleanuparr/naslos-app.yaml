@@ -4,7 +4,7 @@ description: Automated queue and download cleanup for the *arr stack.
 category: media
 icon: "CL"
 website: https://cleanuparr.github.io/Cleanuparr/
-version: 0.1.0
+version: 0.1.1
 tags: [media, automation, downloads]
 schema:
   type: object
