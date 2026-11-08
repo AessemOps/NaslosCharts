@@ -10,6 +10,11 @@ pgid: 1000
 # PVC providing the Naslos datasets root (the platform's `naslos-datasets`).
 datasetsClaim: naslos-datasets
 
+# Datasets attached by the platform: one entry per selected managed dataset,
+# each mounted at /datasets/<name>. When empty, the chart keeps the shared
+# datasetsClaim fallback above.
+datasets: []
+
 persistence:
   config:
     size: 8Gi
