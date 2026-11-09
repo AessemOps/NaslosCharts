@@ -84,6 +84,7 @@ spec:
             - { name: TZ, value: "{{ .Values.timezone }}" }
             - { name: WEBUI_PORT, value: "{{ .Values.webuiPort }}" }
             - { name: VUETORRENT_ENABLED, value: "{{ .Values.vuetorrent }}" }
+            - { name: USE_CATEGORY_PATHS_IN_MANUAL_MODE, value: "{{ .Values.useCategoryPathsInManualMode }}" }
           ports:
             - { name: http, containerPort: {{ .Values.webuiPort }} }
           volumeMounts:
@@ -168,6 +169,30 @@ metadata:
     app.kubernetes.io/name: {{ .Chart.Name }}
     app.kubernetes.io/instance: {{ .Release.Name }}
 data:
+  configure-downloads.sh: |
+    #!/bin/bash
+    set -eu
+    conf=/config/qBittorrent/qBittorrent.conf
+    mkdir -p /config/qBittorrent
+    if [ ! -f "$conf" ]; then
+      if [ -f /defaults/qBittorrent.conf ]; then
+        cp /defaults/qBittorrent.conf "$conf"
+      else
+        touch "$conf"
+      fi
+    fi
+    value=false
+    if [ "${USE_CATEGORY_PATHS_IN_MANUAL_MODE:-true}" = "true" ]; then
+      value=true
+    fi
+    if grep -q '^Session.UseCategoryPathsInManualMode=' "$conf"; then
+      sed -i "s|^Session.UseCategoryPathsInManualMode=.*|Session\\\\UseCategoryPathsInManualMode=${value}|" "$conf"
+    elif grep -q '^\[BitTorrent\]' "$conf"; then
+      sed -i "/^\[BitTorrent\]/a Session\\\\UseCategoryPathsInManualMode=${value}" "$conf"
+    else
+      printf '\n[BitTorrent]\nSession\\UseCategoryPathsInManualMode=%s\n' "$value" >> "$conf"
+    fi
+    chown abc:abc "$conf" 2>/dev/null || true
   enable-vuetorrent.sh: |
     #!/bin/bash
     set -eu
