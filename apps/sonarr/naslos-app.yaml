@@ -4,7 +4,7 @@ description: TV series collection manager for Usenet and BitTorrent.
 category: media
 icon: "So"
 website: https://sonarr.tv
-version: 0.1.2
+version: 0.1.3
 tags: [media, tv, automation]
 schema:
   type: object
@@ -33,6 +33,6 @@ services:
 exposure:
   subdomain: sonarr
   tls: false
-  auth: false
+  auth: true
   localOnly: false
   internet: true
