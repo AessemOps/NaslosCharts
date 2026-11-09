@@ -69,6 +69,9 @@ spec:
             - { name: PUID, value: "{{ .Values.puid }}" }
             - { name: PGID, value: "{{ .Values.pgid }}" }
             - { name: TZ, value: "{{ .Values.timezone }}" }
+            {{- if .Values.disableAuth }}
+            - { name: PROWLARR__AUTH__METHOD, value: "External" }
+            {{- end }}
           ports:
             - { name: http, containerPort: 9696 }
           volumeMounts:
