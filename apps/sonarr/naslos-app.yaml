@@ -4,7 +4,7 @@ description: TV series collection manager for Usenet and BitTorrent.
 category: media
 icon: "So"
 website: https://sonarr.tv
-version: 0.1.3
+version: 0.1.4
 tags: [media, tv, automation]
 schema:
   type: object
@@ -21,11 +21,17 @@ schema:
       type: integer
       title: PGID
       default: 1000
+    disableAuth:
+      type: boolean
+      title: Disable app authentication
+      description: Rely on Authelia forward-auth; the app will not ask for its own login.
+      default: true
   required: [timezone, puid, pgid]
 defaultValues:
   timezone: Etc/UTC
   puid: 1000
   pgid: 1000
+  disableAuth: true
 services:
   - name: "{{ .Release.Name }}"
     port: 8989
