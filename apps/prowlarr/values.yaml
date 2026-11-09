@@ -12,8 +12,8 @@ vpn_wireguardPrivateKey: ""
 vpn_wireguardAddresses: ""
 vpn_openvpnUser: ""
 vpn_openvpnPassword: ""
-# Subnets the app is allowed to reach outside the tunnel (cluster + LAN), so
-# Radarr/Seerr and Traefik can still reach it.
+# Subnets the app is allowed to reach outside the tunnel (cluster + LAN).
+# Inbound to the WebUI is allowed separately via FIREWALL_INPUT_PORTS.
 vpn_firewallOutboundSubnets: "10.244.0.0/16,10.96.0.0/12,192.168.1.0/24"
 
 timezone: Etc/UTC
