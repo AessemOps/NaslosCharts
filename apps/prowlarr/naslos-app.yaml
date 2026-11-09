@@ -4,7 +4,7 @@ description: Indexer manager for the *arr apps, with all traffic routed through 
 category: media
 icon: "P"
 website: https://prowlarr.com
-version: 0.1.6
+version: 0.1.7
 tags: [indexers, vpn]
 # gluetun needs NET_ADMIN, which PSA baseline forbids; install into naslos-apps-priv.
 privileged: true

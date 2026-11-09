@@ -2,8 +2,8 @@ apiVersion: v2
 name: prowlarr
 description: Prowlarr indexer manager, routed through a gluetun VPN tunnel
 type: application
-version: 0.1.6
-appVersion: "1"
+version: 0.1.7
+appVersion: "2"
 icon: https://raw.githubusercontent.com/selfhst/icons/main/png/prowlarr.png
 home: https://prowlarr.com
 sources:
