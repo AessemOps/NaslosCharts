@@ -4,7 +4,7 @@ description: Movie collection manager for Usenet and BitTorrent.
 category: media
 icon: "Ra"
 website: https://radarr.video
-version: 0.1.2
+version: 0.1.3
 tags: [media, movies, automation]
 schema:
   type: object
@@ -33,6 +33,6 @@ services:
 exposure:
   subdomain: radarr
   tls: false
-  auth: false
+  auth: true
   localOnly: false
   internet: true
