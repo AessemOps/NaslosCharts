@@ -44,6 +44,7 @@ spec:
             - { name: PUID, value: "{{ .Values.puid }}" }
             - { name: PGID, value: "{{ .Values.pgid }}" }
             - { name: TZ, value: "{{ .Values.timezone }}" }
+            - { name: SONARR__AUTH__METHOD, value: "External" }
           ports:
             - { name: http, containerPort: 8989 }
           volumeMounts:
