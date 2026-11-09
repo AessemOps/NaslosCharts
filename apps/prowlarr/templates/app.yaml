@@ -54,6 +54,7 @@ spec:
             - { name: OPENVPN_USER, value: "{{ .Values.vpn_openvpnUser }}" }
             - { name: OPENVPN_PASSWORD, value: "{{ .Values.vpn_openvpnPassword }}" }
             - { name: FIREWALL_OUTBOUND_SUBNETS, value: "{{ .Values.vpn_firewallOutboundSubnets }}" }
+            - { name: FIREWALL_INPUT_PORTS, value: "8000,9696" }
             - { name: TZ, value: "{{ .Values.timezone }}" }
           volumeMounts:
             - { name: tun, mountPath: /dev/net/tun }
