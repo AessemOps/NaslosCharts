@@ -4,7 +4,7 @@ description: qBittorrent download client with all traffic inside a gluetun VPN t
 category: media
 icon: "Q"
 website: https://www.qbittorrent.org
-version: 0.1.4
+version: 0.1.5
 tags: [downloads, vpn]
 # gluetun needs NET_ADMIN, which PSA baseline forbids; install into naslos-apps-priv.
 privileged: true
@@ -52,6 +52,11 @@ schema:
       title: OpenVPN password
       format: password
       default: ""
+    vuetorrent:
+      type: boolean
+      title: VueTorrent WebUI
+      description: Install the VueTorrent alternative WebUI and enable it automatically.
+      default: false
   required: [timezone, puid, pgid, vpn_provider, vpn_type]
 defaultValues:
   timezone: Etc/UTC
@@ -63,6 +68,7 @@ defaultValues:
   vpn_serverCountries: ""
   vpn_openvpnUser: ""
   vpn_openvpnPassword: ""
+  vuetorrent: false
 services:
   - name: "{{ .Release.Name }}"
     port: 8080
