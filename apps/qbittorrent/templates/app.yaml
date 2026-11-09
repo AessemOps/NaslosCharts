@@ -36,6 +36,21 @@ spec:
     spec:
       securityContext:
         fsGroup: {{ .Values.pgid }}
+      {{- if .Values.vuetorrent }}
+      initContainers:
+        - name: vuetorrent-install
+          image: busybox:1.36
+          command: ["sh", "-c"]
+          args:
+            - |
+              set -eu
+              cd /tmp
+              wget -qO vuetorrent.zip https://github.com/VueTorrent/VueTorrent/releases/latest/download/vuetorrent.zip
+              unzip -q vuetorrent.zip
+              cp -a vuetorrent/. /vuetorrent/
+          volumeMounts:
+            - { name: vuetorrent, mountPath: /vuetorrent }
+      {{- end }}
       containers:
         - name: gluetun
           image: "{{ .Values.vpnImage }}"
@@ -69,14 +84,14 @@ spec:
             - { name: TZ, value: "{{ .Values.timezone }}" }
             - { name: WEBUI_PORT, value: "{{ .Values.webuiPort }}" }
             - { name: VUETORRENT_ENABLED, value: "{{ .Values.vuetorrent }}" }
-            {{- if .Values.vuetorrent }}
-            - { name: DOCKER_MODS, value: "{{ .Values.vuetorrentImage }}" }
-            {{- end }}
           ports:
             - { name: http, containerPort: {{ .Values.webuiPort }} }
           volumeMounts:
             - { name: config, mountPath: /config }
             - { name: vuetorrent-init, mountPath: /custom-cont-init.d }
+            {{- if .Values.vuetorrent }}
+            - { name: vuetorrent, mountPath: /vuetorrent }
+            {{- end }}
             {{- if .Values.datasets }}
             {{- range .Values.datasets }}
             - { name: ds-{{ .name }}, mountPath: {{ .mountPath }} }
@@ -124,6 +139,10 @@ spec:
           configMap:
             name: {{ .Release.Name }}-vuetorrent
             defaultMode: 0755
+        {{- if .Values.vuetorrent }}
+        - name: vuetorrent
+          emptyDir: {}
+        {{- end }}
 ---
 apiVersion: v1
 kind: Service
