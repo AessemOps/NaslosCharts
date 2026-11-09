@@ -68,10 +68,15 @@ spec:
             - { name: PGID, value: "{{ .Values.pgid }}" }
             - { name: TZ, value: "{{ .Values.timezone }}" }
             - { name: WEBUI_PORT, value: "{{ .Values.webuiPort }}" }
+            - { name: VUETORRENT_ENABLED, value: "{{ .Values.vuetorrent }}" }
+            {{- if .Values.vuetorrent }}
+            - { name: DOCKER_MODS, value: "{{ .Values.vuetorrentImage }}" }
+            {{- end }}
           ports:
             - { name: http, containerPort: {{ .Values.webuiPort }} }
           volumeMounts:
             - { name: config, mountPath: /config }
+            - { name: vuetorrent-init, mountPath: /custom-cont-init.d }
             {{- if .Values.datasets }}
             {{- range .Values.datasets }}
             - { name: ds-{{ .name }}, mountPath: {{ .mountPath }} }
@@ -115,6 +120,10 @@ spec:
           hostPath:
             path: /dev/net/tun
             type: CharDevice
+        - name: vuetorrent-init
+          configMap:
+            name: {{ .Release.Name }}-vuetorrent
+            defaultMode: 0755
 ---
 apiVersion: v1
 kind: Service
@@ -131,3 +140,36 @@ spec:
     - name: http
       port: {{ .Values.service.port }}
       targetPort: {{ .Values.webuiPort }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-vuetorrent
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+data:
+  enable-vuetorrent.sh: |
+    #!/bin/bash
+    set -eu
+    conf=/config/qBittorrent/qBittorrent.conf
+    mkdir -p /config/qBittorrent
+    if [ ! -f "$conf" ]; then
+      if [ -f /defaults/qBittorrent.conf ]; then
+        cp /defaults/qBittorrent.conf "$conf"
+      else
+        touch "$conf"
+      fi
+    fi
+    sed -i '/^AlternativeUIEnabled=/d; /^RootFolder=/d' "$conf"
+    if [ "${VUETORRENT_ENABLED:-false}" = "true" ]; then
+      if grep -q '^\[WebUI\]' "$conf"; then
+        sed -i '/^\[WebUI\]/a AlternativeUIEnabled=true' "$conf"
+        sed -i '/^\[WebUI\]/a RootFolder=/vuetorrent' "$conf"
+      else
+        printf '\n[WebUI]\nAlternativeUIEnabled=true\nRootFolder=/vuetorrent\n' >> "$conf"
+      fi
+    fi
+    chown abc:abc "$conf" 2>/dev/null || true
+
+
