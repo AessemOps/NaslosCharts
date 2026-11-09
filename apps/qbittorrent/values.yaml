@@ -20,10 +20,10 @@ puid: 1000
 pgid: 1000
 webuiPort: 8080
 
-# VueTorrent alternative WebUI. When enabled, the LinuxServer VueTorrent mod
-# installs the UI under /vuetorrent and qBittorrent is configured to use it.
+# VueTorrent alternative WebUI. When enabled, an init container downloads the
+# latest VueTorrent release to /vuetorrent and qBittorrent is configured to use
+# it (the download runs before gluetun so it is not blocked by the VPN firewall).
 vuetorrent: false
-vuetorrentImage: ghcr.io/vuetorrent/vuetorrent-lsio-mod:latest
 
 hostPath: /var/mnt
 
