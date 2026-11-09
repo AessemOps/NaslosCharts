@@ -4,7 +4,7 @@ description: Indexer manager for the *arr apps, with all traffic routed through 
 category: media
 icon: "P"
 website: https://prowlarr.com
-version: 0.1.4
+version: 0.1.5
 tags: [indexers, vpn]
 # gluetun needs NET_ADMIN, which PSA baseline forbids; install into naslos-apps-priv.
 privileged: true
@@ -23,6 +23,11 @@ schema:
       type: integer
       title: PGID
       default: 1000
+    disableAuth:
+      type: boolean
+      title: Disable app authentication
+      description: Rely on Authelia forward-auth; the app will not ask for its own login.
+      default: true
     vpn_provider:
       type: string
       title: VPN provider
@@ -57,6 +62,7 @@ defaultValues:
   timezone: Etc/UTC
   puid: 1000
   pgid: 1000
+  disableAuth: true
   vpn_provider: ""
   vpn_type: wireguard
   vpn_wireguardPrivateKey: ""
