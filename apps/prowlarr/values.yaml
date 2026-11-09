@@ -23,6 +23,25 @@ pgid: 1000
 # Disable the app's own login and rely on Authelia forward-auth.
 disableAuth: true
 
+# FlareSolverr runs as a sidecar in the Prowlarr pod. Cloudflare clearance
+# cookies are bound to the client IP, and Prowlarr re-issues indexer requests
+# with the solver's cookies, so the solver must egress through the same
+# gluetun tunnel as Prowlarr.
+flaresolverr:
+  enabled: true
+  image:
+    repository: ghcr.io/flaresolverr/flaresolverr
+    tag: latest
+    pullPolicy: IfNotPresent
+  logLevel: info
+  resources:
+    requests:
+      cpu: 50m
+      memory: 512Mi
+    limits:
+      cpu: "1"
+      memory: 2Gi
+
 hostPath: /var/mnt
 
 # Datasets attached by the platform: one entry per selected managed dataset,
