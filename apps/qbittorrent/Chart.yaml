@@ -2,7 +2,7 @@ apiVersion: v2
 name: qbittorrent
 description: qBittorrent download client, routed through a gluetun VPN tunnel
 type: application
-version: 0.1.6
+version: 0.1.7
 appVersion: "5"
 icon: https://raw.githubusercontent.com/selfhst/icons/main/png/qbittorrent.png
 home: https://www.qbittorrent.org

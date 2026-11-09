@@ -25,6 +25,11 @@ webuiPort: 8080
 # it (the download runs before gluetun so it is not blocked by the VPN firewall).
 vuetorrent: false
 
+# Keep manual torrent management but honor each category's save path, so
+# Radarr/Sonarr downloads land under their category directory instead of the
+# default download path. Categories and their paths are managed by the apps.
+useCategoryPathsInManualMode: true
+
 hostPath: /var/mnt
 
 # Datasets attached by the platform: one entry per selected managed dataset,
