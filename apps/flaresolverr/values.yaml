@@ -6,13 +6,21 @@ image:
 timezone: Etc/UTC
 logLevel: info
 
+# FlareSolverr resolves indexer domains itself. Some upstream resolvers
+# sinkhole blocked indexers (e.g. 1337x.to -> ::1), so query public
+# resolvers directly. Set to [] to use the cluster resolver.
+dns:
+  nameservers:
+    - 1.1.1.1
+    - 9.9.9.9
+
 service:
   port: 8191
 
 resources:
   requests:
     cpu: 50m
-    memory: 256Mi
+    memory: 512Mi
   limits:
     cpu: "1"
-    memory: 1Gi
+    memory: 2Gi
