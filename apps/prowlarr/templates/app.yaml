@@ -54,7 +54,7 @@ spec:
             - { name: OPENVPN_USER, value: "{{ .Values.vpn_openvpnUser }}" }
             - { name: OPENVPN_PASSWORD, value: "{{ .Values.vpn_openvpnPassword }}" }
             - { name: FIREWALL_OUTBOUND_SUBNETS, value: "{{ .Values.vpn_firewallOutboundSubnets }}" }
-            - { name: FIREWALL_INPUT_PORTS, value: "8000,9696" }
+            - { name: FIREWALL_INPUT_PORTS, value: "8000,9696{{ if (.Values.flaresolverr | default dict).enabled }},8191{{ end }}" }
             - { name: TZ, value: "{{ .Values.timezone }}" }
           volumeMounts:
             - { name: tun, mountPath: /dev/net/tun }
@@ -93,6 +93,28 @@ spec:
             periodSeconds: 30
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+        {{- if (.Values.flaresolverr | default dict).enabled }}
+        # Shares the gluetun network namespace, so it exits through the same
+        # VPN address as Prowlarr (required for Cloudflare clearance cookies).
+        - name: flaresolverr
+          image: "{{ .Values.flaresolverr.image.repository }}:{{ .Values.flaresolverr.image.tag }}"
+          imagePullPolicy: {{ .Values.flaresolverr.image.pullPolicy }}
+          env:
+            - { name: TZ, value: "{{ .Values.timezone }}" }
+            - { name: LOG_LEVEL, value: "{{ .Values.flaresolverr.logLevel }}" }
+          ports:
+            - { name: flaresolverr, containerPort: 8191 }
+          readinessProbe:
+            tcpSocket: { port: 8191 }
+            initialDelaySeconds: 20
+            periodSeconds: 20
+          livenessProbe:
+            tcpSocket: { port: 8191 }
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          resources:
+            {{- toYaml .Values.flaresolverr.resources | nindent 12 }}
+        {{- end }}
       volumes:
         - name: config
           persistentVolumeClaim:
