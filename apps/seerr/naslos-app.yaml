@@ -4,7 +4,7 @@ description: Request portal for Jellyfin — users request movies and shows.
 category: media
 icon: "S"
 website: https://github.com/seerr-team/seerr
-version: 0.1.1
+version: 0.1.2
 tags: [media, requests]
 schema:
   type: object
