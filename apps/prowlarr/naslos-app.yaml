@@ -4,7 +4,7 @@ description: Indexer manager for the *arr apps, with all traffic routed through 
 category: media
 icon: "P"
 website: https://prowlarr.com
-version: 0.1.3
+version: 0.1.4
 tags: [indexers, vpn]
 # gluetun needs NET_ADMIN, which PSA baseline forbids; install into naslos-apps-priv.
 privileged: true
@@ -52,12 +52,7 @@ schema:
       title: OpenVPN password
       format: password
       default: ""
-    hostPath:
-      type: string
-      title: Data host path
-      description: Host directory (a Naslos dataset) mounted at /data.
-      default: /var/mnt
-  required: [timezone, puid, pgid, vpn_provider, vpn_type, hostPath]
+  required: [timezone, puid, pgid, vpn_provider, vpn_type]
 defaultValues:
   timezone: Etc/UTC
   puid: 1000
@@ -68,7 +63,6 @@ defaultValues:
   vpn_serverCountries: ""
   vpn_openvpnUser: ""
   vpn_openvpnPassword: ""
-  hostPath: /var/mnt
 services:
   - name: "{{ .Release.Name }}"
     port: 9696
