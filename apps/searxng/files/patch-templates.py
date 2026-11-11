@@ -22,8 +22,14 @@ if not re.fullmatch(r"[A-Za-z0-9_]+", COOKIE):
     sys.exit(f"patch-templates: invalid AUTH_COOKIE {COOKIE!r}")
 
 if DEST.exists():
-    shutil.rmtree(DEST)
-shutil.copytree(SOURCE, DEST)
+    # DEST is the emptyDir mount point in Kubernetes, so it cannot be removed;
+    # clear its contents and copy over the top instead.
+    for child in DEST.iterdir():
+        if child.is_dir() and not child.is_symlink():
+            shutil.rmtree(child)
+        else:
+            child.unlink()
+shutil.copytree(SOURCE, DEST, dirs_exist_ok=True)
 
 base = DEST / "simple" / "base.html"
 text = base.read_text(encoding="utf-8")
