@@ -102,6 +102,7 @@ exposure:
   subdomain: radarr             # "" = no route (cluster-internal only)
   tls: false                    # true = HTTPS route on Traefik websecure
   auth: false                   # true = Authelia login; only allowed on an SSO domain
+  protectedPaths: []            # prefixes that need Authelia even when auth is false
   localOnly: false              # true = restrict to the configured LAN CIDR
   internet: true                # on by default; false = DNS + app-to-app only
 
@@ -149,6 +150,7 @@ namespace:
 | `subdomain` | `Host(<subdomain>.<baseDomain>)`; empty ⇒ no route (cluster-internal) |
 | `tls` | on ⇒ `websecure` + the base domain's cert Secret; off ⇒ plain `web` HTTP |
 | `auth` | on ⇒ Authelia forwardAuth middleware (only on an SSO domain) |
+| `protectedPaths` | path prefixes (`PathPrefix`) that require Authelia even when `auth` is off, e.g. `["/preferences"]`; the rest of the host stays public. Ignored when `auth` is on. The API emits a higher-priority protected route so the public catch-all cannot shadow it. |
 | `localOnly` | on ⇒ `IPAllowList` limited to the configured LAN CIDR |
 | `internet` | on (default) ⇒ additive `<app>-internet` `NetworkPolicy` allowing public egress (never the cluster, LAN or metadata ranges); off ⇒ only the base DNS + app-to-app policy |
 
@@ -159,6 +161,11 @@ for a baseline app with a dedicated namespace (`apps.isolation.enabled`, the
 install default). Privileged namespaces (their base policy always allows
 Internet) and the legacy shared `naslos-apps` namespace reject
 `internet: false` with a 400 instead of silently leaving egress open.
+
+`protectedPaths` is how an app can stay open for day-to-day use while its
+settings surface requires a session. SearXNG uses it for `/preferences`,
+`/config` and `/stats`, and hides the Preferences link in its theme unless the
+Authelia cookie is present.
 
 The shared `security-headers` middleware intentionally omits
 `stsIncludeSubdomains`, so a TLS-off subdomain stays reachable.

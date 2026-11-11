@@ -4,7 +4,7 @@ description: Privacy-respecting metasearch engine that aggregates many sources.
 category: networking
 icon: "Sr"
 website: https://docs.searxng.org
-version: 0.1.1
+version: 0.1.2
 tags: [search, privacy]
 schema:
   type: object
@@ -24,7 +24,13 @@ services:
     scheme: http
 exposure:
   subdomain: search
-  tls: false
-  auth: true
+  tls: true
+  auth: false
+  # Search and static assets stay public; only the settings surface requires
+  # an Authelia session.
+  protectedPaths:
+    - /preferences
+    - /config
+    - /stats
   localOnly: false
   internet: true
