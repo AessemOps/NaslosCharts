@@ -50,6 +50,11 @@ Hard rules (the API skips a folder that breaks them, and shows a source error):
 - `services[].name` may only be a literal or the template
   `{{ .Release.Name }}` — nothing else is templated by the API.
 - `services[].port` MUST be 1–65535; `scheme` is `http` or `https`.
+- If the chart's `disableAuth` default is `true` (the app trusts Authelia's
+  `Remote-User` header and has **no login of its own**), `exposure.auth` MUST
+  default to `true`. Turning Authelia off is only safe after re-enabling the
+  app's own authentication; the catalog must not ship that combination by
+  default.
 
 ## naslos-app.yaml reference
 
@@ -101,7 +106,7 @@ services:
 exposure:
   subdomain: radarr             # "" = no route (cluster-internal only)
   tls: false                    # true = HTTPS route on Traefik websecure
-  auth: false                   # true = Authelia login; only allowed on an SSO domain
+  auth: true                    # true = Authelia login; required when the app has no login
   protectedPaths: []            # prefixes that need Authelia even when auth is false
   localOnly: false              # true = restrict to the configured LAN CIDR
   internet: true                # on by default; false = DNS + app-to-app only
@@ -149,7 +154,7 @@ namespace:
 | --- | --- |
 | `subdomain` | `Host(<subdomain>.<baseDomain>)`; empty ⇒ no route (cluster-internal) |
 | `tls` | on ⇒ `websecure` + the base domain's cert Secret; off ⇒ plain `web` HTTP |
-| `auth` | on ⇒ Authelia forwardAuth middleware (only on an SSO domain) |
+| `auth` | on ⇒ Authelia forwardAuth middleware (only on an SSO domain). MUST be on when the app has no login of its own — in particular for any chart with `disableAuth: true` (Radarr/Sonarr/Prowlarr in External-auth mode) |
 | `protectedPaths` | path prefixes (`PathPrefix`) that require Authelia even when `auth` is off, e.g. `["/preferences"]`; the rest of the host stays public. Ignored when `auth` is on. The API emits a higher-priority protected route so the public catch-all cannot shadow it. |
 | `localOnly` | on ⇒ `IPAllowList` limited to the configured LAN CIDR |
 | `internet` | on (default) ⇒ additive `<app>-internet` `NetworkPolicy` allowing public egress (never the cluster, LAN or metadata ranges); off ⇒ only the base DNS + app-to-app policy |
@@ -289,11 +294,13 @@ on a name collision.
 
 Before opening a PR:
 
-1. `helm lint apps/<name>` — passes.
-2. `helm template <name> apps/<name>` renders; `kubectl apply --dry-run=server`
+1. `python3 scripts/check-contract.py` — the static contract check (names,
+   versions, services, exposure safety). Must print `catalog contract: N app(s) OK`.
+2. `helm lint apps/<name>` — passes.
+3. `helm template <name> apps/<name>` renders; `kubectl apply --dry-run=server`
    against a cluster with the CRDs installed (optional).
-3. `naslos-app.yaml` validates: name matches the folder, DNS-1123, ports in
+4. `naslos-app.yaml` validates: name matches the folder, DNS-1123, ports in
    range, service name literal/`{{ .Release.Name }}`.
-4. Install from the Naslos UI (Apps → Catalog), confirm the route, then
+5. Install from the Naslos UI (Apps → Catalog), confirm the route, then
    uninstall and confirm it is removed.
-5. For `privileged: true`, confirm the release lands in `naslos-apps-priv`.
+6. For `privileged: true`, confirm the release lands in `naslos-apps-priv`.
