@@ -7,14 +7,18 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
 data:
   settings.yml: |
-    use_default_settings: true
-    server:
-      bind_address: "0.0.0.0:8080"
-      secret_key: {{ .Values.secretKey | quote }}
-      limiter: false
-      image_proxy: false
-    search:
-      formats: [html, json]
+{{ include "searxng.settings" . | indent 4 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-templates
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+data:
+  patch-templates.py: |
+{{ .Files.Get "files/patch-templates.py" | indent 4 }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -36,8 +40,23 @@ spec:
         app.kubernetes.io/name: {{ .Chart.Name }}
         app.kubernetes.io/instance: {{ .Release.Name }}
       annotations:
-        checksum/config: {{ .Values.secretKey | sha256sum }}
+        checksum/config: {{ include "searxng.settings" . | sha256sum }}
+        checksum/templates: {{ .Files.Get "files/patch-templates.py" | sha256sum }}
     spec:
+      initContainers:
+        - name: patch-templates
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/usr/local/searxng/.venv/bin/python", "/patch/patch-templates.py"]
+          env:
+            - name: AUTH_COOKIE
+              value: {{ .Values.authCookie | quote }}
+          securityContext:
+            runAsUser: 0
+            runAsNonRoot: false
+          volumeMounts:
+            - { name: templates, mountPath: /templates }
+            - { name: templates-patch, mountPath: /patch, readOnly: true }
       containers:
         - name: searxng
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -47,6 +66,7 @@ spec:
           volumeMounts:
             - { name: config, mountPath: /etc/searxng, readOnly: true }
             - { name: cache, mountPath: /var/cache/searxng }
+            - { name: templates, mountPath: /templates, readOnly: true }
           readinessProbe:
             httpGet: { path: /, port: 8080 }
             initialDelaySeconds: 15
@@ -63,6 +83,11 @@ spec:
             name: {{ .Release.Name }}
         - name: cache
           emptyDir: {}
+        - name: templates
+          emptyDir: {}
+        - name: templates-patch
+          configMap:
+            name: {{ .Release.Name }}-templates
 ---
 apiVersion: v1
 kind: Service
