@@ -6,8 +6,37 @@ image:
 # Change this before exposing SearXNG: it signs the session cookie.
 secretKey: change-me-naslos-searxng
 
+# Authelia's session cookie name. The Preferences link is rendered only when
+# this cookie is present; the page itself is guarded by the app's
+# protectedPaths route.
+authCookie: authelia_session
+
 service:
   port: 8080
+
+# Search tuning. SearXNG queries every enabled engine in parallel and waits for
+# the slowest (bounded by these caps). A low cap keeps the page fast; the
+# engines below were measured from this host so they usually answer inside it.
+search:
+  requestTimeout: 0.8
+  maxRequestTimeout: 0.8
+  # Enabled on top of SearXNG's built-in defaults (duckduckgo, brave, google cse,
+  # wikipedia, wikidata). Engines that CAPTCHA or deny this node are deliberately
+  # absent (google, qwant, baidu, startpage, ...).
+  extraEngines:
+    - bing
+    - yahoo
+    - yandex
+    - naver
+    - seznam
+    - privacywall
+    - boardreader
+    - mwmbl
+    - wiby
+    - fynd
+    - crowdview
+    - reloado
+    - encyclosearch
 
 resources:
   requests:
