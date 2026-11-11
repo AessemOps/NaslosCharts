@@ -76,6 +76,8 @@ services:
 exposure:
   subdomain: prowlarr
   tls: false
-  auth: false
+  # disableAuth is true (the app trusts the Authelia Remote-User header), so
+  # the app has no login of its own: keep the proxy in front by default.
+  auth: true
   localOnly: false
   internet: true
