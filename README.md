@@ -2,14 +2,15 @@
 
 The official chart repository for [Naslos](https://github.com/AessemOps/Naslos-Linux).
 Naslos turns each directory under `apps/` into an installable app in its web UI.
-The API clones this repository (per channel/branch) with a pure-Go git client and
-installs the chart from the clone with the Helm SDK — no `helm` or `git` binary
-runs at install time.
+The API clones this repository (per channel/branch) and installs the chart with
+the `helm` and `git` CLIs it bundles (Helm 4) — the node needs no binaries of
+its own.
 
 - [Repository layout](#repository-layout)
 - [Building an app](#building-an-app)
 - [naslos-app.yaml reference](#naslos-appyaml-reference)
 - [Chart requirements](#chart-requirements)
+- [Environment variables](#environment-variables)
 - [Exposure & routing](#exposure--routing)
 - [Storage](#storage)
 - [Privileged apps (VPN sidecars)](#privileged-apps-vpn-sidecars)
@@ -50,6 +51,11 @@ Hard rules (the API skips a folder that breaks them, and shows a source error):
 - `services[].name` may only be a literal or the template
   `{{ .Release.Name }}` — nothing else is templated by the API.
 - `services[].port` MUST be 1–65535; `scheme` is `http` or `https`.
+- If the chart's `disableAuth` default is `true` (the app trusts Authelia's
+  `Remote-User` header and has **no login of its own**), `exposure.auth` MUST
+  default to `true`. Turning Authelia off is only safe after re-enabling the
+  app's own authentication; the catalog must not ship that combination by
+  default.
 
 ## naslos-app.yaml reference
 
@@ -101,7 +107,7 @@ services:
 exposure:
   subdomain: radarr             # "" = no route (cluster-internal only)
   tls: false                    # true = HTTPS route on Traefik websecure
-  auth: false                   # true = Authelia login; only allowed on an SSO domain
+  auth: true                    # true = Authelia login; required when the app has no login
   protectedPaths: []            # prefixes that need Authelia even when auth is false
   localOnly: false              # true = restrict to the configured LAN CIDR
   internet: true                # on by default; false = DNS + app-to-app only
@@ -110,6 +116,11 @@ exposure:
 # of naslos-apps (PSA baseline). Required when the pod needs NET_ADMIN or other
 # caps baseline forbids — e.g. a gluetun VPN sidecar. See below.
 privileged: false
+
+# Optional chart capabilities the API may rely on. `env` = the chart wires the
+# platform-managed environment Secret into its main container(s); see
+# "Environment variables" below.
+capabilities: [env]
 ```
 
 If `services` is empty, the API discovers the release's Services after install
@@ -139,6 +150,42 @@ points at a missing branch reports an error for that source.
   that needs extra capabilities goes to the privileged namespace (`privileged: true`).
 - Prefer TCP readiness/liveness probes on the app port.
 
+## Environment variables
+
+A chart whose manifest declares `capabilities: [env]` lets an operator add
+custom environment variables per installed app. Naslos stores them in a Secret
+named `naslos-env-<release>` in the app namespace and never writes them into
+Helm values, so the chart template is the only place the Secret is referenced.
+
+When the capability is declared, the chart MUST:
+
+1. Add an `envFrom` reference to every **main** container — not sidecars such as
+   `postgres`, `redis`, `gluetun`, `dind`, init containers, or helper jobs:
+
+   ```yaml
+             envFrom:
+               - secretRef: { name: naslos-env-{{ .Release.Name }}, optional: true }
+   ```
+
+   `optional: true` keeps the chart installable with `helm install` outside
+   Naslos and before any variable is set.
+
+2. Add the rollout trigger to that workload's pod template:
+
+   ```yaml
+       metadata:
+         annotations:
+           naslos.io/env-checksum: {{ .Values.naslosEnvChecksum | default "" | quote }}
+   ```
+
+`naslosEnvChecksum` is platform-owned: do not declare it in `values.yaml`,
+`defaultValues`, or the form schema. The API derives it from the Secret contents
+and the changed annotation rolls the pod on every variable change.
+
+Names the chart sets in its own `env:` blocks are reserved. The API rejects a
+user variable whose name the chart already defines (Kubernetes would otherwise
+silently prefer the chart value), reporting `env var X is set by the chart`.
+
 ## Exposure & routing
 
 For each app the API owns one Traefik `IngressRoute` plus the middlewares it
@@ -149,7 +196,7 @@ namespace:
 | --- | --- |
 | `subdomain` | `Host(<subdomain>.<baseDomain>)`; empty ⇒ no route (cluster-internal) |
 | `tls` | on ⇒ `websecure` + the base domain's cert Secret; off ⇒ plain `web` HTTP |
-| `auth` | on ⇒ Authelia forwardAuth middleware (only on an SSO domain) |
+| `auth` | on ⇒ Authelia forwardAuth middleware (only on an SSO domain). MUST be on when the app has no login of its own — in particular for any chart with `disableAuth: true` (Radarr/Sonarr/Prowlarr in External-auth mode) |
 | `protectedPaths` | path prefixes (`PathPrefix`) that require Authelia even when `auth` is off, e.g. `["/preferences"]`; the rest of the host stays public. Ignored when `auth` is on. The API emits a higher-priority protected route so the public catch-all cannot shadow it. |
 | `localOnly` | on ⇒ `IPAllowList` limited to the configured LAN CIDR |
 | `internet` | on (default) ⇒ additive `<app>-internet` `NetworkPolicy` allowing public egress (never the cluster, LAN or metadata ranges); off ⇒ only the base DNS + app-to-app policy |
@@ -289,11 +336,14 @@ on a name collision.
 
 Before opening a PR:
 
-1. `helm lint apps/<name>` — passes.
-2. `helm template <name> apps/<name>` renders; `kubectl apply --dry-run=server`
+1. `python3 scripts/check-contract.py` — manifest/version/service checks plus a
+   `helm template` render of every chart declaring `capabilities: [env]`; it
+   must print `catalog contract: N app(s) OK`.
+2. `helm lint apps/<name>` — passes.
+3. `helm template <name> apps/<name>` renders; `kubectl apply --dry-run=server`
    against a cluster with the CRDs installed (optional).
-3. `naslos-app.yaml` validates: name matches the folder, DNS-1123, ports in
+4. `naslos-app.yaml` validates: name matches the folder, DNS-1123, ports in
    range, service name literal/`{{ .Release.Name }}`.
-4. Install from the Naslos UI (Apps → Catalog), confirm the route, then
+5. Install from the Naslos UI (Apps → Catalog), confirm the route, then
    uninstall and confirm it is removed.
-5. For `privileged: true`, confirm the release lands in `naslos-apps-priv`.
+6. For `privileged: true`, confirm the release lands in `naslos-apps-priv`.

@@ -40,6 +40,7 @@ spec:
         app.kubernetes.io/name: {{ .Chart.Name }}
         app.kubernetes.io/instance: {{ .Release.Name }}
       annotations:
+        naslos.io/env-checksum: {{ .Values.naslosEnvChecksum | default "" | quote }}
         checksum/config: {{ include "searxng.settings" . | sha256sum }}
         checksum/templates: {{ .Files.Get "files/patch-templates.py" | sha256sum }}
     spec:
@@ -61,6 +62,8 @@ spec:
         - name: searxng
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef: { name: naslos-env-{{ .Release.Name }}, optional: true }
           ports:
             - { name: http, containerPort: 8080 }
           volumeMounts:

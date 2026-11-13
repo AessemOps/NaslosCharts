@@ -2,7 +2,7 @@ apiVersion: v2
 name: speedtest-tracker
 description: Self-hosted internet performance tracker
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "1"
 icon: https://raw.githubusercontent.com/selfhst/icons/main/png/speedtest-tracker.png
 home: https://speedtest-tracker.dev

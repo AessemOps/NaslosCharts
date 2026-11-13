@@ -4,7 +4,8 @@ description: Self-hosted email archiver with IMAP sync and full-text search.
 category: productivity
 icon: "Bi"
 website: https://github.com/rustmailer/bichon
-version: 0.1.1
+version: 0.1.2
+capabilities: [env]
 tags: [email, archive, search]
 schema:
   type: object

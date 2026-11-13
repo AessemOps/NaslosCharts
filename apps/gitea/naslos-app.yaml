@@ -4,7 +4,8 @@ description: Painless self-hosted Git service with web UI, issues and Actions.
 category: development
 icon: "GT"
 website: https://about.gitea.com
-version: 0.1.1
+version: 0.1.2
+capabilities: [env]
 tags: [git, development, ci]
 schema:
   type: object

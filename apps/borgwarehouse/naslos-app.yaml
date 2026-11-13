@@ -4,7 +4,8 @@ description: Web UI and central repository server for BorgBackup clients.
 category: productivity
 icon: "BW"
 website: https://borgwarehouse.com
-version: 0.1.1
+version: 0.1.2
+capabilities: [env]
 tags: [backup, borg, storage]
 schema:
   type: object

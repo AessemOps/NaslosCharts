@@ -2,7 +2,7 @@ apiVersion: v2
 name: cleanuparr
 description: Automated cleanup for Arr applications and download clients
 type: application
-version: 0.1.2
+version: 0.1.3
 appVersion: "latest"
 icon: https://raw.githubusercontent.com/selfhst/icons/main/png/cleanuparr.png
 home: https://cleanuparr.github.io/Cleanuparr/
