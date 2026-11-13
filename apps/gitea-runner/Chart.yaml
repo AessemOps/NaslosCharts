@@ -2,7 +2,7 @@ apiVersion: v2
 name: gitea-runner
 description: Gitea Actions runner with bundled Docker-in-Docker
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "latest"
 icon: https://raw.githubusercontent.com/selfhst/icons/main/png/gitea.png
 home: https://docs.gitea.com/runner/

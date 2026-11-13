@@ -2,7 +2,7 @@ apiVersion: v2
 name: sonarr
 description: Sonarr TV collection manager
 type: application
-version: 0.1.4
+version: 0.1.5
 appVersion: "4"
 icon: https://raw.githubusercontent.com/selfhst/icons/main/png/sonarr.png
 home: https://sonarr.tv

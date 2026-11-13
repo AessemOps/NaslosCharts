@@ -4,7 +4,8 @@ description: Track internet speed tests over time with charts and notifications.
 category: networking
 icon: "ST"
 website: https://speedtest-tracker.dev
-version: 0.1.1
+version: 0.1.2
+capabilities: [env]
 tags: [network, speedtest, monitoring]
 schema:
   type: object

@@ -4,7 +4,8 @@ description: Lightweight, self-hosted Bitwarden-compatible password manager.
 category: productivity
 icon: "VW"
 website: https://github.com/dani-garcia/vaultwarden
-version: 0.1.1
+version: 0.1.2
+capabilities: [env]
 tags: [passwords, security, productivity]
 schema:
   type: object

@@ -198,6 +198,8 @@ spec:
       app.kubernetes.io/component: affine
   template:
     metadata:
+      annotations:
+        naslos.io/env-checksum: {{ .Values.naslosEnvChecksum | default "" | quote }}
       labels:
         app.kubernetes.io/name: {{ .Chart.Name }}
         app.kubernetes.io/instance: {{ .Release.Name }}
@@ -232,6 +234,8 @@ spec:
         - name: affine
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef: { name: naslos-env-{{ .Release.Name }}, optional: true }
           env:
             - { name: TZ, value: "{{ .Values.timezone }}" }
             - { name: REDIS_SERVER_HOST, value: "{{ .Release.Name }}-redis" }

@@ -4,7 +4,8 @@ description: Private household envelope budgeting with integer-cent accounting.
 category: productivity
 icon: "BY"
 website: https://github.com/johnrbrady/byb-budget
-version: 0.1.1
+version: 0.1.2
+capabilities: [env]
 tags: [finance, budget, household]
 schema:
   type: object
