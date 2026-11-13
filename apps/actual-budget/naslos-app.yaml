@@ -4,7 +4,8 @@ description: Fast, privacy-focused budget app with local-first sync.
 category: productivity
 icon: "AC"
 website: https://actualbudget.org
-version: 0.1.1
+version: 0.1.2
+capabilities: [env]
 tags: [finance, budget]
 schema:
   type: object

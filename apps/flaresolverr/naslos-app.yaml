@@ -4,7 +4,8 @@ description: Proxy server that bypasses Cloudflare and DDoS-Guard challenges for
 category: networking
 icon: "F"
 website: https://github.com/FlareSolverr/FlareSolverr
-version: 0.1.2
+version: 0.1.3
+capabilities: [env]
 tags: [indexers, proxy]
 schema:
   type: object
