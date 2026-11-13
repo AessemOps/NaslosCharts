@@ -4,7 +4,8 @@ description: Self-hosted PDF toolkit that runs entirely in the browser.
 category: productivity
 icon: "BP"
 website: https://www.bentopdf.com
-version: 0.1.1
+version: 0.1.2
+capabilities: [env]
 tags: [pdf, documents, privacy]
 schema:
   type: object

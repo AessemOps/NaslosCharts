@@ -2,7 +2,7 @@ apiVersion: v2
 name: forgejo-runner
 description: Forgejo Actions runner with a Docker-in-Docker sidecar
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "13"
 icon: https://raw.githubusercontent.com/selfhst/icons/main/png/forgejo.png
 home: https://forgejo.org/docs/latest/admin/actions/

@@ -2,7 +2,7 @@ apiVersion: v2
 name: gamevault
 description: Self-hosted game library server
 type: application
-version: 0.1.2
+version: 0.1.3
 appVersion: "latest"
 icon: https://raw.githubusercontent.com/selfhst/icons/main/png/gamevault.png
 home: https://gamevau.lt
