@@ -4,7 +4,8 @@ description: Forgejo Actions runner that executes jobs in a Docker-in-Docker sid
 category: development
 icon: "FR"
 website: https://forgejo.org/docs/latest/admin/actions/
-version: 0.1.1
+version: 0.1.2
+capabilities: [env]
 tags: [ci, runner, development]
 # Docker-in-Docker needs privileged mode; install into naslos-apps-priv.
 privileged: true

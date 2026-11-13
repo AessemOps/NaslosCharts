@@ -2,7 +2,7 @@ apiVersion: v2
 name: searxng
 description: Privacy-respecting metasearch engine
 type: application
-version: 0.1.3
+version: 0.1.4
 appVersion: "latest"
 icon: https://raw.githubusercontent.com/selfhst/icons/main/png/searxng.png
 home: https://docs.searxng.org

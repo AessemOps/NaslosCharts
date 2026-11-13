@@ -2,14 +2,15 @@
 
 The official chart repository for [Naslos](https://github.com/AessemOps/Naslos-Linux).
 Naslos turns each directory under `apps/` into an installable app in its web UI.
-The API clones this repository (per channel/branch) with a pure-Go git client and
-installs the chart from the clone with the Helm SDK — no `helm` or `git` binary
-runs at install time.
+The API clones this repository (per channel/branch) and installs the chart with
+the `helm` and `git` CLIs it bundles (Helm 4) — the node needs no binaries of
+its own.
 
 - [Repository layout](#repository-layout)
 - [Building an app](#building-an-app)
 - [naslos-app.yaml reference](#naslos-appyaml-reference)
 - [Chart requirements](#chart-requirements)
+- [Environment variables](#environment-variables)
 - [Exposure & routing](#exposure--routing)
 - [Storage](#storage)
 - [Privileged apps (VPN sidecars)](#privileged-apps-vpn-sidecars)
@@ -115,6 +116,11 @@ exposure:
 # of naslos-apps (PSA baseline). Required when the pod needs NET_ADMIN or other
 # caps baseline forbids — e.g. a gluetun VPN sidecar. See below.
 privileged: false
+
+# Optional chart capabilities the API may rely on. `env` = the chart wires the
+# platform-managed environment Secret into its main container(s); see
+# "Environment variables" below.
+capabilities: [env]
 ```
 
 If `services` is empty, the API discovers the release's Services after install
@@ -143,6 +149,42 @@ points at a missing branch reports an error for that source.
   Media directories are mounted with `hostPath` (allowed under baseline); a pod
   that needs extra capabilities goes to the privileged namespace (`privileged: true`).
 - Prefer TCP readiness/liveness probes on the app port.
+
+## Environment variables
+
+A chart whose manifest declares `capabilities: [env]` lets an operator add
+custom environment variables per installed app. Naslos stores them in a Secret
+named `naslos-env-<release>` in the app namespace and never writes them into
+Helm values, so the chart template is the only place the Secret is referenced.
+
+When the capability is declared, the chart MUST:
+
+1. Add an `envFrom` reference to every **main** container — not sidecars such as
+   `postgres`, `redis`, `gluetun`, `dind`, init containers, or helper jobs:
+
+   ```yaml
+             envFrom:
+               - secretRef: { name: naslos-env-{{ .Release.Name }}, optional: true }
+   ```
+
+   `optional: true` keeps the chart installable with `helm install` outside
+   Naslos and before any variable is set.
+
+2. Add the rollout trigger to that workload's pod template:
+
+   ```yaml
+       metadata:
+         annotations:
+           naslos.io/env-checksum: {{ .Values.naslosEnvChecksum | default "" | quote }}
+   ```
+
+`naslosEnvChecksum` is platform-owned: do not declare it in `values.yaml`,
+`defaultValues`, or the form schema. The API derives it from the Secret contents
+and the changed annotation rolls the pod on every variable change.
+
+Names the chart sets in its own `env:` blocks are reserved. The API rejects a
+user variable whose name the chart already defines (Kubernetes would otherwise
+silently prefer the chart value), reporting `env var X is set by the chart`.
 
 ## Exposure & routing
 
@@ -294,8 +336,9 @@ on a name collision.
 
 Before opening a PR:
 
-1. `python3 scripts/check-contract.py` — the static contract check (names,
-   versions, services, exposure safety). Must print `catalog contract: N app(s) OK`.
+1. `python3 scripts/check-contract.py` — manifest/version/service checks plus a
+   `helm template` render of every chart declaring `capabilities: [env]`; it
+   must print `catalog contract: N app(s) OK`.
 2. `helm lint apps/<name>` — passes.
 3. `helm template <name> apps/<name>` renders; `kubectl apply --dry-run=server`
    against a cluster with the CRDs installed (optional).
