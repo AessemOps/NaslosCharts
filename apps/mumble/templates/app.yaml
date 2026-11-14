@@ -46,7 +46,7 @@ spec:
             - secretRef: { name: naslos-env-{{ .Release.Name }}, optional: true }
           env:
             - { name: TZ, value: "{{ .Values.timezone }}" }
-            - { name: MUMBLE_SUPERUSER_PASSWORD, value: "{{ .Values.superuserPassword }}" }
+            - { name: MUMBLE_SUPERUSER_PASSWORD, value: {{ .Values.superuserPassword | quote }} }
           ports:
             - { name: mumble-tcp, containerPort: 64738, protocol: TCP }
             - { name: mumble-udp, containerPort: 64738, protocol: UDP }

@@ -1,4 +1,4 @@
-database_url: "postgres://{{ .Values.postgres.user }}:{{ .Values.postgresPassword }}@{{ .Release.Name }}-postgres:5432/{{ .Values.postgres.database }}"
+database_url: "postgres://{{ .Values.postgres.user }}:{{ .Values.postgresPassword | urlquery }}@{{ .Release.Name }}-postgres:5432/{{ .Values.postgres.database }}"
 check_tables: true
 domain: {{ .Values.domain | quote }}
 https_only: false

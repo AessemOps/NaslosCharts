@@ -1,12 +1,12 @@
 apiVersion: v1
-kind: ConfigMap
+kind: Secret
 metadata:
   name: {{ .Release.Name }}-config
   labels:
     app.kubernetes.io/name: {{ .Chart.Name }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/component: app
-data:
+stringData:
   config.yml: |
     {{- tpl (.Files.Get "files/config.yml") . | nindent 4 }}
 ---
@@ -57,7 +57,7 @@ spec:
           env:
             - { name: POSTGRES_DB, value: "{{ .Values.postgres.database }}" }
             - { name: POSTGRES_USER, value: "{{ .Values.postgres.user }}" }
-            - { name: POSTGRES_PASSWORD, value: "{{ .Values.postgresPassword }}" }
+            - { name: POSTGRES_PASSWORD, value: {{ .Values.postgresPassword | quote }} }
             - { name: TZ, value: "{{ .Values.timezone }}" }
           ports:
             - { name: postgres, containerPort: 5432 }
@@ -150,8 +150,8 @@ spec:
             {{- toYaml .Values.resources.app | nindent 12 }}
       volumes:
         - name: config
-          configMap:
-            name: {{ .Release.Name }}-config
+          secret:
+            secretName: {{ .Release.Name }}-config
 ---
 apiVersion: v1
 kind: Service

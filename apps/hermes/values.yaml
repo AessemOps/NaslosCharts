@@ -11,12 +11,11 @@ timezone: Etc/UTC
 # off.
 apiServerKey: ""
 
-# The dashboard binds 0.0.0.0. Upstream refuses a non-loopback dashboard bind
-# unless Hermes has its own auth provider (basic auth, Nous OAuth or OIDC);
-# Authelia protects the HTTP route but does not satisfy that internal check.
-# If the dashboard service logs a missing-provider error, add
-# HERMES_DASHBOARD_BASIC_AUTH_USERNAME/_PASSWORD/_SECRET (or the OIDC
-# equivalents) through the app's environment variables.
+# Built-in dashboard basic-auth provider. Hermes requires its own auth provider
+# on a non-loopback bind; Authelia alone does not satisfy that internal gate.
+dashboardUsername: admin
+dashboardPassword: hermes-change-me
+dashboardSecret: hermes-dashboard-change-me
 
 persistence:
   # Hermes home: profiles, config.yaml, .env, logs and agent state.

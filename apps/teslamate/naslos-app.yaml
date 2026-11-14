@@ -40,6 +40,6 @@ services:
 exposure:
   subdomain: teslamate
   tls: true
-  auth: false
+  auth: true
   localOnly: false
   internet: true

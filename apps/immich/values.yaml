@@ -54,7 +54,7 @@ resources:
       memory: 256Mi
     limits:
       cpu: "1"
-      memory: 1Gi
+      memory: 2Gi
   redis:
     requests:
       cpu: 25m

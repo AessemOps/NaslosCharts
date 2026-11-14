@@ -46,7 +46,7 @@ spec:
             - secretRef: { name: naslos-env-{{ .Release.Name }}, optional: true }
           env:
             - { name: TZ, value: "{{ .Values.timezone }}" }
-            - { name: ND_MUSICFOLDER, value: "/music" }
+            - { name: ND_MUSICFOLDER, value: "{{ if .Values.datasets }}/datasets{{ else }}/music{{ end }}" }
             - { name: ND_DATAFOLDER, value: "/data" }
             - { name: ND_SCANSCHEDULE, value: {{ .Values.scanSchedule | quote }} }
             - { name: ND_LOGLEVEL, value: "info" }

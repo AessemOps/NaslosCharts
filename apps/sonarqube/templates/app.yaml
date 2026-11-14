@@ -96,7 +96,7 @@ spec:
           env:
             - { name: POSTGRES_DB, value: "{{ .Values.postgres.database }}" }
             - { name: POSTGRES_USER, value: "{{ .Values.postgres.user }}" }
-            - { name: POSTGRES_PASSWORD, value: "{{ .Values.postgresPassword }}" }
+            - { name: POSTGRES_PASSWORD, value: {{ .Values.postgresPassword | quote }} }
           ports:
             - { name: postgres, containerPort: 5432 }
           volumeMounts:
@@ -175,7 +175,7 @@ spec:
           env:
             - { name: SONAR_JDBC_URL, value: "jdbc:postgresql://{{ .Release.Name }}-postgres:5432/{{ .Values.postgres.database }}" }
             - { name: SONAR_JDBC_USERNAME, value: "{{ .Values.postgres.user }}" }
-            - { name: SONAR_JDBC_PASSWORD, value: "{{ .Values.postgresPassword }}" }
+            - { name: SONAR_JDBC_PASSWORD, value: {{ .Values.postgresPassword | quote }} }
             - { name: SONAR_ES_BOOTSTRAP_CHECKS_DISABLE, value: "true" }
           ports:
             - { name: http, containerPort: 9000 }

@@ -62,7 +62,7 @@ spec:
           env:
             - { name: POSTGRES_DB, value: "{{ .Values.postgres.database }}" }
             - { name: POSTGRES_USER, value: "{{ .Values.postgres.user }}" }
-            - { name: POSTGRES_PASSWORD, value: "{{ .Values.postgresPassword }}" }
+            - { name: POSTGRES_PASSWORD, value: {{ .Values.postgresPassword | quote }} }
           ports:
             - { name: postgres, containerPort: 5432 }
           volumeMounts:
@@ -154,9 +154,9 @@ spec:
             - { name: HOST, value: "{{ .Release.Name }}-postgres" }
             - { name: PORT, value: "5432" }
             - { name: USER, value: "{{ .Values.postgres.user }}" }
-            - { name: PASSWORD, value: "{{ .Values.postgresPassword }}" }
+            - { name: PASSWORD, value: {{ .Values.postgresPassword | quote }} }
             - { name: PROXY_MODE, value: "True" }
-            - { name: ADMIN_PASSWORD, value: "{{ .Values.adminPassword }}" }
+            - { name: ADMIN_PASSWORD, value: {{ .Values.adminPassword | quote }} }
           ports:
             - { name: http, containerPort: 8069 }
           volumeMounts:

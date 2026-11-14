@@ -2,11 +2,15 @@ name: mealie
 displayName: Mealie
 description: Recipe manager and meal planner for your household.
 category: productivity
-icon: "Me"
+icon: Me
 website: https://mealie.io
 version: 0.1.0
-capabilities: [env]
-tags: [recipes, cooking, meal-planning]
+capabilities:
+- env
+tags:
+- recipes
+- cooking
+- meal-planning
 schema:
   type: object
   properties:
@@ -17,15 +21,14 @@ schema:
     baseUrl:
       type: string
       title: Base URL
-      description: >-
-        Public address of the app, used for share links, emails and image URLs.
-        Set it to the subdomain the app is exposed on.
+      description: Public address of the app, used for share links, emails and image
+        URLs. Set it to the subdomain the app is exposed on.
       default: http://localhost:9000
     allowSignup:
       type: boolean
       title: Allow sign-up
       description: Allow visitors to create their own accounts.
-      default: true
+      default: false
     puid:
       type: integer
       title: PUID
@@ -34,17 +37,19 @@ schema:
       type: integer
       title: PGID
       default: 1000
-  required: [timezone, baseUrl]
+  required:
+  - timezone
+  - baseUrl
 defaultValues:
   timezone: Etc/UTC
   baseUrl: http://localhost:9000
-  allowSignup: true
+  allowSignup: false
   puid: 1000
   pgid: 1000
 services:
-  - name: "{{ .Release.Name }}"
-    port: 9000
-    scheme: http
+- name: '{{ .Release.Name }}'
+  port: 9000
+  scheme: http
 exposure:
   subdomain: mealie
   tls: true

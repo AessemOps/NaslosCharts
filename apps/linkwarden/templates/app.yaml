@@ -79,7 +79,7 @@ spec:
           env:
             - { name: POSTGRES_DB, value: "{{ .Values.postgres.database }}" }
             - { name: POSTGRES_USER, value: "{{ .Values.postgres.user }}" }
-            - { name: POSTGRES_PASSWORD, value: "{{ .Values.postgresPassword }}" }
+            - { name: POSTGRES_PASSWORD, value: {{ .Values.postgresPassword | quote }} }
             - { name: TZ, value: "{{ .Values.timezone }}" }
           ports:
             - { name: postgres, containerPort: 5432 }
@@ -224,7 +224,7 @@ spec:
           envFrom:
             - secretRef: { name: naslos-env-{{ .Release.Name }}, optional: true }
           env:
-            - { name: DATABASE_URL, value: "postgresql://{{ .Values.postgres.user }}:{{ .Values.postgresPassword }}@{{ .Release.Name }}-postgres:5432/{{ .Values.postgres.database }}" }
+            - { name: DATABASE_URL, value: "postgresql://{{ .Values.postgres.user }}:{{ .Values.postgresPassword | urlquery }}@{{ .Release.Name }}-postgres:5432/{{ .Values.postgres.database }}" }
             - { name: NEXTAUTH_SECRET, value: {{ .Values.nextAuthSecret | quote }} }
             - { name: NEXTAUTH_URL, value: {{ .Values.siteUrl | quote }} }
             - { name: MEILI_HOST, value: "http://{{ .Release.Name }}-meilisearch:7700" }

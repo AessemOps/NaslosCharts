@@ -36,4 +36,4 @@ resources:
     memory: 1Gi
   limits:
     cpu: "2"
-    memory: 3Gi
+    memory: 4Gi

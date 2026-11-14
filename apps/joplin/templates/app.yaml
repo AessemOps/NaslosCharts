@@ -45,7 +45,7 @@ spec:
           env:
             - { name: POSTGRES_DB, value: "{{ .Values.postgres.database }}" }
             - { name: POSTGRES_USER, value: "{{ .Values.postgres.user }}" }
-            - { name: POSTGRES_PASSWORD, value: "{{ .Values.postgresPassword }}" }
+            - { name: POSTGRES_PASSWORD, value: {{ .Values.postgresPassword | quote }} }
           ports:
             - { name: postgres, containerPort: 5432 }
           volumeMounts:
@@ -127,7 +127,7 @@ spec:
             - { name: POSTGRES_PORT, value: "5432" }
             - { name: POSTGRES_DATABASE, value: "{{ .Values.postgres.database }}" }
             - { name: POSTGRES_USER, value: "{{ .Values.postgres.user }}" }
-            - { name: POSTGRES_PASSWORD, value: "{{ .Values.postgresPassword }}" }
+            - { name: POSTGRES_PASSWORD, value: {{ .Values.postgresPassword | quote }} }
           ports:
             - { name: http, containerPort: 22300 }
           readinessProbe:

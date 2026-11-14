@@ -62,8 +62,8 @@ spec:
           env:
             - { name: MARIADB_DATABASE, value: "{{ .Values.mariadb.database }}" }
             - { name: MARIADB_USER, value: "{{ .Values.mariadb.user }}" }
-            - { name: MARIADB_PASSWORD, value: "{{ .Values.mariadbPassword }}" }
-            - { name: MARIADB_ROOT_PASSWORD, value: "{{ .Values.mariadbRootPassword }}" }
+            - { name: MARIADB_PASSWORD, value: {{ .Values.mariadbPassword | quote }} }
+            - { name: MARIADB_ROOT_PASSWORD, value: {{ .Values.mariadbRootPassword | quote }} }
           ports:
             - { name: mysql, containerPort: 3306 }
           volumeMounts:
@@ -143,7 +143,7 @@ spec:
             - { name: WORDPRESS_DB_HOST, value: "{{ .Release.Name }}-mariadb" }
             - { name: WORDPRESS_DB_NAME, value: "{{ .Values.mariadb.database }}" }
             - { name: WORDPRESS_DB_USER, value: "{{ .Values.mariadb.user }}" }
-            - { name: WORDPRESS_DB_PASSWORD, value: "{{ .Values.mariadbPassword }}" }
+            - { name: WORDPRESS_DB_PASSWORD, value: {{ .Values.mariadbPassword | quote }} }
           ports:
             - { name: http, containerPort: 80 }
           volumeMounts:

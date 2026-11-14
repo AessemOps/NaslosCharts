@@ -62,8 +62,8 @@ spec:
           env:
             - { name: MARIADB_DATABASE, value: "{{ .Values.mariadb.database }}" }
             - { name: MARIADB_USER, value: "{{ .Values.mariadb.user }}" }
-            - { name: MARIADB_PASSWORD, value: "{{ .Values.mariadbPassword }}" }
-            - { name: MARIADB_ROOT_PASSWORD, value: "{{ .Values.mariadbRootPassword }}" }
+            - { name: MARIADB_PASSWORD, value: {{ .Values.mariadbPassword | quote }} }
+            - { name: MARIADB_ROOT_PASSWORD, value: {{ .Values.mariadbRootPassword | quote }} }
           ports:
             - { name: mysql, containerPort: 3306 }
           volumeMounts:
@@ -143,9 +143,9 @@ spec:
             - { name: MYSQL_HOST, value: "{{ .Release.Name }}-mariadb" }
             - { name: MYSQL_DATABASE, value: "{{ .Values.mariadb.database }}" }
             - { name: MYSQL_USER, value: "{{ .Values.mariadb.user }}" }
-            - { name: MYSQL_PASSWORD, value: "{{ .Values.mariadbPassword }}" }
+            - { name: MYSQL_PASSWORD, value: {{ .Values.mariadbPassword | quote }} }
             - { name: NEXTCLOUD_ADMIN_USER, value: "{{ .Values.adminUser }}" }
-            - { name: NEXTCLOUD_ADMIN_PASSWORD, value: "{{ .Values.adminPassword }}" }
+            - { name: NEXTCLOUD_ADMIN_PASSWORD, value: {{ .Values.adminPassword | quote }} }
             - { name: NEXTCLOUD_TRUSTED_DOMAINS, value: "{{ .Values.trustedDomain }} localhost" }
             - { name: PHP_MEMORY_LIMIT, value: "{{ .Values.phpMemoryLimit }}" }
           ports:

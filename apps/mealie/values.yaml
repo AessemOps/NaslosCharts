@@ -13,7 +13,7 @@ baseUrl: http://localhost:9000
 
 # Allow visitors to create accounts. Turn it off after the first account is
 # registered; existing users keep their access.
-allowSignup: true
+allowSignup: false
 
 persistence:
   # SQLite database, uploaded recipe images and backups.
