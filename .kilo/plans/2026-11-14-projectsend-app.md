@@ -14,6 +14,9 @@ New catalog entry `apps/projectsend` (chart 0.1.0):
   `<release>-mariadb` PVC at `/config` for the database.
 - **Catalog**: `auth: false` because ProjectSend has its own per-client accounts;
   TLS on, Internet egress on.
+- **Env capability**: `capabilities: [env]`; the app container reads the
+  platform-managed `naslos-env-<release>` Secret via `envFrom` (optional) and the
+  pod template carries the `naslos.io/env-checksum` rollout annotation.
 
 ## Setup notes
 
