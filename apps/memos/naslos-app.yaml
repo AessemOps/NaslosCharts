@@ -1,0 +1,29 @@
+name: memos
+displayName: Memos
+description: Self-hosted, privacy-first notes and memos with a lightweight web UI.
+category: productivity
+icon: "M"
+website: https://www.usememos.com
+version: 0.1.0
+capabilities: [env]
+tags: [notes, memos, productivity]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+  required: [timezone]
+defaultValues:
+  timezone: Etc/UTC
+services:
+  - name: "{{ .Release.Name }}"
+    port: 5230
+    scheme: http
+exposure:
+  subdomain: memos
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

@@ -1,0 +1,10 @@
+apiVersion: v2
+name: rclone
+description: rclone remote control and web GUI
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/rclone.png
+home: https://rclone.org
+sources:
+  - https://github.com/rclone/rclone

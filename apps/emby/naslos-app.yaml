@@ -1,0 +1,39 @@
+name: emby
+displayName: Emby
+description: Emby media server for movies, shows, music and live TV.
+category: media
+icon: "Em"
+website: https://emby.media
+version: 0.1.0
+capabilities: [env]
+tags: [media, streaming, emby]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    puid:
+      type: integer
+      title: PUID
+      default: 1000
+    pgid:
+      type: integer
+      title: PGID
+      default: 1000
+  required: [timezone, puid, pgid]
+defaultValues:
+  timezone: Etc/UTC
+  puid: 1000
+  pgid: 1000
+services:
+  - name: "{{ .Release.Name }}"
+    port: 8096
+    scheme: http
+exposure:
+  subdomain: emby
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

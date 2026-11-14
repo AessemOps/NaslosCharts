@@ -1,0 +1,28 @@
+image:
+  repository: headscale/headscale
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Public URL clients dial. It must be the HTTPS URL of the exposed route and
+# must not be, or sit below, dns.base_domain in files/config.yaml.
+serverUrl: https://headscale.local
+
+persistence:
+  # SQLite database, Noise private key and the CLI unix socket. Headscale
+  # creates the database and noise_private.key itself on first start; the
+  # image is distroless (no shell), so the chart needs no key-generation init
+  # container.
+  data:
+    size: 2Gi
+    storageClass: ""
+
+service:
+  port: 8080
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi

@@ -1,0 +1,41 @@
+# Headscale configuration using current upstream keys. The legacy keys kept
+# below are ignored by current releases and were read by pre-0.23 releases.
+
+server_url: {{ .Values.serverUrl | quote }}
+listen_addr: 0.0.0.0:8080
+metrics_listen_addr: 127.0.0.1:9090
+grpc_listen_addr: 127.0.0.1:50443
+private_key_path: /var/lib/headscale/private.key
+unix_socket: /var/lib/headscale/headscale.sock
+
+noise:
+  private_key_path: /var/lib/headscale/noise_private.key
+
+# Legacy pre-0.23 prefix key; current releases read prefixes below.
+ip_prefixes:
+  - 100.64.0.0/10
+  - fd7a:115c:a1e0::/48
+
+prefixes:
+  v4: 100.64.0.0/10
+  v6: fd7a:115c:a1e0::/48
+
+database:
+  type: sqlite
+  sqlite:
+    path: /var/lib/headscale/db.sqlite
+
+dns:
+  magic_dns: true
+  base_domain: tailnet.internal
+  nameservers:
+    global:
+      - 1.1.1.1
+
+derp:
+  urls:
+    - https://controlplane.tailscale.com/derpmap/default
+
+log:
+  level: info
+  format: text

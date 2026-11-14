@@ -1,0 +1,56 @@
+name: karakeep
+displayName: Karakeep
+description: Bookmark everything, archive it and search with AI-assisted tagging.
+category: productivity
+icon: K
+website: https://karakeep.app
+version: 0.1.0
+capabilities:
+- env
+tags:
+- bookmarks
+- read-it-later
+- search
+schema:
+  type: object
+  properties:
+    nextAuthUrl:
+      type: string
+      title: Public URL
+      description: URL users open, e.g. https://karakeep.example.com
+      default: http://localhost:3000
+    nextAuthSecret:
+      type: string
+      title: Authentication secret
+      format: password
+      description: Secret used by NextAuth to sign sessions.
+      default: karakeep-change-me-karakeep-change-me
+    meiliMasterKey:
+      type: string
+      title: Meilisearch master key
+      format: password
+      description: Master key shared by the app and the bundled Meilisearch.
+      default: karakeep-change-me
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+  required:
+  - nextAuthUrl
+  - nextAuthSecret
+  - meiliMasterKey
+defaultValues:
+  nextAuthUrl: http://localhost:3000
+  nextAuthSecret: karakeep-change-me-karakeep-change-me
+  meiliMasterKey: karakeep-change-me
+  timezone: Etc/UTC
+services:
+- name: '{{ .Release.Name }}'
+  port: 3000
+  scheme: http
+exposure:
+  subdomain: karakeep
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

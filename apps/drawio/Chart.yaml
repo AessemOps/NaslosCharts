@@ -1,0 +1,10 @@
+apiVersion: v2
+name: drawio
+description: draw.io diagram editor
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/draw-io.png
+home: https://www.drawio.com
+sources:
+  - https://github.com/jgraph/drawio

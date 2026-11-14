@@ -1,0 +1,52 @@
+image:
+  repository: anirdev/slink
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+
+# Public origin of the app. Required for cookies and share links; set it to the
+# subdomain the app is exposed on (for example https://slink.example.com).
+origin: http://localhost:3000
+
+# Require an admin to approve new accounts before they can sign in.
+userApprovalRequired: true
+
+# Storage backend for uploaded images: local, smb or s3. The chart only wires
+# the local filesystem; SMB/S3 need their own extra variables.
+storageProvider: local
+
+# Maximum size of a single uploaded image.
+imageMaxSize: 15M
+
+# Optional first-run admin. ADMIN_EMAIL triggers creation of an active admin
+# account on startup and ADMIN_PASSWORD is required with it. Clear both after
+# the first login.
+adminUsername: admin
+adminEmail: ""
+adminPassword: ""
+
+persistence:
+  # Database and application state.
+  data:
+    size: 2Gi
+    storageClass: ""
+  # Original uploads (local storage provider).
+  images:
+    size: 10Gi
+    storageClass: ""
+  # Transformed/cached images.
+  cache:
+    size: 2Gi
+    storageClass: ""
+
+service:
+  port: 3000
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi

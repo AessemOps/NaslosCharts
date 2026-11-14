@@ -1,0 +1,52 @@
+image:
+  repository: ghcr.io/karakeep-app/karakeep
+  tag: release
+  pullPolicy: IfNotPresent
+
+chrome:
+  image: ghcr.io/karakeep-app/karakeep-chrome:release
+
+meilisearch:
+  image: getmeili/meilisearch:v1.55.0
+  persistence:
+    size: 5Gi
+    storageClass: ""
+
+timezone: Etc/UTC
+
+# Public URL users open. Set it to the exposed host when behind Traefik.
+nextAuthUrl: http://localhost:3000
+nextAuthSecret: karakeep-change-me-karakeep-change-me
+meiliMasterKey: karakeep-change-me
+
+persistence:
+  # Bookmarks, archives and cached content.
+  data:
+    size: 10Gi
+    storageClass: ""
+
+service:
+  port: 3000
+
+resources:
+  app:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: "2"
+      memory: 2Gi
+  chrome:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+  meilisearch:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi

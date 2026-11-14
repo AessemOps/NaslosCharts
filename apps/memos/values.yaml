@@ -1,0 +1,22 @@
+image:
+  repository: neosmemo/memos
+  tag: stable
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+
+persistence:
+  data:
+    size: 2Gi
+    storageClass: ""
+
+service:
+  port: 5230
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi

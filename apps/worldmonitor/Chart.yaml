@@ -1,0 +1,10 @@
+apiVersion: v2
+name: worldmonitor
+description: Self-hosted real-time global intelligence and news dashboard
+type: application
+version: 0.1.0
+appVersion: "main"
+icon: https://raw.githubusercontent.com/koala73/worldmonitor/main/public/favicon.ico
+home: https://www.worldmonitor.app
+sources:
+  - https://github.com/koala73/worldmonitor

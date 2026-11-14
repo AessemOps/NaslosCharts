@@ -1,0 +1,54 @@
+image:
+  repository: docmost/docmost
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+
+# Public URL users open. Set it to the exposed host when behind Traefik.
+appUrl: http://localhost:3000
+appSecret: docmost-change-me-docmost-change-me
+postgresPassword: docmost-change-me
+
+postgres:
+  image: postgres:16-alpine
+  user: docmost
+  database: docmost
+  persistence:
+    size: 8Gi
+    storageClass: ""
+
+redis:
+  image: redis:7-alpine
+
+persistence:
+  # Uploaded attachments and page data.
+  storage:
+    size: 10Gi
+    storageClass: ""
+
+service:
+  port: 3000
+
+resources:
+  app:
+    requests:
+      cpu: 150m
+      memory: 256Mi
+    limits:
+      cpu: "2"
+      memory: 1Gi
+  postgres:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: "1"
+      memory: 512Mi
+  redis:
+    requests:
+      cpu: 25m
+      memory: 64Mi
+    limits:
+      cpu: "500m"
+      memory: 256Mi

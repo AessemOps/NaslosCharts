@@ -1,0 +1,29 @@
+name: netdata
+displayName: Netdata
+description: Real-time monitoring dashboard for the app container.
+category: networking
+icon: "Nd"
+website: https://www.netdata.cloud
+version: 0.1.0
+capabilities: [env]
+tags: [monitoring, metrics, observability]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+  required: [timezone]
+defaultValues:
+  timezone: Etc/UTC
+services:
+  - name: "{{ .Release.Name }}"
+    port: 19999
+    scheme: http
+exposure:
+  subdomain: netdata
+  tls: true
+  auth: true
+  localOnly: false
+  internet: true

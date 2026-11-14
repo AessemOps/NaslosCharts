@@ -1,0 +1,53 @@
+name: code-server
+displayName: code-server
+description: VS Code in the browser with a persistent workspace and terminal.
+category: development
+icon: "CS"
+website: https://coder.com/docs/code-server
+version: 0.1.0
+capabilities: [env]
+tags: [ide, development, editor]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    puid:
+      type: integer
+      title: PUID
+      default: 1000
+    pgid:
+      type: integer
+      title: PGID
+      default: 1000
+    password:
+      type: string
+      title: Password
+      description: Password for the code-server web login.
+      format: password
+      default: code-server-change-me
+    sudoPassword:
+      type: string
+      title: Sudo password
+      description: Optional password for sudo in the integrated terminal; leave empty to disable.
+      format: password
+      default: ""
+  required: [timezone, puid, pgid, password]
+defaultValues:
+  timezone: Etc/UTC
+  puid: 1000
+  pgid: 1000
+  password: code-server-change-me
+  sudoPassword: ""
+services:
+  - name: "{{ .Release.Name }}"
+    port: 8443
+    scheme: http
+exposure:
+  subdomain: code
+  tls: true
+  auth: true
+  localOnly: false
+  internet: true

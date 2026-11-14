@@ -1,0 +1,23 @@
+name: kanboard
+displayName: Kanboard
+description: Kanban project management with SQLite storage. First login is admin/admin; change it after signing in.
+category: productivity
+icon: "K"
+website: https://kanboard.org
+version: 0.1.0
+capabilities: [env]
+tags: [kanban, projects, tasks]
+schema:
+  type: object
+  properties: {}
+defaultValues: {}
+services:
+  - name: "{{ .Release.Name }}"
+    port: 80
+    scheme: http
+exposure:
+  subdomain: kanboard
+  tls: true
+  auth: true
+  localOnly: false
+  internet: true

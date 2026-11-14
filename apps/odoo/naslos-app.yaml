@@ -1,0 +1,38 @@
+name: odoo
+displayName: Odoo
+description: Open-source business apps suite with a bundled PostgreSQL database.
+category: productivity
+icon: "Od"
+website: https://www.odoo.com
+version: 0.1.0
+capabilities: [env]
+tags: [erp, crm, business, accounting]
+schema:
+  type: object
+  properties:
+    adminPassword:
+      type: string
+      title: Master password
+      format: password
+      description: Master password for the Odoo database manager.
+      default: odoo-master-change-me
+    postgresPassword:
+      type: string
+      title: Database password
+      format: password
+      description: Password for the bundled PostgreSQL user.
+      default: odoo-change-me
+  required: [adminPassword, postgresPassword]
+defaultValues:
+  adminPassword: odoo-master-change-me
+  postgresPassword: odoo-change-me
+services:
+  - name: "{{ .Release.Name }}"
+    port: 8069
+    scheme: http
+exposure:
+  subdomain: odoo
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

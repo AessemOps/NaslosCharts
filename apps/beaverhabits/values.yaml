@@ -1,0 +1,29 @@
+image:
+  repository: daya0576/beaverhabits
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Overrides the browser-detected timezone for all users (IANA name).
+timezone: Etc/UTC
+# Maximum number of accounts; 0 means unlimited.
+maxUserCount: 0
+# First day of the week: 0 = Monday ... 6 = Sunday.
+firstDayOfWeek: 0
+
+# The container starts as nobody and needs to own its data directory, so the
+# pod runs as this fixed UID/GID.
+persistence:
+  data:
+    size: 1Gi
+    storageClass: ""
+
+service:
+  port: 8080
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi

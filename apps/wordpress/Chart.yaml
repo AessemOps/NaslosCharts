@@ -1,0 +1,10 @@
+apiVersion: v2
+name: wordpress
+description: Self-hosted publishing platform with a bundled MariaDB database
+type: application
+version: 0.1.0
+appVersion: "apache"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/wordpress.png
+home: https://wordpress.org
+sources:
+  - https://github.com/docker-library/wordpress

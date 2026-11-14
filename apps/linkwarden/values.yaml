@@ -1,0 +1,58 @@
+image:
+  repository: ghcr.io/linkwarden/linkwarden
+  tag: latest
+  pullPolicy: IfNotPresent
+
+meilisearch:
+  image: getmeili/meilisearch:v1.13.3
+  persistence:
+    size: 5Gi
+    storageClass: ""
+
+timezone: Etc/UTC
+
+# NextAuth URL; Linkwarden expects the /api/v1/auth suffix.
+siteUrl: http://localhost:3000/api/v1/auth
+nextAuthSecret: linkwarden-change-me-linkwarden-change-me
+postgresPassword: linkwarden-change-me
+meiliMasterKey: linkwarden-change-me
+
+postgres:
+  image: postgres:16-alpine
+  user: postgres
+  database: postgres
+  persistence:
+    size: 8Gi
+    storageClass: ""
+
+persistence:
+  # Archived pages, screenshots and uploaded files.
+  data:
+    size: 20Gi
+    storageClass: ""
+
+service:
+  port: 3000
+
+resources:
+  app:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: "2"
+      memory: 2Gi
+  postgres:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: "1"
+      memory: 512Mi
+  meilisearch:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi

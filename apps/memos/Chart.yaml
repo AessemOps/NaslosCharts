@@ -1,0 +1,10 @@
+apiVersion: v2
+name: memos
+description: Self-hosted, privacy-first notes and memos
+type: application
+version: 0.1.0
+appVersion: "stable"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/memos.png
+home: https://www.usememos.com
+sources:
+  - https://github.com/usememos/memos

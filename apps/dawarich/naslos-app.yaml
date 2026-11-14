@@ -1,0 +1,57 @@
+name: dawarich
+displayName: Dawarich
+description: Self-hosted location history and trip tracker for your devices.
+category: productivity
+icon: "Dw"
+website: https://dawarich.app
+version: 0.1.0
+capabilities: [env]
+tags: [location, maps, tracking, privacy]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    applicationHosts:
+      type: string
+      title: Application hosts
+      description: >-
+        Comma-separated hostnames Rails accepts. Add the Dawarich subdomain you
+        use (for example dawarich.example.com) or Rails answers 403 Blocked host.
+      default: localhost,127.0.0.1
+    applicationProtocol:
+      type: string
+      title: Application protocol
+      enum: [http, https]
+      default: https
+    databasePassword:
+      type: string
+      title: Database password
+      format: password
+      description: Password for the bundled PostGIS database user postgres.
+      default: dawarich-change-me
+    secretKeyBase:
+      type: string
+      title: Secret key base
+      format: password
+      description: Signs cookies and encrypted attributes. Change this before exposing Dawarich.
+      default: dawarich-change-me-dawarich-change-me-dawarich-change-me
+  required: [timezone, applicationHosts, applicationProtocol, databasePassword, secretKeyBase]
+defaultValues:
+  timezone: Etc/UTC
+  applicationHosts: localhost,127.0.0.1
+  applicationProtocol: https
+  databasePassword: dawarich-change-me
+  secretKeyBase: dawarich-change-me-dawarich-change-me-dawarich-change-me
+services:
+  - name: "{{ .Release.Name }}"
+    port: 3000
+    scheme: http
+exposure:
+  subdomain: dawarich
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true
