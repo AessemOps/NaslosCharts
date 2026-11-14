@@ -1,0 +1,37 @@
+name: navidrome
+displayName: Navidrome
+description: Personal music server and streaming for your own library.
+category: media
+icon: "Nd"
+website: https://www.navidrome.org
+version: 0.1.0
+capabilities: [env]
+tags: [media, music, streaming]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    scanSchedule:
+      type: string
+      title: Scan schedule
+      description: >-
+        How often the library scanner runs. Accepts a Go duration or a cron
+        expression, e.g. "@every 24h" or "0 */6 * * *".
+      default: "@every 24h"
+  required: [timezone, scanSchedule]
+defaultValues:
+  timezone: Etc/UTC
+  scanSchedule: "@every 24h"
+services:
+  - name: "{{ .Release.Name }}"
+    port: 4533
+    scheme: http
+exposure:
+  subdomain: navidrome
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

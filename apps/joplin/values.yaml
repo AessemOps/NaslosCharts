@@ -1,0 +1,29 @@
+image:
+  repository: joplin/server
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Public base URL of the server, used for sync targets and share links.
+siteUrl: http://localhost:22300
+
+# Password for the bundled PostgreSQL user.
+postgresPassword: joplin-change-me
+
+postgres:
+  image: postgres:16-alpine
+  database: joplin
+  user: joplin
+  persistence:
+    size: 10Gi
+    storageClass: ""
+
+service:
+  port: 22300
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi

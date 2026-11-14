@@ -1,0 +1,26 @@
+image:
+  repository: netdata/netdata
+  tag: stable
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+
+# Netdata normally reads the host's /proc, /sys, cgroups and Docker socket to
+# chart whole-machine metrics. PodSecurity baseline forbids hostNetwork and the
+# chart contract forbids hostPath, so this deployment only monitors the
+# container itself (its own cgroup, filesystem and network namespace). Host-wide
+# CPU, disk, network interface and other container metrics require those host
+# mounts and are intentionally unavailable here.
+persistence:
+  # Netdata's dbengine metrics database.
+  lib:
+    size: 5Gi
+    storageClass: ""
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi

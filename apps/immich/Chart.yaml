@@ -1,0 +1,10 @@
+apiVersion: v2
+name: immich
+description: High-performance self-hosted photo and video backup platform
+type: application
+version: 0.1.0
+appVersion: "release"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/immich.png
+home: https://immich.app
+sources:
+  - https://github.com/immich-app/immich

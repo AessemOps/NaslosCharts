@@ -1,0 +1,28 @@
+image:
+  repository: rustdesk/rustdesk-server
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# The two RustDesk servers have no web UI and are not routed by Traefik.
+# Clients must reach the node directly on TCP 21115, 21116, 21117 and 21119
+# plus UDP 21116; this catalog cannot publish or forward those ports. The
+# hbbs and hbbr share one data volume so both see the same key pair and SQLite
+# database. The classic image keeps that state under /root.
+#
+# relayAddress, when set, is passed to hbbs as `-r <address>:21117` so clients
+# are told which relay to use. Leave it empty and configure the relay address
+# in each RustDesk client instead. It must be an address clients can reach
+# (the node IP or DNS name, not an in-cluster Service name).
+relayAddress: ""
+persistence:
+  data:
+    size: 5Gi
+    storageClass: ""
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi

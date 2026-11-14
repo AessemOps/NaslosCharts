@@ -1,0 +1,120 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-data
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  accessModes: [ReadWriteOnce]
+  {{- with .Values.persistence.data.storageClass }}
+  storageClassName: {{ . | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.data.size }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      annotations:
+        naslos.io/env-checksum: {{ .Values.naslosEnvChecksum | default "" | quote }}
+      labels:
+        app.kubernetes.io/name: {{ .Chart.Name }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: hbbs
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["hbbs"]
+          {{- with .Values.relayAddress }}
+          args: ["-r", {{ . | quote }}]
+          {{- end }}
+          envFrom:
+            - secretRef: { name: naslos-env-{{ .Release.Name }}, optional: true }
+          ports:
+            - { name: nat-test, containerPort: 21115 }
+            - { name: id-tcp, containerPort: 21116 }
+            - { name: id-udp, containerPort: 21116, protocol: UDP }
+          volumeMounts:
+            - { name: data, mountPath: /root }
+          readinessProbe:
+            tcpSocket: { port: 21116 }
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          livenessProbe:
+            tcpSocket: { port: 21116 }
+            initialDelaySeconds: 45
+            periodSeconds: 30
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+        - name: hbbr
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["hbbr"]
+          ports:
+            - { name: relay, containerPort: 21117 }
+            - { name: relay-ws, containerPort: 21119 }
+          volumeMounts:
+            - { name: data, mountPath: /root }
+          readinessProbe:
+            tcpSocket: { port: 21117 }
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          livenessProbe:
+            tcpSocket: { port: 21117 }
+            initialDelaySeconds: 45
+            periodSeconds: 30
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  ports:
+    - name: nat-test
+      port: 21115
+      targetPort: 21115
+      protocol: TCP
+    - name: id-tcp
+      port: 21116
+      targetPort: 21116
+      protocol: TCP
+    - name: id-udp
+      port: 21116
+      targetPort: 21116
+      protocol: UDP
+    - name: relay
+      port: 21117
+      targetPort: 21117
+      protocol: TCP
+    - name: relay-ws
+      port: 21119
+      targetPort: 21119
+      protocol: TCP

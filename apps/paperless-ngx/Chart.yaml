@@ -1,0 +1,10 @@
+apiVersion: v2
+name: paperless-ngx
+description: Document management system with OCR, tagging and full-text search
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/paperless-ngx.png
+home: https://docs.paperless-ngx.com
+sources:
+  - https://github.com/paperless-ngx/paperless-ngx

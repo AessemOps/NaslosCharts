@@ -1,0 +1,38 @@
+image:
+  repository: quay.io/invidious/invidious
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+
+# Public domain of the instance (no scheme or port), used for absolute links.
+domain: localhost
+hmacKey: invidious-change-me
+postgresPassword: invidious-change-me
+
+postgres:
+  image: postgres:16-alpine
+  user: invidious
+  database: invidious
+  persistence:
+    size: 10Gi
+    storageClass: ""
+
+service:
+  port: 3000
+
+resources:
+  app:
+    requests:
+      cpu: 150m
+      memory: 256Mi
+    limits:
+      cpu: "2"
+      memory: 1Gi
+  postgres:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: "1"
+      memory: 512Mi

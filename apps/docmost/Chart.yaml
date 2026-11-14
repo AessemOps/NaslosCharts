@@ -1,0 +1,10 @@
+apiVersion: v2
+name: docmost
+description: Collaborative wiki and documentation platform
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/docmost.png
+home: https://docmost.com
+sources:
+  - https://github.com/docmost/docmost

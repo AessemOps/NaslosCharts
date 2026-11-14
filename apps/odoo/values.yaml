@@ -1,0 +1,35 @@
+image:
+  repository: odoo
+  tag: "18"
+  pullPolicy: IfNotPresent
+
+# Master password for the Odoo database manager.
+adminPassword: odoo-master-change-me
+
+# Password for the bundled PostgreSQL user.
+postgresPassword: odoo-change-me
+
+postgres:
+  image: postgres:16-alpine
+  database: odoo
+  user: odoo
+  persistence:
+    size: 10Gi
+    storageClass: ""
+
+persistence:
+  # Odoo filestore and session data.
+  data:
+    size: 20Gi
+    storageClass: ""
+
+service:
+  port: 8069
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: "2"
+    memory: 2Gi

@@ -1,0 +1,36 @@
+name: immich
+displayName: Immich
+description: Self-hosted photo and video backup with face recognition and mobile apps.
+category: media
+icon: "I"
+website: https://immich.app
+version: 0.1.0
+capabilities: [env]
+tags: [photos, videos, backup]
+schema:
+  type: object
+  properties:
+    dbPassword:
+      type: string
+      title: Database password
+      format: password
+      description: Password for the bundled Immich PostgreSQL database.
+      default: immich-change-me
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+  required: [dbPassword]
+defaultValues:
+  dbPassword: immich-change-me
+  timezone: Etc/UTC
+services:
+  - name: "{{ .Release.Name }}"
+    port: 2283
+    scheme: http
+exposure:
+  subdomain: immich
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

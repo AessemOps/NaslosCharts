@@ -1,0 +1,10 @@
+apiVersion: v2
+name: slink
+description: Slink self-hosted image sharing platform
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/slink.png
+home: https://docs.slinkapp.io
+sources:
+  - https://github.com/andrii-kryvoviaz/slink

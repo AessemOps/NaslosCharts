@@ -1,0 +1,11 @@
+apiVersion: v2
+name: pihole
+description: Network-wide DNS sinkhole and ad blocker
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/pi-hole.png
+home: https://pi-hole.net
+sources:
+  - https://github.com/pi-hole/pi-hole
+  - https://github.com/pi-hole/docker-pi-hole

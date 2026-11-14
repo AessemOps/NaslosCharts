@@ -1,0 +1,57 @@
+name: nextcloud
+displayName: Nextcloud
+description: Self-hosted file sync and collaboration platform with a bundled MariaDB database.
+category: productivity
+icon: "NC"
+website: https://nextcloud.com
+version: 0.1.0
+capabilities: [env]
+tags: [files, sync, collaboration, cloud]
+schema:
+  type: object
+  properties:
+    trustedDomain:
+      type: string
+      title: Trusted domain
+      description: Hostname users reach Nextcloud on; localhost is added automatically.
+      default: nextcloud.local
+    adminUser:
+      type: string
+      title: Admin username
+      description: Initial Nextcloud administrator account.
+      default: admin
+    adminPassword:
+      type: string
+      title: Admin password
+      format: password
+      description: Password for the initial Nextcloud administrator account.
+      default: nextcloud-admin-change-me
+    mariadbPassword:
+      type: string
+      title: Database password
+      format: password
+      description: Password for the bundled MariaDB user.
+      default: nextcloud-change-me
+    mariadbRootPassword:
+      type: string
+      title: Database root password
+      format: password
+      description: Root password for the bundled MariaDB instance.
+      default: nextcloud-root-change-me
+  required: [trustedDomain, adminUser, adminPassword, mariadbPassword, mariadbRootPassword]
+defaultValues:
+  trustedDomain: nextcloud.local
+  adminUser: admin
+  adminPassword: nextcloud-admin-change-me
+  mariadbPassword: nextcloud-change-me
+  mariadbRootPassword: nextcloud-root-change-me
+services:
+  - name: "{{ .Release.Name }}"
+    port: 80
+    scheme: http
+exposure:
+  subdomain: nextcloud
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

@@ -1,0 +1,33 @@
+image:
+  repository: wordpress
+  tag: apache
+  pullPolicy: IfNotPresent
+
+# Password for the bundled MariaDB user.
+mariadbPassword: wordpress-change-me
+mariadbRootPassword: wordpress-root-change-me
+
+mariadb:
+  image: mariadb:11
+  database: wordpress
+  user: wordpress
+  persistence:
+    size: 5Gi
+    storageClass: ""
+
+persistence:
+  # WordPress core, wp-config.php, themes, plugins and uploads.
+  data:
+    size: 20Gi
+    storageClass: ""
+
+service:
+  port: 80
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi

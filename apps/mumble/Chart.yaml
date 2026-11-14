@@ -1,0 +1,11 @@
+apiVersion: v2
+name: mumble
+description: Low-latency open-source voice chat server
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/mumble.png
+home: https://www.mumble.info
+sources:
+  - https://github.com/mumble-voip/mumble
+  - https://github.com/mumble-voip/mumble-docker

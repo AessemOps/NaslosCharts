@@ -1,0 +1,10 @@
+apiVersion: v2
+name: joplin
+description: Joplin Server sync target for notes with a bundled PostgreSQL database
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/joplin.png
+home: https://joplinapp.org
+sources:
+  - https://github.com/laurent22/joplin

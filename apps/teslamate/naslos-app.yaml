@@ -1,0 +1,45 @@
+name: teslamate
+displayName: TeslaMate
+description: Self-hosted Tesla data logger with trip history and dashboards.
+category: productivity
+icon: "Tm"
+website: https://teslamate.org
+version: 0.1.0
+capabilities: [env]
+tags: [tesla, vehicles, tracking, dashboards]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    databasePassword:
+      type: string
+      title: Database password
+      format: password
+      description: Password for the bundled PostgreSQL user teslamate.
+      default: teslamate-change-me
+    encryptionKey:
+      type: string
+      title: Encryption key
+      format: password
+      description: >-
+        32-byte base64-encoded key that encrypts the Tesla API tokens in the
+        database. Generate one with `openssl rand -base64 32`.
+      default: dGVzbGFtYXRlLWNoYW5nZS1tZS0zMi1ieXRlLWtleSE=
+  required: [timezone, databasePassword, encryptionKey]
+defaultValues:
+  timezone: Etc/UTC
+  databasePassword: teslamate-change-me
+  encryptionKey: dGVzbGFtYXRlLWNoYW5nZS1tZS0zMi1ieXRlLWtleSE=
+services:
+  - name: "{{ .Release.Name }}"
+    port: 4000
+    scheme: http
+exposure:
+  subdomain: teslamate
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

@@ -1,0 +1,55 @@
+image:
+  repository: freikin/dawarich
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+
+# Comma-separated hostnames Rails accepts. Add the Dawarich subdomain you use
+# (for example dawarich.example.com) or Rails answers 403 Blocked host.
+applicationHosts: localhost,127.0.0.1
+applicationProtocol: https
+
+# PostgreSQL password for the bundled PostGIS database (user postgres).
+databasePassword: dawarich-change-me
+# Signs cookies and encrypted attributes. Generate with `bin/rails secret`.
+secretKeyBase: dawarich-change-me-dawarich-change-me-dawarich-change-me
+
+postgres:
+  image: postgis/postgis:17-3.5-alpine
+  user: postgres
+  database: dawarich
+  persistence:
+    size: 5Gi
+    storageClass: ""
+
+redis:
+  image: redis:8-alpine
+  persistence:
+    size: 1Gi
+    storageClass: ""
+
+persistence:
+  # Rails public assets and uploaded files.
+  public:
+    size: 2Gi
+    storageClass: ""
+  # Active Storage attachments.
+  storage:
+    size: 5Gi
+    storageClass: ""
+  # Import files watched by the background importer.
+  watched:
+    size: 1Gi
+    storageClass: ""
+
+service:
+  port: 3000
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: "2"
+    memory: 4Gi

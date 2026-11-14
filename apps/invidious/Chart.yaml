@@ -1,0 +1,10 @@
+apiVersion: v2
+name: invidious
+description: Privacy-friendly YouTube frontend
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/invidious.png
+home: https://invidious.io
+sources:
+  - https://github.com/iv-org/invidious

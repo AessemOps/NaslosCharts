@@ -1,0 +1,33 @@
+name: headscale
+displayName: Headscale
+description: Self-hosted Tailscale control server for a private tailnet.
+category: networking
+icon: "Hs"
+website: https://headscale.net
+version: 0.1.0
+capabilities: [env]
+tags: [vpn, tailscale, networking, mesh]
+schema:
+  type: object
+  properties:
+    serverUrl:
+      type: string
+      title: Server URL
+      description: >-
+        Public HTTPS URL clients use to reach Headscale. Set it to the exposed
+        route, for example https://headscale.example.com. It must not be, or sit
+        below, the MagicDNS base domain tailnet.internal.
+      default: https://headscale.local
+  required: [serverUrl]
+defaultValues:
+  serverUrl: https://headscale.local
+services:
+  - name: "{{ .Release.Name }}"
+    port: 8080
+    scheme: http
+exposure:
+  subdomain: headscale
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

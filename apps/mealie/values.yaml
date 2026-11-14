@@ -1,0 +1,33 @@
+image:
+  repository: ghcr.io/mealie-recipes/mealie
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+puid: 1000
+pgid: 1000
+
+# Public URL of the app. Share links, emails and image URLs are built from it,
+# so set it to the app's real address (for example https://mealie.example.com).
+baseUrl: http://localhost:9000
+
+# Allow visitors to create accounts. Turn it off after the first account is
+# registered; existing users keep their access.
+allowSignup: true
+
+persistence:
+  # SQLite database, uploaded recipe images and backups.
+  data:
+    size: 2Gi
+    storageClass: ""
+
+service:
+  port: 9000
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi

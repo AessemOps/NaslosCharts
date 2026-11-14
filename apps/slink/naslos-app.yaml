@@ -1,0 +1,59 @@
+name: slink
+displayName: Slink
+description: Self-hosted image sharing platform with collections and share links.
+category: productivity
+icon: "Sl"
+website: https://docs.slinkapp.io
+version: 0.1.0
+capabilities: [env]
+tags: [images, sharing, media]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    origin:
+      type: string
+      title: Site origin
+      description: >-
+        Public address of the app. Required for cookies and share links; set it
+        to the subdomain the app is exposed on.
+      default: http://localhost:3000
+    adminUsername:
+      type: string
+      title: Admin username
+      description: Username created on first start when an admin email is set.
+      default: admin
+    adminEmail:
+      type: string
+      format: email
+      title: Admin email
+      description: >-
+        Email of the first admin. Setting it creates an active admin account on
+        the first start; leave empty to sign up manually.
+      default: ""
+    adminPassword:
+      type: string
+      format: password
+      title: Admin password
+      description: Password for the first admin account. Required with the admin email.
+      default: ""
+  required: [timezone, origin]
+defaultValues:
+  timezone: Etc/UTC
+  origin: http://localhost:3000
+  adminUsername: admin
+  adminEmail: ""
+  adminPassword: ""
+services:
+  - name: "{{ .Release.Name }}"
+    port: 3000
+    scheme: http
+exposure:
+  subdomain: slink
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true
