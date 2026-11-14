@@ -1,4 +1,16 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-nginx
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: app
+data:
+  patch-nginx.sh: |
+{{ .Files.Get "files/patch-nginx.sh" | indent 4 }}
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: {{ .Release.Name }}-config
@@ -150,9 +162,25 @@ spec:
         app.kubernetes.io/name: {{ .Chart.Name }}
         app.kubernetes.io/instance: {{ .Release.Name }}
         app.kubernetes.io/component: app
+      annotations:
+        checksum/nginx: {{ .Files.Get "files/patch-nginx.sh" | sha256sum }}
     spec:
       securityContext:
         fsGroup: {{ .Values.pgid }}
+      initContainers:
+        - name: patch-nginx
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/sh", "/patch/patch-nginx.sh"]
+          env:
+            - { name: PUID, value: "{{ .Values.puid }}" }
+            - { name: PGID, value: "{{ .Values.pgid }}" }
+          securityContext:
+            runAsUser: 0
+            runAsNonRoot: false
+          volumeMounts:
+            - { name: config, mountPath: /config }
+            - { name: nginx-patch, mountPath: /patch, readOnly: true }
       containers:
         - name: projectsend
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -185,6 +213,9 @@ spec:
         - name: uploads
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-uploads
+        - name: nginx-patch
+          configMap:
+            name: {{ .Release.Name }}-nginx
 ---
 apiVersion: v1
 kind: Service
