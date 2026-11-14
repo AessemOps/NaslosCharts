@@ -1,0 +1,31 @@
+name: sonarqube
+displayName: SonarQube
+description: Static code analysis platform with a bundled PostgreSQL database.
+category: development
+icon: "SQ"
+website: https://www.sonarsource.com/products/sonarqube/
+version: 0.1.0
+capabilities: [env]
+tags: [code-quality, static-analysis, development, ci]
+schema:
+  type: object
+  properties:
+    postgresPassword:
+      type: string
+      title: Database password
+      format: password
+      description: Password for the bundled PostgreSQL user.
+      default: sonarqube-change-me
+  required: [postgresPassword]
+defaultValues:
+  postgresPassword: sonarqube-change-me
+services:
+  - name: "{{ .Release.Name }}"
+    port: 9000
+    scheme: http
+exposure:
+  subdomain: sonarqube
+  tls: true
+  auth: true
+  localOnly: false
+  internet: true

@@ -1,0 +1,35 @@
+name: rclone
+displayName: rclone
+description: rclone remote control with a web GUI and a persistent rclone config.
+category: productivity
+icon: "RC"
+website: https://rclone.org
+version: 0.1.0
+capabilities: [env]
+tags: [rclone, sync, storage]
+schema:
+  type: object
+  properties:
+    rcUser:
+      type: string
+      title: Web UI username
+      default: admin
+    rcPassword:
+      type: string
+      title: Web UI password
+      format: password
+      default: rclone-change-me
+  required: [rcUser, rcPassword]
+defaultValues:
+  rcUser: admin
+  rcPassword: rclone-change-me
+services:
+  - name: "{{ .Release.Name }}"
+    port: 5572
+    scheme: http
+exposure:
+  subdomain: rclone
+  tls: true
+  auth: true
+  localOnly: false
+  internet: true

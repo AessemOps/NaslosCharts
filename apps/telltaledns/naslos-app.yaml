@@ -1,0 +1,23 @@
+name: telltaledns
+displayName: TelltaleDNS
+description: DNS resolver and ad blocker with per-device rules and query explanations.
+category: networking
+icon: "Tt"
+website: https://paimonsoror.github.io/telltaledns/
+version: 0.1.0
+capabilities: [env]
+tags: [dns, adblock, networking, privacy]
+schema:
+  type: object
+  properties: {}
+defaultValues: {}
+services:
+  - name: "{{ .Release.Name }}"
+    port: 8053
+    scheme: http
+exposure:
+  subdomain: telltale
+  tls: true
+  auth: true
+  localOnly: false
+  internet: true

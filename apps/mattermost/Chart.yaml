@@ -1,0 +1,10 @@
+apiVersion: v2
+name: mattermost
+description: Self-hosted team messaging with a bundled PostgreSQL database
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/mattermost.png
+home: https://mattermost.com
+sources:
+  - https://github.com/mattermost/mattermost

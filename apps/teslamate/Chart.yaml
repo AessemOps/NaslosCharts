@@ -1,0 +1,10 @@
+apiVersion: v2
+name: teslamate
+description: Self-hosted Tesla data logger and trip tracker
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/teslamate.png
+home: https://teslamate.org
+sources:
+  - https://github.com/teslamate-org/teslamate

@@ -1,0 +1,30 @@
+name: drawio
+displayName: draw.io
+description: draw.io diagram editor served from your own node.
+category: productivity
+icon: "D"
+website: https://www.drawio.com
+version: 0.1.0
+capabilities: [env]
+tags: [diagrams, drawing, productivity]
+schema:
+  type: object
+  properties:
+    drawioBaseUrl:
+      type: string
+      title: Base URL
+      description: Optional public base URL of the deployment, without a trailing slash (e.g. https://drawio.example.com).
+      default: ""
+  required: []
+defaultValues:
+  drawioBaseUrl: ""
+services:
+  - name: "{{ .Release.Name }}"
+    port: 8080
+    scheme: http
+exposure:
+  subdomain: drawio
+  tls: true
+  auth: true
+  localOnly: false
+  internet: true

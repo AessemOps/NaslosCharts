@@ -1,0 +1,29 @@
+image:
+  repository: ghcr.io/kieraneglin/pinchflat
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Pinchflat takes TZ only; it has no PUID/PGID mapping and runs as the
+# image's built-in user.
+timezone: Etc/UTC
+
+persistence:
+  # SQLite database and per-source configuration.
+  config:
+    size: 2Gi
+    storageClass: ""
+  # Downloaded media. Point Plex, Jellyfin or Emby at this tree.
+  downloads:
+    size: 20Gi
+    storageClass: ""
+
+service:
+  port: 8945
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: "2"
+    memory: 1Gi

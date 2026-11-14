@@ -1,0 +1,49 @@
+name: invidious
+displayName: Invidious
+description: Privacy-friendly YouTube frontend without ads or tracking.
+category: media
+icon: "In"
+website: https://invidious.io
+version: 0.1.0
+capabilities: [env]
+tags: [video, youtube, privacy]
+schema:
+  type: object
+  properties:
+    domain:
+      type: string
+      title: Public domain
+      description: Domain the instance is served on, without scheme or port.
+      default: localhost
+    hmacKey:
+      type: string
+      title: HMAC key
+      format: password
+      description: Random secret used for CSRF tokens and PubSubHubbub validation.
+      default: invidious-change-me
+    postgresPassword:
+      type: string
+      title: Database password
+      format: password
+      description: Password for the bundled PostgreSQL database.
+      default: invidious-change-me
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+  required: [domain, hmacKey, postgresPassword]
+defaultValues:
+  domain: localhost
+  hmacKey: invidious-change-me
+  postgresPassword: invidious-change-me
+  timezone: Etc/UTC
+services:
+  - name: "{{ .Release.Name }}"
+    port: 3000
+    scheme: http
+exposure:
+  subdomain: invidious
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

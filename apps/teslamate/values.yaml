@@ -1,0 +1,37 @@
+image:
+  repository: teslamate/teslamate
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+
+# Password for the bundled PostgreSQL user teslamate.
+databasePassword: teslamate-change-me
+# Encrypts the Tesla API tokens stored in the database. TeslaMate requires a
+# 32-byte value encoded as base64; generate one with `openssl rand -base64 32`.
+encryptionKey: dGVzbGFtYXRlLWNoYW5nZS1tZS0zMi1ieXRlLWtleSE=
+
+postgres:
+  image: postgres:16-alpine
+  user: teslamate
+  database: teslamate
+  persistence:
+    size: 5Gi
+    storageClass: ""
+
+persistence:
+  # TeslaMate imports dropped here are processed by the importer.
+  imports:
+    size: 1Gi
+    storageClass: ""
+
+service:
+  port: 4000
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi

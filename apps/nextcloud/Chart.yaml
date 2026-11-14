@@ -1,0 +1,10 @@
+apiVersion: v2
+name: nextcloud
+description: Self-hosted file sync and collaboration platform
+type: application
+version: 0.1.0
+appVersion: "apache"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/nextcloud.png
+home: https://nextcloud.com
+sources:
+  - https://github.com/nextcloud/docker

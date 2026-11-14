@@ -1,0 +1,10 @@
+apiVersion: v2
+name: hermes
+description: Nous Research Hermes Agent gateway with web dashboard
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/NousResearch/hermes-agent/main/website/static/img/logo.png
+home: https://hermes-agent.nousresearch.com
+sources:
+  - https://github.com/NousResearch/hermes-agent

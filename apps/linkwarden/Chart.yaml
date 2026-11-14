@@ -1,0 +1,10 @@
+apiVersion: v2
+name: linkwarden
+description: Collaborative bookmark manager with archival and full-text search
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/linkwarden.png
+home: https://linkwarden.app
+sources:
+  - https://github.com/linkwarden/linkwarden

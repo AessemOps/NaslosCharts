@@ -1,0 +1,57 @@
+name: worldmonitor
+displayName: World Monitor
+description: Self-hosted real-time global intelligence, news and infrastructure dashboard.
+category: productivity
+icon: "WM"
+website: https://www.worldmonitor.app
+version: 0.1.0
+capabilities: [env]
+tags: [news, intelligence, dashboard, monitoring]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    redisPassword:
+      type: string
+      title: Redis password
+      format: password
+      description: Password for the bundled Redis server (requirepass).
+      default: worldmonitor-redis-change-me
+    redisToken:
+      type: string
+      title: Redis REST token
+      format: password
+      description: Shared token for the Redis REST proxy, app and AIS relay.
+      default: worldmonitor-token-change-me
+    relaySharedSecret:
+      type: string
+      title: Relay shared secret
+      format: password
+      description: Shared secret between the app and the AIS relay.
+      default: worldmonitor-relay-change-me
+    sessionSecret:
+      type: string
+      title: Session secret
+      format: password
+      description: Signs the app's session cookies.
+      default: worldmonitor-session-change-me-please
+  required: [timezone, redisPassword, redisToken, relaySharedSecret, sessionSecret]
+defaultValues:
+  timezone: Etc/UTC
+  redisPassword: worldmonitor-redis-change-me
+  redisToken: worldmonitor-token-change-me
+  relaySharedSecret: worldmonitor-relay-change-me
+  sessionSecret: worldmonitor-session-change-me-please
+services:
+  - name: "{{ .Release.Name }}"
+    port: 3000
+    scheme: http
+exposure:
+  subdomain: worldmonitor
+  tls: true
+  auth: true
+  localOnly: false
+  internet: true

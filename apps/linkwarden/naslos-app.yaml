@@ -1,0 +1,64 @@
+name: linkwarden
+displayName: Linkwarden
+description: Collaborative bookmark manager that archives pages and screenshots.
+category: productivity
+icon: L
+website: https://linkwarden.app
+version: 0.1.0
+capabilities:
+- env
+tags:
+- bookmarks
+- links
+- archive
+schema:
+  type: object
+  properties:
+    siteUrl:
+      type: string
+      title: Public URL
+      description: URL users open including the /api/v1/auth suffix, e.g. https://linkwarden.example.com/api/v1/auth
+      default: http://localhost:3000/api/v1/auth
+    nextAuthSecret:
+      type: string
+      title: Authentication secret
+      format: password
+      description: Secret used by NextAuth to sign sessions.
+      default: linkwarden-change-me-linkwarden-change-me
+    postgresPassword:
+      type: string
+      title: Database password
+      format: password
+      description: Password for the bundled PostgreSQL database.
+      default: linkwarden-change-me
+    meiliMasterKey:
+      type: string
+      title: Meilisearch master key
+      format: password
+      description: Master key shared by the app and the bundled Meilisearch.
+      default: linkwarden-change-me
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+  required:
+  - siteUrl
+  - nextAuthSecret
+  - postgresPassword
+  - meiliMasterKey
+defaultValues:
+  siteUrl: http://localhost:3000/api/v1/auth
+  nextAuthSecret: linkwarden-change-me-linkwarden-change-me
+  postgresPassword: linkwarden-change-me
+  meiliMasterKey: linkwarden-change-me
+  timezone: Etc/UTC
+services:
+- name: '{{ .Release.Name }}'
+  port: 3000
+  scheme: http
+exposure:
+  subdomain: linkwarden
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

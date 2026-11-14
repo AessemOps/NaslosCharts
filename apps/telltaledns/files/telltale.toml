@@ -1,0 +1,36 @@
+# Minimal TelltaleDNS configuration. It listens for DNS on UDP and TCP 53 and
+# serves the web UI/API on 8053. Forwards to Cloudflare over DNS over TLS.
+config_version = 1
+
+[node]
+role = "all"
+data_dir = "/var/lib/telltale"
+
+[[listen]]
+proto = "udp"
+addr = "0.0.0.0:53"
+
+[[listen]]
+proto = "tcp"
+addr = "0.0.0.0:53"
+
+[[upstream]]
+name = "cloudflare"
+url = "tls://1.1.1.1:853"
+tls_server_name = "cloudflare-dns.com"
+
+[[upstream]]
+name = "quad9"
+url = "tls://9.9.9.9:853"
+tls_server_name = "dns.quad9.net"
+
+[[upstream_group]]
+name = "default"
+members = ["cloudflare", "quad9"]
+strategy = "fastest"
+
+[api]
+listen = "0.0.0.0:8053"
+
+[telemetry.qlog]
+retention_days = 7

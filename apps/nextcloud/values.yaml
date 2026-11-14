@@ -1,0 +1,42 @@
+image:
+  repository: nextcloud
+  tag: apache
+  pullPolicy: IfNotPresent
+
+# Public hostname added to Nextcloud's trusted domains (localhost is added
+# automatically by the template).
+trustedDomain: nextcloud.local
+
+# Initial admin account created on first start.
+adminUser: admin
+adminPassword: nextcloud-admin-change-me
+phpMemoryLimit: 512M
+
+# Password for the bundled MariaDB user.
+mariadbPassword: nextcloud-change-me
+mariadbRootPassword: nextcloud-root-change-me
+
+mariadb:
+  image: mariadb:11
+  database: nextcloud
+  user: nextcloud
+  persistence:
+    size: 5Gi
+    storageClass: ""
+
+persistence:
+  # Nextcloud installation, config, apps, user data and previews.
+  data:
+    size: 20Gi
+    storageClass: ""
+
+service:
+  port: 80
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 512Mi
+  limits:
+    cpu: "2"
+    memory: 2Gi

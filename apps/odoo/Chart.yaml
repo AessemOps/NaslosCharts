@@ -1,0 +1,10 @@
+apiVersion: v2
+name: odoo
+description: Open-source business apps suite with a bundled PostgreSQL database
+type: application
+version: 0.1.0
+appVersion: "18"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/odoo.png
+home: https://www.odoo.com
+sources:
+  - https://github.com/odoo/docker

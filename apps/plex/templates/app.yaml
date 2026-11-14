@@ -1,0 +1,115 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-config
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  accessModes: [ReadWriteOnce]
+  {{- with .Values.persistence.config.storageClass }}
+  storageClassName: {{ . | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.config.size }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      annotations:
+        naslos.io/env-checksum: {{ .Values.naslosEnvChecksum | default "" | quote }}
+      labels:
+        app.kubernetes.io/name: {{ .Chart.Name }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      securityContext:
+        fsGroup: {{ .Values.pgid }}
+      containers:
+        - name: plex
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef: { name: naslos-env-{{ .Release.Name }}, optional: true }
+          env:
+            - { name: PUID, value: "{{ .Values.puid }}" }
+            - { name: PGID, value: "{{ .Values.pgid }}" }
+            - { name: TZ, value: "{{ .Values.timezone }}" }
+            - { name: VERSION, value: "{{ .Values.plexVersion }}" }
+            {{- with .Values.plexClaim }}
+            - { name: PLEX_CLAIM, value: {{ . | quote }} }
+            {{- end }}
+          ports:
+            - { name: http, containerPort: 32400 }
+          volumeMounts:
+            - { name: config, mountPath: /config }
+            - { name: transcode, mountPath: /transcode }
+            {{- if .Values.datasets }}
+            {{- range .Values.datasets }}
+            - { name: ds-{{ .name }}, mountPath: {{ .mountPath }} }
+            {{- end }}
+            {{- else }}
+            - { name: data, mountPath: /data }
+            {{- end }}
+          readinessProbe:
+            tcpSocket: { port: 32400 }
+            initialDelaySeconds: 20
+            periodSeconds: 20
+          livenessProbe:
+            tcpSocket: { port: 32400 }
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-config
+        - name: transcode
+          emptyDir: {}
+        {{- if .Values.datasets }}
+        {{- range .Values.datasets }}
+        - name: ds-{{ .name }}
+          {{- if .claim }}
+          persistentVolumeClaim:
+            claimName: {{ .claim }}
+          {{- else }}
+          hostPath:
+            path: {{ .hostPath | quote }}
+            type: Directory
+          {{- end }}
+        {{- end }}
+        {{- else }}
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ .Values.datasetsClaim }}
+        {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: 32400

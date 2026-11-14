@@ -1,0 +1,42 @@
+name: beaverhabits
+displayName: Beaver Habit Tracker
+description: Self-hosted habit tracker with streaks, notes and a clean web UI.
+category: productivity
+icon: "BH"
+website: https://beaverhabits.com
+version: 0.1.0
+capabilities: [env]
+tags: [habits, productivity, tracking]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      description: Overrides the browser-detected timezone for all users.
+      default: Etc/UTC
+    maxUserCount:
+      type: integer
+      title: Max user count
+      description: Maximum number of accounts; 0 means unlimited.
+      default: 0
+    firstDayOfWeek:
+      type: integer
+      title: First day of week
+      description: 0 = Monday, 1 = Tuesday, ... 6 = Sunday.
+      default: 0
+  required: [timezone, maxUserCount, firstDayOfWeek]
+defaultValues:
+  timezone: Etc/UTC
+  maxUserCount: 0
+  firstDayOfWeek: 0
+services:
+  - name: "{{ .Release.Name }}"
+    port: 8080
+    scheme: http
+exposure:
+  subdomain: beaver
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

@@ -1,0 +1,49 @@
+name: plex
+displayName: Plex
+description: Plex Media Server for movies, shows, music and live TV.
+category: media
+icon: "Px"
+website: https://www.plex.tv
+version: 0.1.0
+capabilities: [env]
+tags: [media, streaming, plex]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    puid:
+      type: integer
+      title: PUID
+      default: 1000
+    pgid:
+      type: integer
+      title: PGID
+      default: 1000
+    plexClaim:
+      type: string
+      title: Plex claim token
+      format: password
+      description: >-
+        Optional token from https://plex.tv/claim, used for the first start.
+        Tokens expire within four minutes; leave empty to sign in and claim the
+        server from the web UI instead.
+      default: ""
+  required: [timezone, puid, pgid]
+defaultValues:
+  timezone: Etc/UTC
+  puid: 1000
+  pgid: 1000
+  plexClaim: ""
+services:
+  - name: "{{ .Release.Name }}"
+    port: 32400
+    scheme: http
+exposure:
+  subdomain: plex
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

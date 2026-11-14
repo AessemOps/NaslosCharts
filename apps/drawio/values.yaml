@@ -1,0 +1,19 @@
+image:
+  repository: jgraph/drawio
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Optional public base URL of this deployment, without a trailing slash, e.g.
+# https://drawio.example.com. Leave empty to derive it from the request URL.
+drawioBaseUrl: ""
+
+service:
+  port: 8080
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 512Mi
+  limits:
+    cpu: "2"
+    memory: 2Gi

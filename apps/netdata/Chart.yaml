@@ -1,0 +1,10 @@
+apiVersion: v2
+name: netdata
+description: Real-time performance and health monitoring for the container itself
+type: application
+version: 0.1.0
+appVersion: "stable"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/netdata.png
+home: https://www.netdata.cloud
+sources:
+  - https://github.com/netdata/netdata

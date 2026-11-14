@@ -1,0 +1,10 @@
+apiVersion: v2
+name: emby
+description: Emby media server for movies, shows, music and live TV
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/emby.png
+home: https://emby.media
+sources:
+  - https://github.com/linuxserver/docker-emby
