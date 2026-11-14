@@ -113,7 +113,7 @@ spec:
           env:
             - { name: POSTGRES_DB, value: "{{ .Values.postgres.database }}" }
             - { name: POSTGRES_USER, value: "{{ .Values.postgres.user }}" }
-            - { name: POSTGRES_PASSWORD, value: "{{ .Values.databasePassword }}" }
+            - { name: POSTGRES_PASSWORD, value: {{ .Values.databasePassword | quote }} }
             - { name: TZ, value: "{{ .Values.timezone }}" }
           ports:
             - { name: postgres, containerPort: 5432 }
@@ -274,7 +274,9 @@ spec:
           args:
             - |
               set -eu
-              cp -a /var/app/public/. /seed/
+              if [ -z "$(ls -A /seed)" ]; then
+                cp -a /var/app/public/. /seed/
+              fi
           volumeMounts:
             - { name: public, mountPath: /seed }
           resources:

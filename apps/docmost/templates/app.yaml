@@ -62,7 +62,7 @@ spec:
           env:
             - { name: POSTGRES_DB, value: "{{ .Values.postgres.database }}" }
             - { name: POSTGRES_USER, value: "{{ .Values.postgres.user }}" }
-            - { name: POSTGRES_PASSWORD, value: "{{ .Values.postgresPassword }}" }
+            - { name: POSTGRES_PASSWORD, value: {{ .Values.postgresPassword | quote }} }
             - { name: TZ, value: "{{ .Values.timezone }}" }
           ports:
             - { name: postgres, containerPort: 5432 }
@@ -199,7 +199,7 @@ spec:
           env:
             - { name: APP_URL, value: {{ .Values.appUrl | quote }} }
             - { name: APP_SECRET, value: {{ .Values.appSecret | quote }} }
-            - { name: DATABASE_URL, value: "postgresql://{{ .Values.postgres.user }}:{{ .Values.postgresPassword }}@{{ .Release.Name }}-postgres:5432/{{ .Values.postgres.database }}" }
+            - { name: DATABASE_URL, value: "postgresql://{{ .Values.postgres.user }}:{{ .Values.postgresPassword | urlquery }}@{{ .Release.Name }}-postgres:5432/{{ .Values.postgres.database }}" }
             - { name: REDIS_URL, value: "redis://{{ .Release.Name }}-redis:6379" }
             - { name: TZ, value: "{{ .Values.timezone }}" }
           ports:

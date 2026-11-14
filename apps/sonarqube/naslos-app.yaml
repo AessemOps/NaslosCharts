@@ -26,6 +26,6 @@ services:
 exposure:
   subdomain: sonarqube
   tls: true
-  auth: false
+  auth: true
   localOnly: false
   internet: true

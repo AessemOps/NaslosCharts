@@ -66,6 +66,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["hbbr"]
+          envFrom:
+            - secretRef: { name: naslos-env-{{ .Release.Name }}, optional: true }
           ports:
             - { name: relay, containerPort: 21117 }
             - { name: relay-ws, containerPort: 21119 }

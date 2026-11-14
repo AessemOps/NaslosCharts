@@ -79,7 +79,7 @@ spec:
           env:
             - { name: POSTGRES_DB, value: "{{ .Values.postgres.database }}" }
             - { name: POSTGRES_USER, value: "{{ .Values.postgres.user }}" }
-            - { name: POSTGRES_PASSWORD, value: "{{ .Values.dbPassword }}" }
+            - { name: POSTGRES_PASSWORD, value: {{ .Values.dbPassword | quote }} }
             - { name: POSTGRES_INITDB_ARGS, value: "--data-checksums" }
             - { name: TZ, value: "{{ .Values.timezone }}" }
           ports:

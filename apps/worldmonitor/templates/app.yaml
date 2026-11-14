@@ -123,7 +123,7 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - { name: SRH_TOKEN, value: {{ .Values.redisToken | quote }} }
-            - { name: SRH_CONNECTION_STRING, value: "redis://:{{ .Values.redisPassword }}@{{ .Release.Name }}-redis:6379" }
+            - { name: SRH_CONNECTION_STRING, value: "redis://:{{ .Values.redisPassword | urlquery }}@{{ .Release.Name }}-redis:6379" }
           ports:
             - { name: http, containerPort: 80 }
           readinessProbe:

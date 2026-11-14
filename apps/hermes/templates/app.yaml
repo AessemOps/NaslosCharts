@@ -42,12 +42,16 @@ spec:
         - name: hermes
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["gateway", "run"]
+          args: ["gateway", "run"]
           envFrom:
             - secretRef: { name: naslos-env-{{ .Release.Name }}, optional: true }
           env:
             - { name: TZ, value: "{{ .Values.timezone }}" }
             - { name: HERMES_DASHBOARD, value: "1" }
+            - { name: HERMES_DASHBOARD_HOST, value: "0.0.0.0" }
+            - { name: HERMES_DASHBOARD_BASIC_AUTH_USERNAME, value: "{{ .Values.dashboardUsername }}" }
+            - { name: HERMES_DASHBOARD_BASIC_AUTH_PASSWORD, value: {{ .Values.dashboardPassword | quote }} }
+            - { name: HERMES_DASHBOARD_BASIC_AUTH_SECRET, value: {{ .Values.dashboardSecret | quote }} }
             - { name: HERMES_UID, value: "10000" }
             - { name: HERMES_GID, value: "10000" }
             {{- with .Values.apiServerKey }}
