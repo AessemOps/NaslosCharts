@@ -1,0 +1,10 @@
+apiVersion: v2
+name: sonarqube
+description: Static code analysis platform with a bundled PostgreSQL database
+type: application
+version: 0.1.0
+appVersion: "community"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/sonarqube.png
+home: https://www.sonarsource.com/products/sonarqube/
+sources:
+  - https://github.com/SonarSource/docker-sonarqube

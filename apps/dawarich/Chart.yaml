@@ -1,0 +1,10 @@
+apiVersion: v2
+name: dawarich
+description: Self-hosted location history and trip tracker for your devices
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/dawarich.png
+home: https://dawarich.app
+sources:
+  - https://github.com/Freika/dawarich

@@ -1,0 +1,33 @@
+name: mumble
+displayName: Mumble
+description: Low-latency open-source voice chat server.
+category: networking
+icon: "Mu"
+website: https://www.mumble.info
+version: 0.1.0
+capabilities: [env]
+tags: [voice, chat, networking]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    superuserPassword:
+      type: string
+      title: SuperUser password
+      format: password
+      description: Password for the Mumble SuperUser administrator account.
+      default: mumble-change-me
+  required: [timezone, superuserPassword]
+defaultValues:
+  timezone: Etc/UTC
+  superuserPassword: mumble-change-me
+services: []
+exposure:
+  subdomain: ""
+  tls: false
+  auth: false
+  localOnly: false
+  internet: true

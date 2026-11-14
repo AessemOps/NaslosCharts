@@ -1,0 +1,40 @@
+image:
+  repository: lscr.io/linuxserver/plex
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+puid: 1000
+pgid: 1000
+
+# VERSION=docker lets the image track the latest public Plex build.
+plexVersion: docker
+
+# Optional claim token from https://plex.tv/claim. Only needed for the first
+# start on a bridged network; tokens expire after a few minutes.
+plexClaim: ""
+
+# PVC providing the Naslos datasets root (the platform's `naslos-datasets`).
+datasetsClaim: naslos-datasets
+
+# Datasets attached by the platform: one entry per selected managed dataset,
+# each mounted at /datasets/<name>. When empty, the chart keeps the shared
+# datasetsClaim fallback above.
+datasets: []
+
+persistence:
+  # Plex metadata, database and per-library artwork. Grows with the library.
+  config:
+    size: 20Gi
+    storageClass: ""
+
+service:
+  port: 32400
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 512Mi
+  limits:
+    cpu: "2"
+    memory: 2Gi

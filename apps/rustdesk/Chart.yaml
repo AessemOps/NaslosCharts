@@ -1,0 +1,10 @@
+apiVersion: v2
+name: rustdesk
+description: Self-hosted RustDesk ID and relay servers for remote desktop access
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/rustdesk.png
+home: https://rustdesk.com
+sources:
+  - https://github.com/rustdesk/rustdesk-server

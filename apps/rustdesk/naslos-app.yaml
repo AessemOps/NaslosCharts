@@ -1,0 +1,29 @@
+name: rustdesk
+displayName: RustDesk
+description: Self-hosted RustDesk ID and relay servers for remote desktop access.
+category: networking
+icon: "Rd"
+website: https://rustdesk.com
+version: 0.1.0
+capabilities: [env]
+tags: [remote-desktop, relay, networking]
+schema:
+  type: object
+  properties:
+    relayAddress:
+      type: string
+      title: Relay address
+      description: >-
+        Optional relay address clients should use, e.g. nas.example.com:21117.
+        Leave empty to configure it in each RustDesk client.
+      default: ""
+  required: []
+defaultValues:
+  relayAddress: ""
+services: []
+exposure:
+  subdomain: ""
+  tls: false
+  auth: false
+  localOnly: false
+  internet: true

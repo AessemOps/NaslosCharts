@@ -1,0 +1,33 @@
+image:
+  repository: pihole/pihole
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+
+# Password for the Pi-hole admin UI (FTLCONF_webserver_api_password).
+password: pihole-change-me
+
+persistence:
+  # pihole.toml, the gravity database and other Pi-hole state.
+  config:
+    size: 2Gi
+    storageClass: ""
+  # Custom dnsmasq configuration files and hosts entries.
+  dnsmasq:
+    size: 1Gi
+    storageClass: ""
+
+service:
+  port: 80
+
+# The DNS listener is exposed on 53/tcp and 53/udp only through the chart's
+# ClusterIP Service, so other pods resolve through it. It is cluster-internal:
+# the chart sets no hostPort or NodePort and does not use hostNetwork.
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi

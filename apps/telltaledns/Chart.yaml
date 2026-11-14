@@ -1,0 +1,10 @@
+apiVersion: v2
+name: telltaledns
+description: DNS resolver and ad blocker that explains every answer
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/paimonsoror/telltaledns/main/ui/public/favicon.svg
+home: https://paimonsoror.github.io/telltaledns/
+sources:
+  - https://github.com/paimonsoror/telltaledns

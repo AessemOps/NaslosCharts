@@ -1,0 +1,10 @@
+apiVersion: v2
+name: pinchflat
+description: Pinchflat YouTube media manager
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/pinchflat.png
+home: https://github.com/kieraneglin/pinchflat
+sources:
+  - https://github.com/kieraneglin/pinchflat

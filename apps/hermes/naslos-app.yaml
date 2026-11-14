@@ -1,0 +1,38 @@
+name: hermes
+displayName: Hermes Agent
+description: Nous Research Hermes Agent gateway with a web dashboard.
+category: productivity
+icon: "He"
+website: https://hermes-agent.nousresearch.com
+version: 0.1.0
+capabilities: [env]
+tags: [ai, agent, gateway, dashboard]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    apiServerKey:
+      type: string
+      title: Gateway API key
+      format: password
+      description: >-
+        Optional bearer token. Setting it enables the OpenAI-compatible API
+        server on port 8642; leave empty to keep that server disabled.
+      default: ""
+  required: [timezone]
+defaultValues:
+  timezone: Etc/UTC
+  apiServerKey: ""
+services:
+  - name: "{{ .Release.Name }}"
+    port: 9119
+    scheme: http
+exposure:
+  subdomain: hermes
+  tls: true
+  auth: true
+  localOnly: false
+  internet: true

@@ -1,0 +1,10 @@
+apiVersion: v2
+name: plex
+description: Plex Media Server for movies, shows, music and live TV
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/plex.png
+home: https://www.plex.tv
+sources:
+  - https://github.com/linuxserver/docker-plex

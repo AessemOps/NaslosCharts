@@ -1,0 +1,64 @@
+image:
+  repository: ghcr.io/paperless-ngx/paperless-ngx
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+
+# Public URL users open. Set it to the exposed host when behind Traefik.
+siteUrl: http://localhost:8000
+secretKey: paperless-change-me
+postgresPassword: paperless-change-me
+
+# Superuser created on the first start against an empty database.
+adminUser: admin
+adminPassword: paperless-change-me
+ocrLanguage: eng
+
+postgres:
+  image: postgres:16-alpine
+  user: paperless
+  database: paperless
+  persistence:
+    size: 8Gi
+    storageClass: ""
+
+redis:
+  image: redis:7-alpine
+
+persistence:
+  data:
+    size: 5Gi
+    storageClass: ""
+  media:
+    size: 50Gi
+    storageClass: ""
+  consume:
+    size: 10Gi
+    storageClass: ""
+
+service:
+  port: 8000
+
+resources:
+  app:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: "2"
+      memory: 2Gi
+  postgres:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: "1"
+      memory: 512Mi
+  redis:
+    requests:
+      cpu: 25m
+      memory: 64Mi
+    limits:
+      cpu: "500m"
+      memory: 256Mi

@@ -1,0 +1,10 @@
+apiVersion: v2
+name: karakeep
+description: Self-hosted bookmark and read-it-later app with AI tagging
+type: application
+version: 0.1.0
+appVersion: "release"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/karakeep.png
+home: https://karakeep.app
+sources:
+  - https://github.com/karakeep-app/karakeep

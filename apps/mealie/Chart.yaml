@@ -1,0 +1,10 @@
+apiVersion: v2
+name: mealie
+description: Mealie recipe manager and meal planner
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/mealie.png
+home: https://mealie.io
+sources:
+  - https://github.com/mealie-recipes/mealie

@@ -1,0 +1,29 @@
+image:
+  repository: lscr.io/linuxserver/code-server
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+puid: 1000
+pgid: 1000
+
+# Password for the code-server web login. Change it before exposing the app.
+password: code-server-change-me
+# Optional password for sudo inside the integrated terminal. Empty = disabled.
+sudoPassword: ""
+
+persistence:
+  config:
+    size: 4Gi
+    storageClass: ""
+
+service:
+  port: 8443
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: "2"
+    memory: 2Gi

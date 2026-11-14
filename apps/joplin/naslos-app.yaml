@@ -1,0 +1,37 @@
+name: joplin
+displayName: Joplin Server
+description: Joplin note sync server with a bundled PostgreSQL database.
+category: productivity
+icon: "Jo"
+website: https://joplinapp.org
+version: 0.1.0
+capabilities: [env]
+tags: [notes, sync, markdown]
+schema:
+  type: object
+  properties:
+    siteUrl:
+      type: string
+      title: Public URL
+      description: Base URL used for sync targets and share links.
+      default: http://localhost:22300
+    postgresPassword:
+      type: string
+      title: Database password
+      format: password
+      description: Password for the bundled PostgreSQL user.
+      default: joplin-change-me
+  required: [siteUrl, postgresPassword]
+defaultValues:
+  siteUrl: http://localhost:22300
+  postgresPassword: joplin-change-me
+services:
+  - name: "{{ .Release.Name }}"
+    port: 22300
+    scheme: http
+exposure:
+  subdomain: joplin
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

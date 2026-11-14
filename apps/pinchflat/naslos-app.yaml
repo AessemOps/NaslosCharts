@@ -1,0 +1,29 @@
+name: pinchflat
+displayName: Pinchflat
+description: YouTube media manager that downloads channels and playlists.
+category: media
+icon: "Pf"
+website: https://github.com/kieraneglin/pinchflat
+version: 0.1.0
+capabilities: [env]
+tags: [media, youtube, downloads]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+  required: [timezone]
+defaultValues:
+  timezone: Etc/UTC
+services:
+  - name: "{{ .Release.Name }}"
+    port: 8945
+    scheme: http
+exposure:
+  subdomain: pinchflat
+  tls: true
+  auth: true
+  localOnly: false
+  internet: true

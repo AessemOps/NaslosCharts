@@ -1,0 +1,23 @@
+image:
+  repository: mumblevoip/mumble-server
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+
+# Set explicitly so the first start does not print a random SuperUser password
+# to the container log. The SuperUser account is used to manage channels/ACLs.
+superuserPassword: mumble-change-me
+
+persistence:
+  data:
+    size: 2Gi
+    storageClass: ""
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi

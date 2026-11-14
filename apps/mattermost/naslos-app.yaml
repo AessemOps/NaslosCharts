@@ -1,0 +1,37 @@
+name: mattermost
+displayName: Mattermost
+description: Self-hosted team messaging and collaboration with a bundled PostgreSQL database.
+category: productivity
+icon: "MM"
+website: https://mattermost.com
+version: 0.1.0
+capabilities: [env]
+tags: [chat, messaging, collaboration, teams]
+schema:
+  type: object
+  properties:
+    siteUrl:
+      type: string
+      title: Public URL
+      description: Base URL users reach Mattermost on.
+      default: http://localhost:8065
+    postgresPassword:
+      type: string
+      title: Database password
+      format: password
+      description: Password for the bundled PostgreSQL user. Avoid URI-reserved characters.
+      default: mattermost-change-me
+  required: [siteUrl, postgresPassword]
+defaultValues:
+  siteUrl: http://localhost:8065
+  postgresPassword: mattermost-change-me
+services:
+  - name: "{{ .Release.Name }}"
+    port: 8065
+    scheme: http
+exposure:
+  subdomain: mattermost
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

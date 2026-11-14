@@ -1,0 +1,36 @@
+name: pihole
+displayName: Pi-hole
+description: Network-wide DNS sinkhole and ad blocker with a web dashboard.
+category: networking
+icon: "Pi"
+website: https://pi-hole.net
+version: 0.1.0
+capabilities: [env]
+tags: [dns, adblock, networking, privacy]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    password:
+      type: string
+      title: Admin password
+      format: password
+      description: Password for the Pi-hole admin UI. Change this before exposing Pi-hole.
+      default: pihole-change-me
+  required: [timezone, password]
+defaultValues:
+  timezone: Etc/UTC
+  password: pihole-change-me
+services:
+  - name: "{{ .Release.Name }}"
+    port: 80
+    scheme: http
+exposure:
+  subdomain: pihole
+  tls: true
+  auth: true
+  localOnly: false
+  internet: true

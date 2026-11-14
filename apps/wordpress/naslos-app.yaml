@@ -1,0 +1,38 @@
+name: wordpress
+displayName: WordPress
+description: Self-hosted publishing platform with a bundled MariaDB database.
+category: productivity
+icon: "WP"
+website: https://wordpress.org
+version: 0.1.0
+capabilities: [env]
+tags: [website, blog, cms, publishing]
+schema:
+  type: object
+  properties:
+    mariadbPassword:
+      type: string
+      title: Database password
+      format: password
+      description: Password for the bundled MariaDB user.
+      default: wordpress-change-me
+    mariadbRootPassword:
+      type: string
+      title: Database root password
+      format: password
+      description: Root password for the bundled MariaDB instance.
+      default: wordpress-root-change-me
+  required: [mariadbPassword, mariadbRootPassword]
+defaultValues:
+  mariadbPassword: wordpress-change-me
+  mariadbRootPassword: wordpress-root-change-me
+services:
+  - name: "{{ .Release.Name }}"
+    port: 80
+    scheme: http
+exposure:
+  subdomain: wordpress
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

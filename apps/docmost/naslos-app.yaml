@@ -1,0 +1,57 @@
+name: docmost
+displayName: Docmost
+description: Collaborative wiki and documentation platform with a rich editor and
+  spaces.
+category: productivity
+icon: D
+website: https://docmost.com
+version: 0.1.0
+capabilities:
+- env
+tags:
+- wiki
+- notes
+- documentation
+schema:
+  type: object
+  properties:
+    appUrl:
+      type: string
+      title: Public URL
+      description: URL users open, e.g. https://docmost.example.com
+      default: http://localhost:3000
+    appSecret:
+      type: string
+      title: Application secret
+      format: password
+      description: Secret used to sign sessions and invite links.
+      default: docmost-change-me-docmost-change-me
+    postgresPassword:
+      type: string
+      title: Database password
+      format: password
+      description: Password for the bundled PostgreSQL database.
+      default: docmost-change-me
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+  required:
+  - appUrl
+  - appSecret
+  - postgresPassword
+defaultValues:
+  appUrl: http://localhost:3000
+  appSecret: docmost-change-me-docmost-change-me
+  postgresPassword: docmost-change-me
+  timezone: Etc/UTC
+services:
+- name: '{{ .Release.Name }}'
+  port: 3000
+  scheme: http
+exposure:
+  subdomain: docmost
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

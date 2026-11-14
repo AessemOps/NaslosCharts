@@ -1,0 +1,39 @@
+image:
+  repository: sonarqube
+  tag: community
+  pullPolicy: IfNotPresent
+
+# Password for the bundled PostgreSQL user.
+postgresPassword: sonarqube-change-me
+
+postgres:
+  image: postgres:16-alpine
+  database: sonar
+  user: sonar
+  persistence:
+    size: 10Gi
+    storageClass: ""
+
+persistence:
+  # Elasticsearch indexes and server state.
+  data:
+    size: 20Gi
+    storageClass: ""
+  # Installed plugins.
+  extensions:
+    size: 2Gi
+    storageClass: ""
+  logs:
+    size: 2Gi
+    storageClass: ""
+
+service:
+  port: 9000
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: "2"
+    memory: 3Gi

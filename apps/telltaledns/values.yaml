@@ -1,0 +1,24 @@
+image:
+  repository: ghcr.io/paimonsoror/telltale
+  tag: latest
+  pullPolicy: IfNotPresent
+
+persistence:
+  # Filter lists, query log, rollups and users (state.db).
+  data:
+    size: 2Gi
+    storageClass: ""
+
+service:
+  port: 8053
+
+# The DNS listener is exposed on 53/tcp and 53/udp only through the chart's
+# ClusterIP Service, so other pods resolve through it. It is cluster-internal:
+# the chart sets no hostPort or NodePort and does not use hostNetwork.
+resources:
+  requests:
+    cpu: 100m
+    memory: 96Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi

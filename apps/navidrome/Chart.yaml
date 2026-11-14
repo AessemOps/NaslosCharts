@@ -1,0 +1,10 @@
+apiVersion: v2
+name: navidrome
+description: Navidrome personal music server and streaming
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/navidrome.png
+home: https://www.navidrome.org
+sources:
+  - https://github.com/navidrome/navidrome

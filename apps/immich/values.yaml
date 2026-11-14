@@ -1,0 +1,64 @@
+image:
+  repository: ghcr.io/immich-app/immich-server
+  tag: release
+  pullPolicy: IfNotPresent
+
+machineLearning:
+  image: ghcr.io/immich-app/immich-machine-learning:release
+  persistence:
+    size: 10Gi
+    storageClass: ""
+
+timezone: Etc/UTC
+dbPassword: immich-change-me
+
+postgres:
+  # Official Immich PostgreSQL image with VectorChord and pgvector.
+  image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
+  user: immich
+  database: immich
+  persistence:
+    size: 20Gi
+    storageClass: ""
+
+redis:
+  image: redis:7-alpine
+
+persistence:
+  # Uploaded photos and videos.
+  uploads:
+    size: 100Gi
+    storageClass: ""
+
+service:
+  port: 2283
+
+resources:
+  server:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: "4"
+      memory: 4Gi
+  machineLearning:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: "2"
+      memory: 2Gi
+  postgres:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+  redis:
+    requests:
+      cpu: 25m
+      memory: 64Mi
+    limits:
+      cpu: "500m"
+      memory: 256Mi

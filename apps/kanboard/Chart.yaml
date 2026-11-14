@@ -1,0 +1,10 @@
+apiVersion: v2
+name: kanboard
+description: Kanban project management with a simple SQLite backend
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/kanboard.png
+home: https://kanboard.org
+sources:
+  - https://github.com/kanboard/kanboard

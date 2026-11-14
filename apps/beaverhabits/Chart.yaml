@@ -1,0 +1,10 @@
+apiVersion: v2
+name: beaverhabits
+description: Self-hosted habit tracker with a clean web UI
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/beaver-habit-tracker.png
+home: https://beaverhabits.com
+sources:
+  - https://github.com/daya0576/beaverhabits
