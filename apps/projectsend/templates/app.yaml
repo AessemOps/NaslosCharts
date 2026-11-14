@@ -163,6 +163,7 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
         app.kubernetes.io/component: app
       annotations:
+        naslos.io/env-checksum: {{ .Values.naslosEnvChecksum | default "" | quote }}
         checksum/nginx: {{ .Files.Get "files/patch-nginx.sh" | sha256sum }}
     spec:
       securityContext:
@@ -185,6 +186,8 @@ spec:
         - name: projectsend
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef: { name: naslos-env-{{ .Release.Name }}, optional: true }
           env:
             - { name: PUID, value: "{{ .Values.puid }}" }
             - { name: PGID, value: "{{ .Values.pgid }}" }
