@@ -1,0 +1,49 @@
+image:
+  repository: lscr.io/linuxserver/projectsend
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+puid: 1000
+pgid: 1000
+
+# PHP upload limits. MAX_UPLOAD is the upload_max_filesize/post_max_size in
+# megabytes; PHP_MEMORY_LIMIT is the per-request memory limit.
+maxUploadMb: 5000
+phpMemoryLimit: 512M
+
+# Password for the bundled MariaDB user. Enter the same values in the
+# ProjectSend setup wizard (host <release>-mariadb, database projectsend,
+# user projectsend).
+mariadbPassword: projectsend-change-me
+mariadbRootPassword: projectsend-root-change-me
+
+mariadb:
+  # The LinuxServer MariaDB image keeps its data under /config.
+  image: lscr.io/linuxserver/mariadb:latest
+  database: projectsend
+  user: projectsend
+  persistence:
+    size: 5Gi
+    storageClass: ""
+
+persistence:
+  # Config, sys.config.php, PHP settings and translations.
+  config:
+    size: 2Gi
+    storageClass: ""
+  # Uploaded files shared with clients.
+  uploads:
+    size: 20Gi
+    storageClass: ""
+
+service:
+  port: 80
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: "2"
+    memory: 1Gi
