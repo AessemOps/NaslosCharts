@@ -1,0 +1,54 @@
+name: projectsend
+displayName: ProjectSend
+description: Self-hosted client file sharing with per-client accounts and uploads.
+category: productivity
+icon: "PS"
+website: https://www.projectsend.org
+version: 0.1.0
+tags: [files, sharing, clients]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    puid:
+      type: integer
+      title: PUID
+      default: 1000
+    pgid:
+      type: integer
+      title: PGID
+      default: 1000
+    maxUploadMb:
+      type: integer
+      title: Max upload size (MB)
+      description: Per-file upload limit enforced by PHP.
+      default: 5000
+    mariadbPassword:
+      type: string
+      title: Database password
+      format: password
+      description: >-
+        Password for the bundled MariaDB user. Enter it in the ProjectSend setup
+        wizard along with host <release>-mariadb, database projectsend and user
+        projectsend.
+      default: projectsend-change-me
+  required: [timezone, puid, pgid, mariadbPassword]
+defaultValues:
+  timezone: Etc/UTC
+  puid: 1000
+  pgid: 1000
+  maxUploadMb: 5000
+  mariadbPassword: projectsend-change-me
+services:
+  - name: "{{ .Release.Name }}"
+    port: 80
+    scheme: http
+exposure:
+  subdomain: projectsend
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true
