@@ -1,0 +1,10 @@
+apiVersion: v2
+name: projectsend
+description: Self-hosted client file sharing with per-client uploads
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/projectsend.png
+home: https://www.projectsend.org
+sources:
+  - https://github.com/projectsend/projectsend
