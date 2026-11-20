@@ -196,6 +196,12 @@ data:
     else
       printf '\n[BitTorrent]\nSession\\UseCategoryPathsInManualMode=%s\n' "$value" >> "$conf"
     fi
+    # The host dataset keeps the operator's "Downloads" spelling while the
+    # platform mount name is lowercase; expose the capitalised path so the
+    # default save path resolves inside the container.
+    if [ -d /datasets/downloads ] && [ ! -e /datasets/Downloads ]; then
+      ln -s downloads /datasets/Downloads
+    fi
     chown abc:abc "$conf" 2>/dev/null || true
   enable-vuetorrent.sh: |
     #!/bin/bash
