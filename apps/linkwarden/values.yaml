@@ -4,7 +4,7 @@ image:
   pullPolicy: IfNotPresent
 
 meilisearch:
-  image: getmeili/meilisearch:v1.13.3
+  image: getmeili/meilisearch:v1.57.0
   persistence:
     size: 5Gi
     storageClass: ""
