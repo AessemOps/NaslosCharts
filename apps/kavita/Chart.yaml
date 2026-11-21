@@ -1,0 +1,10 @@
+apiVersion: v2
+name: kavita
+description: Comic, manga and e-book library server
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/kavita.png
+home: https://www.kavitareader.com
+sources:
+  - https://github.com/Kareadita/Kavita

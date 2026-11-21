@@ -1,0 +1,29 @@
+name: uptime-kuma
+displayName: Uptime Kuma
+description: Uptime and status monitoring with alerts and public status pages.
+category: networking
+icon: "UK"
+website: https://uptime.kuma.pet
+version: 0.1.0
+capabilities: [env]
+tags: [monitoring, uptime, alerts]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+  required: [timezone]
+defaultValues:
+  timezone: Etc/UTC
+services:
+  - name: "{{ .Release.Name }}"
+    port: 3001
+    scheme: http
+exposure:
+  subdomain: uptime
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

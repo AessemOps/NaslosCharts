@@ -1,0 +1,10 @@
+apiVersion: v2
+name: lidarr
+description: Lidarr music collection manager
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/lidarr.png
+home: https://lidarr.audio
+sources:
+  - https://github.com/Lidarr/Lidarr

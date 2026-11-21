@@ -1,0 +1,32 @@
+image:
+  repository: docker.n8n.io/n8nio/n8n
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+
+# Public address the editor and webhooks are served from. Set it to the
+# subdomain the app is exposed on (for example https://n8n.example.com),
+# otherwise generated webhook URLs point at localhost.
+baseUrl: http://localhost:5678
+
+# n8n marks its session cookie Secure by default. Turn this off only when the
+# app is served over plain HTTP.
+secureCookie: true
+
+persistence:
+  # SQLite database, encryption key and execution data.
+  data:
+    size: 4Gi
+    storageClass: ""
+
+service:
+  port: 5678
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: "2"
+    memory: 2Gi

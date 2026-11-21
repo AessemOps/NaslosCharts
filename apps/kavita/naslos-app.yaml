@@ -1,0 +1,39 @@
+name: kavita
+displayName: Kavita
+description: Read and organize comics, manga and e-books in the browser.
+category: media
+icon: "Ka"
+website: https://www.kavitareader.com
+version: 0.1.0
+capabilities: [env]
+tags: [books, comics, manga, library]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    puid:
+      type: integer
+      title: PUID
+      default: 1000
+    pgid:
+      type: integer
+      title: PGID
+      default: 1000
+  required: [timezone, puid, pgid]
+defaultValues:
+  timezone: Etc/UTC
+  puid: 1000
+  pgid: 1000
+services:
+  - name: "{{ .Release.Name }}"
+    port: 5000
+    scheme: http
+exposure:
+  subdomain: kavita
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

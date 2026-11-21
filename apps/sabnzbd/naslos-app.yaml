@@ -1,0 +1,41 @@
+name: sabnzbd
+displayName: SABnzbd
+description: Usenet download client with a web interface and post-processing.
+category: media
+icon: "SZ"
+website: https://sabnzbd.org
+version: 0.1.0
+capabilities: [env]
+tags: [downloads, usenet, automation]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    puid:
+      type: integer
+      title: PUID
+      default: 1000
+    pgid:
+      type: integer
+      title: PGID
+      default: 1000
+  required: [timezone, puid, pgid]
+defaultValues:
+  timezone: Etc/UTC
+  puid: 1000
+  pgid: 1000
+services:
+  - name: "{{ .Release.Name }}"
+    port: 8080
+    scheme: http
+exposure:
+  # SABnzbd ships without a login until one is configured in its settings, so
+  # keep Authelia in front of the route by default.
+  subdomain: sabnzbd
+  tls: false
+  auth: true
+  localOnly: false
+  internet: true

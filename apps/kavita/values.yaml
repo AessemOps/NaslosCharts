@@ -1,0 +1,34 @@
+image:
+  repository: lscr.io/linuxserver/kavita
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+puid: 1000
+pgid: 1000
+
+# PVC providing the Naslos datasets root (the platform's `naslos-datasets`),
+# mounted at /books when no managed dataset is attached.
+datasetsClaim: naslos-datasets
+
+# Datasets attached by the platform: one entry per selected managed dataset,
+# each mounted at /datasets/<name>. When empty, the chart keeps the shared
+# datasetsClaim fallback above.
+datasets: []
+
+persistence:
+  # SQLite database, cover images and reading progress.
+  config:
+    size: 4Gi
+    storageClass: ""
+
+service:
+  port: 5000
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi

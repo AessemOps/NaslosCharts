@@ -1,0 +1,45 @@
+name: lidarr
+displayName: Lidarr
+description: Music collection manager for Usenet and BitTorrent.
+category: media
+icon: "Li"
+website: https://lidarr.audio
+version: 0.1.0
+capabilities: [env]
+tags: [media, music, automation]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    puid:
+      type: integer
+      title: PUID
+      default: 1000
+    pgid:
+      type: integer
+      title: PGID
+      default: 1000
+    disableAuth:
+      type: boolean
+      title: Disable app authentication
+      description: Rely on Authelia forward-auth; the app will not ask for its own login.
+      default: true
+  required: [timezone, puid, pgid]
+defaultValues:
+  timezone: Etc/UTC
+  puid: 1000
+  pgid: 1000
+  disableAuth: true
+services:
+  - name: "{{ .Release.Name }}"
+    port: 8686
+    scheme: http
+exposure:
+  subdomain: lidarr
+  tls: false
+  auth: true
+  localOnly: false
+  internet: true
