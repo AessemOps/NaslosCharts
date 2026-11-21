@@ -1,0 +1,39 @@
+# Dependabot: dependency updates for NaslosCharts.
+#
+# The Helm ecosystem covers every app chart. It also follows the Docker images
+# referenced by those charts (the versioned ones; "latest"/"stable" tags are
+# left alone). Major image bumps are ignored on purpose: a Postgres/Redis/MariaDB
+# major can require a data migration, so those are done by hand.
+version: 2
+updates:
+  - package-ecosystem: "helm"
+    directories:
+      - "/apps/*"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(deps)"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    groups:
+      app-charts-minor-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      actions-minor-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
