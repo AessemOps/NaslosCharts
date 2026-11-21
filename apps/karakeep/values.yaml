@@ -7,7 +7,7 @@ chrome:
   image: ghcr.io/karakeep-app/karakeep-chrome:release
 
 meilisearch:
-  image: getmeili/meilisearch:v1.55.0
+  image: getmeili/meilisearch:v1.57.0
   persistence:
     size: 5Gi
     storageClass: ""
