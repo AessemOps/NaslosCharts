@@ -1,0 +1,10 @@
+apiVersion: v2
+name: sabnzbd
+description: Usenet download client with a web interface
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/sabnzbd.png
+home: https://sabnzbd.org
+sources:
+  - https://github.com/sabnzbd/sabnzbd

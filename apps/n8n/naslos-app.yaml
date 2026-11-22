@@ -1,0 +1,41 @@
+name: n8n
+displayName: n8n
+description: Workflow automation with a visual editor and hundreds of integrations.
+category: productivity
+icon: "n8"
+website: https://n8n.io
+version: 0.1.0
+capabilities: [env]
+tags: [automation, workflows, integrations]
+schema:
+  type: object
+  properties:
+    timezone:
+      type: string
+      title: Timezone
+      default: Etc/UTC
+    baseUrl:
+      type: string
+      title: Public URL
+      description: Address the editor and webhooks are served from, e.g. https://n8n.example.com.
+      default: http://localhost:5678
+    secureCookie:
+      type: boolean
+      title: Secure session cookie
+      description: Keep enabled when the app is served over HTTPS; disable for plain HTTP.
+      default: true
+  required: [timezone, baseUrl]
+defaultValues:
+  timezone: Etc/UTC
+  baseUrl: http://localhost:5678
+  secureCookie: true
+services:
+  - name: "{{ .Release.Name }}"
+    port: 5678
+    scheme: http
+exposure:
+  subdomain: n8n
+  tls: true
+  auth: false
+  localOnly: false
+  internet: true

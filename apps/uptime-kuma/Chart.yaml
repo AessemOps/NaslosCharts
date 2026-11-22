@@ -1,0 +1,10 @@
+apiVersion: v2
+name: uptime-kuma
+description: Self-hosted uptime and status monitoring
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/selfhst/icons/main/png/uptime-kuma.png
+home: https://uptime.kuma.pet
+sources:
+  - https://github.com/louislam/uptime-kuma

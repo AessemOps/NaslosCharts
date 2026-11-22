@@ -1,0 +1,90 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  accessModes: [ReadWriteOnce]
+  {{- with .Values.persistence.data.storageClass }}
+  storageClassName: {{ . | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.data.size }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      annotations:
+        naslos.io/env-checksum: {{ .Values.naslosEnvChecksum | default "" | quote }}
+      labels:
+        app.kubernetes.io/name: {{ .Chart.Name }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsGroup: 1000
+      containers:
+        - name: n8n
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef: { name: naslos-env-{{ .Release.Name }}, optional: true }
+          env:
+            - { name: TZ, value: "{{ .Values.timezone }}" }
+            - { name: GENERIC_TIMEZONE, value: "{{ .Values.timezone }}" }
+            - { name: N8N_PORT, value: "5678" }
+            - { name: WEBHOOK_URL, value: "{{ .Values.baseUrl }}" }
+            - { name: N8N_EDITOR_BASE_URL, value: "{{ .Values.baseUrl }}" }
+            - { name: N8N_SECURE_COOKIE, value: "{{ .Values.secureCookie }}" }
+            - { name: N8N_DIAGNOSTICS_ENABLED, value: "false" }
+          ports:
+            - { name: http, containerPort: 5678 }
+          volumeMounts:
+            - { name: data, mountPath: /home/node/.n8n }
+          readinessProbe:
+            tcpSocket: { port: 5678 }
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          livenessProbe:
+            tcpSocket: { port: 5678 }
+            initialDelaySeconds: 90
+            periodSeconds: 30
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: 5678

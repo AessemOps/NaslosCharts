@@ -1,0 +1,23 @@
+image:
+  repository: louislam/uptime-kuma
+  tag: latest
+  pullPolicy: IfNotPresent
+
+timezone: Etc/UTC
+
+persistence:
+  # SQLite database, monitor history and uploaded status-page assets.
+  data:
+    size: 2Gi
+    storageClass: ""
+
+service:
+  port: 3001
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi
