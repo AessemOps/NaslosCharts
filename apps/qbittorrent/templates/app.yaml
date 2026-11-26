@@ -85,6 +85,7 @@ spec:
           env:
             - { name: PUID, value: "{{ .Values.puid }}" }
             - { name: PGID, value: "{{ .Values.pgid }}" }
+            - { name: UMASK, value: "{{ .Values.umask }}" }
             - { name: TZ, value: "{{ .Values.timezone }}" }
             - { name: WEBUI_PORT, value: "{{ .Values.webuiPort }}" }
             - { name: VUETORRENT_ENABLED, value: "{{ .Values.vuetorrent }}" }
