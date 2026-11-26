@@ -18,6 +18,9 @@ vpn_firewallOutboundSubnets: "10.244.0.0/16,10.96.0.0/12,192.168.1.0/24"
 timezone: Etc/UTC
 puid: 1000
 pgid: 1000
+# LinuxServer UMASK. 002 keeps new directories 0775 and files 0664, so the
+# shared naslos_users group can edit and delete downloaded content.
+umask: "002"
 webuiPort: 8080
 
 # VueTorrent alternative WebUI. When enabled, an init container downloads the
